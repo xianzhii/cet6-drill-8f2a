@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1f3d5e">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="六级单词">
+<meta name="application-name" content="六级单词">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<title>六级英语单词背诵 · 背诵刷题</title>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?226ac616b60efad911381b610f74bd83";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f6f8fb;color:#2c3340}
+.topbar{background:linear-gradient(135deg,#1f3d5e,#2b5c8f);color:#fff;padding:22px 24px}
+.topbar h1{margin:0 0 4px;font-size:22px;font-weight:700}
+.topbar .sub{font-size:12px;color:#c7d8ec;margin:0}
+.statsbar{display:flex;flex-wrap:wrap;gap:18px;align-items:center;padding:14px 24px;background:#fff;border-bottom:1px solid #e3e8f0}
+.stat{display:flex;flex-direction:column;min-width:70px}
+.stat b{font-size:20px;color:#1f3d5e}
+.stat span{font-size:11px;color:#7a8599}
+.pbar{height:8px;border-radius:5px;background:#e8edf5;flex:1;min-width:120px;margin:0 12px;overflow:hidden}
+.pbar>i{display:block;height:100%;background:#4a90c4;border-radius:5px;transition:width .3s}
+.tabs{display:flex;gap:8px;padding:14px 24px 0}
+.tab{padding:8px 18px;border-radius:8px 8px 0 0;background:#e8edf5;color:#33506e;cursor:pointer;font-size:14px;border:0}
+.tab.on{background:#fff;color:#1f3d5e;font-weight:600;box-shadow:0 -1px 4px rgba(0,0,0,.05)}
+.panel{display:none;padding:0 24px 30px;background:#fff;border-top:1px solid #e3e8f0}
+.panel.on{display:block}
+.setrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px 0 6px}
+.setrow label{font-size:13px;color:#445}
+select,input[type=number]{padding:7px 10px;border:1px solid #c6cfdd;border-radius:8px;font-size:14px;background:#fff}
+.btngrp{display:flex;gap:8px;margin:8px 0}
+button{font-size:13px;cursor:pointer;border-radius:8px}
+.btn{padding:8px 16px;border:1px solid #b9c6d8;background:#fff;color:#1f3d5e}
+.btn.primary{background:#1f3d5e;color:#fff;border-color:#1f3d5e}
+.btn.ghost{background:#f0f4fa}
+.btn.small{padding:4px 10px;font-size:12px;border-radius:14px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;padding:14px 0}
+.card{background:#fff;border:1px solid #e4e9f1;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);position:relative}
+.card .w{font-size:18px;font-weight:700;color:#1f3d5e;word-break:break-all}
+.card .pos{display:inline-block;font-size:11px;color:#2e7d4f;background:#e7f3ec;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.card .me{margin-top:6px;font-size:13px;color:#5a6472;line-height:1.5}
+.card .ops{display:flex;gap:6px;margin-top:10px;align-items:center}
+.card .ops button.spk{margin-right:auto}
+.card.st-m{background:#f0f9f0;border-color:#bfe3bf}
+.card.st-r{background:#fff8ec;border-color:#f2ddb3}
+.card.st-u{background:#fdf0f0;border-color:#f0c2c2}
+.pager{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;padding:16px 0;position:sticky;bottom:0;background:#fff;border-top:1px solid #e3e8f0}
+.pager .pg{padding:5px 11px;border:1px solid #c6cfdd;border-radius:7px;background:#fff;color:#33506e;font-size:12px}
+.pager .pg.on{background:#1f3d5e;color:#fff;border-color:#1f3d5e}
+.pager .pg.dis{opacity:.4;pointer-events:none}
+.pager .info{font-size:12px;color:#7a8599;margin:0 10px}
+.navrow{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-top:14px}
+.navrow .ttl{font-size:15px;font-weight:600;color:#1f3d5e}
+.practicebox{max-width:720px;margin:18px auto}
+.qcard{background:#fff;border:1px solid #e4e9f1;border-radius:12px;padding:22px;text-align:center}
+.qcard .hint{font-size:30px;font-weight:700;color:#1f3d5e;letter-spacing:6px;min-height:44px}
+.qcard .qme{margin:14px 0;font-size:15px;color:#5a6472}
+.qcard .qpos{font-size:12px;color:#2e7d4f}
+.qinput{width:70%;max-width:380px;padding:10px 12px;font-size:18px;text-align:center;border:1px solid #b9c6d8;border-radius:10px;margin:10px auto}
+.qinput.ok{border-color:#3ba55d;background:#f0faf3}
+.qinput.bad{border-color:#d64545;background:#fdf0f0}
+.spellwrap{position:relative;width:88%;max-width:520px;margin:10px auto}
+.spellview{min-height:76px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;letter-spacing:6px;color:#1f3d5e;padding:16px 20px;border:2px solid #b9c6d8;border-radius:14px;background:#fff;cursor:text}
+.spellwrap .qinput{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:text;font-size:32px;text-align:center;border:none;border-radius:14px;background:transparent}
+.spellwrap .qinput.ok{border-color:#3ba55d;background:transparent}
+.spellwrap .qinput.bad{border-color:#d64545;background:transparent}
+.spellview.typing{outline:2px solid #2e7d4f}
+.spellwrap:focus-within .spellview{border-color:#4a90d9;outline-color:#4a90d9;box-shadow:0 0 0 3px rgba(74,144,217,.25)}
+.spellwrap .qinput:focus{outline:none}
+.ime-warn{display:none;color:#d64545;font-size:14px;font-weight:600;margin:8px auto 0;max-width:520px;text-align:center;background:#fdf0f0;border:1px solid #e8b4b4;border-radius:8px;padding:6px 10px}
+.ime-warn.on{display:block}
+.spellview .sp-given{color:#4a90c4}
+.spellview .sp-typed{color:#1f3d5e;text-decoration:underline}
+.optlist{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:16px auto}
+.opt{font-size:14px;padding:12px 14px;border:1px solid #c6cfdd;border-radius:10px;background:#fff;text-align:left;cursor:pointer;min-height:50px}
+.opt:hover{border-color:#4a90c4}
+.opt.right{border-color:#3ba55d;background:#e9f8ee}
+.opt.wrong{border-color:#d64545;background:#fdeeee}
+.opt.dis{pointer-events:none}
+.progress{height:8px;background:#e8edf5;border-radius:5px;max-width:640px;margin:10px auto;overflow:hidden}
+.progress>i{display:block;height:100%;background:#4a90c4;width:0;transition:width .2s}
+.feed{margin-top:14px;font-size:15px;min-height:24px;font-weight:600}
+.feed.ok{color:#3ba55d}.feed.bad{color:#d64545}
+.resultcard{max-width:640px;margin:20px auto;background:#fff;border:1px solid #e4e9f1;border-radius:12px;padding:20px;text-align:center}
+.resultcard .score{font-size:34px;font-weight:700;color:#1f3d5e}
+.errlist{text-align:left;margin-top:12px;font-size:13px;color:#5a6472;max-height:220px;overflow:auto}
+.plantable{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:12px}
+.plantable th,.plantable td{border:1px solid #e4e9f1;padding:6px 8px;text-align:left}
+.plantable th{background:#f0f4fa;color:#33506e;position:sticky;top:0}
+.plantable td.d{color:#7a8599}
+.memfilter{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.memfilter .btn.on{background:#1f3d5e;color:#fff;border-color:#1f3d5e}
+.foot{margin:30px 24px;text-align:center;color:#9aa5b5;font-size:12px}
+.hint-tip{font-size:12px;color:#8a95a5;text-align:center;margin:6px 0}
+
+/* ===== 移动端（iPhone / 窄屏）适配：仅在小屏生效，不影响桌面端布局 ===== */
+@supports(padding:max(0px)){
+  .topbar{padding-top:max(22px,env(safe-area-inset-top))}
+  .pager{padding-bottom:max(16px,env(safe-area-inset-bottom))}
+  .foot{margin-bottom:max(30px,env(safe-area-inset-bottom))}
+}
+@media (max-width:640px){
+  body{-webkit-text-size-adjust:100%}
+  .topbar{padding:max(16px,env(safe-area-inset-top)) 14px 16px}
+  .topbar h1{font-size:19px}
+  .topbar .sub{font-size:11px;line-height:1.6}
+  .statsbar{padding:12px 14px;gap:10px}
+  .stat{min-width:52px}
+  .stat b{font-size:17px}
+  .stat span{font-size:10px}
+  .pbar{min-width:90px;margin:0 6px}
+  .tabs{padding:10px 8px 0;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab{padding:8px 12px;font-size:13px;white-space:nowrap;flex:0 0 auto}
+  .panel{padding:0 14px 26px}
+  .setrow{padding:12px 0 4px;gap:8px}
+  .setrow label{font-size:12px}
+  .cardgrid{grid-template-columns:1fr;padding:10px 0}
+  .practicebox{margin:12px auto}
+  .qcard{padding:16px 14px}
+  .qcard .hint{font-size:24px;letter-spacing:4px;min-height:36px}
+  .qcard .qme{font-size:14px}
+  .qinput{width:88%;font-size:17px}
+  .spellwrap{width:100%}
+  .spellview{font-size:24px;letter-spacing:3px;padding:14px 12px;min-height:64px}
+  .spellwrap .qinput{font-size:24px}
+  .optlist{grid-template-columns:1fr;gap:8px}
+  .opt{font-size:14px;min-height:46px;padding:12px}
+  .resultcard{padding:16px}
+  .resultcard .score{font-size:28px}
+  .errlist{max-height:180px}
+  .plantable{font-size:12px}
+  .plantable th,.plantable td{padding:5px 6px}
+  .navrow{padding-top:12px}
+  .btngrp{flex-wrap:wrap}
+  .memfilter{gap:6px}
+  .foot{margin:24px 14px max(24px,env(safe-area-inset-bottom))}
+  .pager{padding:12px 0 max(12px,env(safe-area-inset-bottom));gap:5px}
+  .pager .pg{padding:5px 9px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<h1>大学英语六级单词背诵版</h1>
+<p class="sub">来源：墨墨单词本 六级核心词 · 共 1933 词 · 无音标 · 一键读音 · 分页背诵 · 拼写训练 · 测试自测 · 记忆状态自动保存</p>
+</div>
+
+<div class="statsbar">
+<div class="stat"><b id="stMastered">0</b><span>已掌握</span></div>
+<div class="stat"><b id="stReview">0</b><span>需复习</span></div>
+<div class="stat"><b id="stUnmastered">0</b><span>未掌握</span></div>
+<div class="stat"><b id="stLearned">0</b><span>已学</span></div>
+<div class="pbar"><i id="pbarFill" style="width:0%"></i></div>
+<div class="stat"><b id="stPct">0%</b><span>总进度</span></div>
+</div>
+
+<div class="tabs">
+<button class="tab on" data-t="study">背诵</button>
+<button class="tab" data-t="spell">拼写训练</button>
+<button class="tab" data-t="test">测试</button>
+<button class="tab" data-t="memory">记忆管理</button>
+</div>
+
+<!-- 背诵 -->
+<div class="panel on" id="p-study">
+<div class="setrow">
+<label>每日背诵量：</label>
+<input type="number" id="perDayCustom" min="1" max="500" placeholder="输入任意数字，如 35、80" style="width:150px">
+<button class="btn" onclick="applyPerDay()">应用</button>
+<span id="daysInfo" style="font-size:13px;color:#1f3d5e;font-weight:600"></span>
+</div>
+<div class="navrow">
+<div class="ttl" id="pageTitle">第1天</div>
+<div style="display:flex;gap:8px;align-items:center">
+<button class="btn primary" onclick="goPage(curPage-1)">上一页</button>
+<button class="btn primary" onclick="goPage(curPage+1)">下一页</button>
+<button class="btn ghost" onclick="jumpToday()">回到当前进度</button>
+</div>
+</div>
+<div class="cardgrid" id="cardGrid"></div>
+<div class="pager" id="pagerBox"></div>
+</div>
+
+<!-- 拼写训练 -->
+<div class="panel" id="p-spell">
+<div class="practicebox">
+<div class="navrow"><div class="ttl">拼写辅助记忆</div>
+<div style="display:flex;gap:8px"><button class="btn ghost" onclick="newSpell()">重新出题</button></div></div>
+<div class="qcard">
+<div class="qpos" id="spPos"></div>
+<div class="qme" id="spMe"></div>
+<div class="spellwrap">
+<div class="spellview" id="spView"></div>
+<input class="qinput" id="spInput" placeholder="点击此处开始拼写" autocomplete="off" autocapitalize="off" autocorrect="off" autospellcheck="false" spellcheck="false" inputmode="latin">
+<div class="ime-warn" id="spImeWarn">请切换到英文输入法</div>
+</div>
+<div class="btngrp" style="justify-content:center">
+<button class="btn small" id="spSpeakBtn" onmousedown="event.preventDefault()" onclick="spSpeak()">读音</button>
+<button class="btn small" onclick="spCheck()">核对</button>
+<button class="btn small ghost" onclick="spTip()">提示一个字母</button>
+<button class="btn small ghost" onclick="spNext(false)">跳过</button>
+</div>
+<div class="feed" id="spFeed"></div>
+<div class="hint-tip">规则：根据释义与读音反推拼写，输入字母实时上屏，输完自动判分；拼错会自动重做本词，拼对才进入下一题。</div>
+</div>
+<div class="resultcard" id="spResult" style="display:none"></div>
+</div>
+</div>
+
+<!-- 测试 -->
+<div class="panel" id="p-test">
+<div class="practicebox">
+<div class="navrow"><div class="ttl">自测模式</div>
+<div style="display:flex;gap:8px">
+<button class="btn" onclick="startTest()">应用所选天单词</button>
+<button class="btn" onclick="startReinforceTest()">强化训练</button>
+</div></div>
+<div class="setrow" id="testDayRow" style="flex-wrap:wrap;gap:6px;margin-bottom:6px">
+<span style="font-size:12px;color:#8a93a5">测试日期：</span>
+<select id="testDaySel" style="padding:3px 6px;border:1px solid #d8dee8;border-radius:6px;font-size:13px"></select>
+<span style="font-size:11px;color:#8a93a5">应用所选背诵日的全部单词；默认跟随当前背诵页，可手动切换</span>
+</div>
+<div class="setrow" id="testCountRow" style="flex-wrap:wrap;gap:6px;margin-bottom:6px">
+<span style="font-size:12px;color:#8a93a5">本次测试数量：</span>
+<input id="testCountCustom" type="number" min="1" max="1933" step="1" style="width:76px;padding:3px 6px;border:1px solid #d8dee8;border-radius:6px;font-size:13px" placeholder="自定义">
+</div>
+<div class="hint-tip">"应用所选天单词"以所选日期（默认当前背诵页）的全部单词为题池，可在上方下拉选择任意背诵日；"强化训练"以全部未掌握+需复习单词为题池。两种模式共用同一答题面板与数量设置，均按所选数量随机抽取：答对累计连对5次判"已掌握"，答错标"未掌握"（连对清零重来）；所选词测完即结束。拼写训练保留在背诵板块，测试仅提供"单词选中文释义"。</div>
+<div class="qcard" id="testCard" style="display:none">
+<div class="qpos" id="tPos"></div>
+<div class="hint" id="tQ" style="font-size:22px;min-height:30px"></div>
+<div class="optlist" id="tOpts"></div>
+<div class="progress"><i id="tProg"></i></div>
+<div class="feed" id="tFeed"></div>
+<div id="tStreak" style="display:none;font-size:12px;color:#5a6472;text-align:center;margin-top:2px"></div>
+<div class="btngrp" style="justify-content:center">
+<button class="btn ghost" id="tPrevBtn" style="display:none" onclick="testPrev()">上一题</button>
+<button class="btn primary" id="tNextBtn" style="display:none" onclick="testNext()">下一题</button>
+</div>
+<div id="tEndRow" style="display:none;text-align:center;margin-top:6px">
+<button class="btn ghost" onclick="endReinforce()">结束本轮训练</button>
+</div>
+</div>
+<div class="resultcard" id="tResult" style="display:none"></div>
+</div>
+</div>
+
+<!-- 记忆管理 -->
+<div class="panel" id="p-memory">
+<div class="navrow"><div class="ttl">记忆模式</div>
+<div class="memfilter" id="memFilter">
+<button class="btn small on" data-f="all">全部</button>
+<button class="btn small" data-f="bad">薄弱词</button>
+<button class="btn small" data-f="wrong">错题本</button>
+<button class="btn small" data-f="m">已掌握</button>
+<button class="btn small" data-f="r">需复习</button>
+<button class="btn small" data-f="u">未掌握</button>
+</div></div>
+<div class="setrow">
+<span style="font-size:13px;color:#445">测试答错自动收录"错题本"；拼写拼错与标记"需复习/未掌握"汇入薄弱词，两者分开记录。</span>
+<button class="btn small" onclick="startWrongTest()">错题重测</button>
+<button class="btn small" onclick="startWrongTest(true)">错题循环记忆</button>
+<button class="btn small" onclick="startMemSpell()">重新拼写薄弱词</button>
+<button class="btn small" onclick="startMemTest('choice')">重新测试薄弱词</button>
+<button class="btn small ghost" onclick="clearWrong()">清空错题本</button>
+<button class="btn small ghost" onclick="clearBadRec()">清除错误记录</button>
+<button class="btn small ghost" onclick="clearMemMarks()">清除薄弱标记</button>
+</div>
+<div class="hint-tip">选项测试答错的题自动进入"错题本"（与薄弱词/掌握状态分开保存）。点击"错题重测"以全部错题为题池重新测试，答对即移出错题本、答错保留；点击"错题循环记忆"则错题反复出现，直到全部答对才算完成本轮强化；切到"错题本"筛选可查看全部错题并逐个重新拼写、朗读背诵，也可一键清空错题本（需确认）。拼写拼错仍按原逻辑汇入薄弱词，与错题本互不影响。</div>
+<div class="cardgrid" id="memGrid"></div>
+<div class="btngrp"><button class="btn ghost" onclick="clearAllStatus()">清空全部记忆状态</button></div>
+</div>
+
+<div class="foot">数据：1933 词 · 记忆状态仅保存在本浏览器 localStorage · 读音优先有道真人发音，离线自动回退英文语音合成</div>
+
+<script>
+var DATA = [[1,"abandon","v.","v. 抛弃；放弃；中止"],[2,"abroad","adv.","adv. 在国外；出国"],[3,"absence","n.","n. 缺席；缺乏"],[4,"absolutely","adv.","adv. 绝对地；完全地"],[5,"absorb","v.","v. 吸收；理解；吸引"],[6,"abstract","adj.","adj. 抽象的；非具体的；深奥的 v. 提取；抽取；作…的摘要 n. 摘要；概要；抽象派艺术作品"],[7,"abundant","adj.","adj. 丰富的；充裕的"],[8,"abuse","v.","v. 滥用；虐待；辱骂 n. 滥用；虐待；辱骂"],[9,"academic","adj.","adj. 学院的；学术的 n. 大学教师；学者"],[10,"academy","n.","n. 学院"],[11,"accelerate","v.","v. 加速；加快"],[12,"accept","v.","v. 接受；认可；同意"],[13,"acceptable","adj.","adj. 可接受的"],[14,"acceptance","n.","n. 接受；认可"],[15,"access","n.","n. 进入；通道；接触（的机会或权利） v. 接近；使用；获取"],[16,"accessible","adj.","adj. 易接近的；可进入的；可使用的"],[17,"accident","n.","n. 意外；事故；意外事件"],[18,"accommodate","v.","v. 容纳；为...提供住宿；适应"],[19,"accompany","v.","v. 陪伴；伴随；为…伴奏"],[20,"accomplish","v.","v. 完成；实现"],[21,"account","n.","n. 账户；叙述；账目 v. 说明；占…"],[22,"accumulate","v.","v. 积累"],[23,"accuracy","n.","n. 精确性；准确度"],[24,"accurate","adj.","adj. 精确的；无误的"],[25,"accuse","v.","v. 指控；指责"],[26,"accustomed","adj.","adj. 习惯的；惯常的 v. 习惯"],[27,"achievement","n.","n. 成就；成绩；完成"],[28,"acknowledge","v.","v. 承认；认可；告知收到"],[29,"acquire","v.","v. 获得；得到；学会"],[30,"acre","n.","n. 英亩"],[31,"activate","v.","v. 激活；使活动；使活化"],[32,"active","adj.","adj. 积极的；活跃的；主动的"],[33,"actual","adj.","adj. 真实的；实际的"],[34,"actually","adv.","adv. 事实上；实际上；竟然"],[35,"adapt","v.","v. 适应；改编"],[36,"addict","n.","n. 瘾君子；入迷的人"],[37,"addiction","n.","n. 成瘾；沉溺；嗜好"],[38,"addition","n.","n. 增加；加法；附加物"],[39,"additional","adj.","adj. 附加的；额外的"],[40,"adequate","adj.","adj. 足够的；尚可的"],[41,"adjust","v.","v. 调整；使适合；使适应"],[42,"administration","n.","n. 管理；行政"],[43,"admire","v.","v. 钦佩；赞赏"],[44,"admit","v.","v. 承认；允许进入"],[45,"adolescent","n.","n. 青少年 adj. 青少年的；青春期的"],[46,"adopt","v.","v. 收养；采用；采纳"],[47,"adulthood","n.","n. 成年；成年期"],[48,"advance","n.","n. 发展；进步；提前 v. 前进；发展；提前 adj. 预先的；在前的"],[49,"advanced","adj.","adj. 先进的；高级的 v. 前进；提前"],[50,"advancement","n.","n. 进步；提高；晋升"],[51,"advantage","n.","n. 优势；好处；有利条件"],[52,"adventure","n.","n. 冒险；奇遇 v. 冒险"],[53,"adverse","adj.","adj. 不利的；有害的；相反的"],[54,"advertise","v.","v. 做广告；登广告"],[55,"advertisement","n.","n. 广告"],[56,"advertising","n.","n. 做广告；广告业；广告活动 v. 做广告；登广告"],[57,"advocate","v.","v. 提倡；主张 n. 提倡者；拥护者；辩护律师"],[58,"affair","n.","n. 事务；事件；暧昧关系"],[59,"affect","v.","v. 影响；感动；假装"],[60,"afford","v.","v. 买得起；担负得起；有时间做"],[61,"affordable","adj.","adj. 支付得起的"],[62,"agency","n.","n. 机构；局；代理处"],[63,"agenda","n.","n. 议程；议事日程；不为人所知的意图"],[64,"agent","n.","n. 代理人；经纪人；动因"],[65,"aggressive","adj.","adj. 侵略性的；攻击性的；有进取心的"],[66,"agricultural","adj.","adj. 农业的"],[67,"agriculture","n.","n. 农业"],[68,"ahead","adv.","adv. 提前；在前"],[69,"aid","v.","v. 帮助；协助 n. 帮助；援助"],[70,"aim","n.","n. 目标；目的 v. 瞄准；以其为目标"],[71,"alcohol","n.","n. 酒精；乙醇；含酒精的饮料"],[72,"alert","adj.","adj. 警觉的；警惕的 v. （使）警惕；（使）戒备 n. 警报"],[73,"alike","adj.","adj. 相同的；相像的 adv. 相同地；相像地"],[74,"alleviate","v.","v. 减轻；缓解；缓和"],[75,"allocate","v.","v. 分配；配给"],[76,"alter","v.","v. 变更；改动"],[77,"alternative","adj.","adj. 供选择的 n. 供替代的选择"],[78,"altogether","adv.","adv. 总共；完全；总而言之"],[79,"ambition","n.","n. 野心；雄心；抱负"],[80,"ambitious","adj.","adj. 有野心的；有雄心的"],[81,"amid","prep.","prep. 在其中"],[82,"amount","n.","n. 数量；数额 v. 总计；等于"],[83,"analysis","n.","n. 分析；剖析"],[84,"analyze","v.","v. 分析"],[85,"ancient","adj.","adj. 古代的；古老的 n. 古人"],[86,"announce","v.","v. 宣布；宣称"],[87,"announcement","n.","n. 通告；宣告"],[88,"annual","adj.","adj. 每年的；一年一次的 n. 年刊；年鉴"],[89,"anticipate","v.","v. 预料；预期；期望"],[90,"anxiety","n.","n. 忧虑；焦虑；渴望"],[91,"anxious","adj.","adj. 焦虑的；不安的；担忧的"],[92,"apart","adv.","adv. 分开地；相隔 adj. 分离的；分隔的"],[93,"apartment","n.","n. 单元住宅；公寓住宅"],[94,"apparent","adj.","adj. 明显的；显然的；表面上的"],[95,"apparently","adv.","adv. 显然；表面上看起来；似乎"],[96,"appeal","n.","n. 恳求；呼吁；上诉 v. 呼吁；吸引；诉请"],[97,"appear","v.","v. 出现；似乎；显得"],[98,"appearance","n.","n. 出现；露面；外观"],[99,"applicant","n.","n. 申请人"],[100,"application","n.","n. 应用；申请"],[101,"apply","v.","v. 申请；应用；涂"],[102,"appreciate","v.","v. 欣赏；理解；感激"],[103,"approach","v.","v. 接近；靠近；临近 n. 方法；接近；靠近"],[104,"appropriate","adj.","adj. 适当的；恰当的 v. 拨出（专款）；盗用；侵吞"],[105,"approve","v.","v. 批准；认可；通过"],[106,"approximately","adv.","adv. 大约；大概"],[107,"architect","n.","n. 建筑师；设计者；创造者"],[108,"area","n.","n. 面积；区域"],[109,"arguably","adv.","adv. 可论证地；可以认为；可以说"],[110,"argue","v.","v. 争论；争辩；说服"],[111,"argument","n.","n. 争论；论点；辩论"],[112,"arise","v.","v. 出现；发生；起来"],[113,"arouse","v.","v. 引起（兴趣/愤怒等）"],[114,"arrange","v.","v. 安排；排列；改编（乐曲）"],[115,"arrangement","n.","n. 安排；商定"],[116,"array","n.","n. 大批；数列 v. 排列；部署（兵力）"],[117,"article","n.","n. 文章；物品；项目"],[118,"artificial","adj.","adj. 人造的；人工的；假的"],[119,"artistic","adj.","adj. 艺术的"],[120,"aside","adv.","adv. 在旁边；在一边"],[121,"aspect","n.","n. 方面；模样；朝向"],[122,"aspiration","n.","n. 渴望；抱负；志向"],[123,"assess","v.","v. 评定；评估；估算"],[124,"assessment","n.","n. 评估；评定；估计"],[125,"asset","n.","n. 资产；有价值的人或物；长处"],[126,"assign","v.","v. 分配；指派"],[127,"assignment","n.","n. 分配；指派；任务"],[128,"assist","v.","v. 帮助；援助；协助"],[129,"assistance","n.","n. 帮助；援助；协助"],[130,"assistant","n.","n. 助理；助手 adj. 助理的；辅助的"],[131,"associate","v.","v. 把…联系在一起；与…交往 n. 同事；伙伴 adj. 副的"],[132,"association","n.","n. 协会；联系；联想"],[133,"assume","v.","v. 假定；设想；呈现"],[134,"assumption","n.","n. 假设；假想"],[135,"athlete","n.","n. 运动员；田径运动员"],[136,"atmosphere","n.","n. 大气；气氛；氛围"],[137,"attach","v.","v. 系上；贴上；附加"],[138,"attack","v.","v. 攻击；袭击 n. 攻击；袭击"],[139,"attempt","n.","n. 企图；试图 v. 企图；试图"],[140,"attend","v.","v. 出席；参加；照料"],[141,"attention","n.","n. 注意；关注；照料"],[142,"attitude","n.","n. 态度；看法；姿态"],[143,"attraction","n.","n. 吸引；吸引力"],[144,"attractive","adj.","adj. 有吸引力的"],[145,"attribute","v.","v. 由…引起；把…归因于；认为是…创作的 n. 属性；品质；特征"],[146,"audience","n.","n. 观众；听众"],[147,"authority","n.","n. 权威；权威人士；权力"],[148,"automatic","adj.","adj. 自动的"],[149,"automatically","adv.","adv. 自动地；无意识地"],[150,"available","adj.","adj. 可获得的；可用的；有空的"],[151,"average","adj.","adj. 平均的；普通的 n. 平均数；平均水平 v. 平均为…"],[152,"award","v.","v. 颁奖；授予；裁定 n. 奖品；裁定"],[153,"aware","adj.","adj. 意识到的；知道的"],[154,"awareness","n.","n. 意识；认识；察觉"],[155,"background","n.","n. 背景；经历"],[156,"balance","n.","n. 天平、秤；平衡；收支差额 v. （使）平衡；（使）相抵"],[157,"ban","v.","v. 禁止 n. 禁止"],[158,"bang","n.","n. 重击；突然的巨响 v. 发出巨响；砰然作响；猛击"],[159,"bankruptcy","n.","n. 破产；倒闭；无偿付能力"],[160,"bar","n.","n. 棒；条状物；（门、窗的）闩 v. 禁止；妨碍；阻拦"],[161,"bare","adj.","adj. 赤裸的；空的；光秃秃的 v. 使露出"],[162,"barely","adv.","adv. 仅仅；几乎不"],[163,"barrier","n.","n. 屏障；障碍；栅栏"],[164,"base","v.","v. 以…为基础 n. 基地；基础"],[165,"basically","adv.","adv. 基本上"],[166,"basis","n.","n. 基础；根据"],[167,"battery","n.","n. 电池；一组；一连串"],[168,"battle","n.","n. 战斗 v. 战斗"],[169,"bear","n.","n. 熊 v. 负荷；带有；忍受"],[170,"beat","v.","v. 打；敲打；击败 n. 一击；跳动"],[171,"behave","v.","v. 表现；举止"],[172,"behavior","n.","n. 举止；表现"],[173,"behavioral","adj.","adj. 行为的"],[174,"belief","n.","n. 信仰；信念"],[175,"belong","v.","v. 应在（某处）；属于"],[176,"beneath","prep.","prep. 在…下面"],[177,"beneficial","adj.","adj. 有益的；有用的"],[178,"benefit","n.","n. 利益；好处；救济金 v. 有益于；有助于"],[179,"besides","adv.","adv. 此外；而且；还 prep. 除…以外；还"],[180,"bet","n.","n. 打赌；赌注 v. 打赌；敢说"],[181,"beyond","prep.","prep. 超出"],[182,"bias","n.","n. 偏见；偏袒；偏爱 v. 使有偏见"],[183,"bill","n.","n. 账单；钞票；议案 v. 给…开账单"],[184,"billion","num.","num. 十亿"],[185,"bind","v.","v. 捆绑；约束；装订 n. （非正式）窘境"],[186,"biologist","n.","n. 生物学家"],[187,"biology","n.","n. 生物学"],[188,"bitter","adj.","adj. 有苦味的；痛苦的；刺痛的"],[189,"bizarre","adj.","adj. 离奇的；奇特的；奇怪的"],[190,"blame","v.","v. 责怪；归咎于；指责 n. 责备；责任；指责"],[191,"block","n.","n. 块；街区；大楼 v. 阻塞；阻碍"],[192,"blow","n.","n. 吹；打击 v. 吹；打击"],[193,"board","n.","n. 板；董事会 v. 上船（或火车、飞机等）"],[194,"boast","v.","v. 自夸；夸耀；自豪地拥有"],[195,"bond","n.","n. 纽带；联系；债券 v. （使）黏合；相互联结"],[196,"boom","n.","n. 繁荣；景气 v. 发出隆隆声；快速发展；暴涨"],[197,"boost","v.","v. 使增长；促进 n. 提高；增强"],[198,"bother","v.","v. 打扰；麻烦；烦扰"],[199,"bottom","n.","n. 底部；底面；尽头"],[200,"boundary","n.","n. 分界线；边界"],[201,"brake","n.","n. 刹车；制动器 v. 刹车"],[202,"brand","n.","n. 品牌；商标；烙印 v. 侮辱；铭刻于；加商标于"],[203,"break","v.","v. 打破；打断；休息 n. 中断；休息；破裂"],[204,"breakthrough","n.","n. 突破；突破性进展"],[205,"breath","n.","n. 呼吸；气息"],[206,"breathe","v.","v. 呼吸；透气；呼出"],[207,"breed","v.","v. 饲养；交配繁殖 n. 品种"],[208,"brief","adj.","adj. 短暂的；简短的；简明的 n. 摘要；概要 v. 为…提供信息"],[209,"bright","adj.","adj. 明亮的；鲜艳的；聪明的"],[210,"broad","adj.","adj. 宽阔的；广阔的"],[211,"broaden","v.","v. 变宽；扩大；开阔"],[212,"budget","n.","n. 预算；预算金额 v. 为...做预算；节省开支 adj. 廉价的；花钱少的"],[213,"bulb","n.","n. 电灯泡；球茎状物；球茎"],[214,"burden","n.","n. 负担；重担；责任 v. 使负重；烦扰"],[215,"bureau","n.","n. 局；办事处"],[216,"burn","v.","v. 燃烧；烧伤 n. 燃烧；烧伤"],[217,"businessman","n.","n. 商人；实业家"],[218,"calculate","v.","v. 计算；推测"],[219,"calculation","n.","n. 计算；计算结果；推测"],[220,"calm","v.","v. （使）平静；（使）镇定 adj. 平静的；镇静的 n. 平静"],[221,"calorie","n.","n. 卡路里"],[222,"camp","n.","n. 营地；阵营；兵营 v. 宿营；露营；使扎营（住宿）"],[223,"campaign","n.","n. 战役；运动；（政治、商业或社会性）活动 v. 参加战役；从事活动"],[224,"campus","n.","n. （大学、学院的）校园"],[225,"cancer","n.","n. 癌；癌症"],[226,"candidate","n.","n. 候选人；应试者"],[227,"capability","n.","n. 能力；才能；性能"],[228,"capable","adj.","adj. 有能力的"],[229,"capacity","n.","n. 容量；容积；能力"],[230,"capital","n.","n. 首都；大写字母；财富 adj. 大写的"],[231,"capture","v.","v. 俘虏；逮捕；夺取 n. 抓捕；攻占"],[232,"carbon","n.","n. 碳；复写纸"],[233,"career","n.","n. 事业；生涯"],[234,"case","n.","n. 事例；情况；案件"],[235,"cash","n.","n. 现金"],[236,"casual","adj.","adj. 偶然的；随意的；非正式的"],[237,"category","n.","n. 类别"],[238,"cater","v.","v. 迎合；满足需要；供应酒菜"],[239,"cattle","n.","n. 家畜"],[240,"cause","n.","n. 原因；理由；理想 v. 导致；引起"],[241,"caution","n.","n. 小心；警告；注意 v. 警告；劝...小心"],[242,"cautious","adj.","adj. 小心的；谨慎的"],[243,"celebrate","v.","v. 庆祝；歌颂"],[244,"celebrity","n.","n. 名人；名声"],[245,"cell","n.","n. 细胞；小房间；牢房"],[246,"central","adj.","adj. 中央的；中心的"],[247,"century","n.","n. 世纪；百年"],[248,"ceremony","n.","n. 仪式；典礼"],[249,"certain","adj.","adj. 确定的；一定的；某个"],[250,"certainly","adv.","adv. 毫无疑问地；确定地；当然"],[251,"chain","n.","n. 链条；链子 v. 用铁链锁住"],[252,"challenge","n.","n. 挑战；盘问；质疑 v. 提出挑战；质疑；驳斥"],[253,"challenging","v.","v. 提出挑战 adj. 有挑战性的"],[254,"champion","n.","n. 冠军；优胜者；拥护者 v. 拥护；支持"],[255,"channel","n.","n. 河床；海峡；（水）槽 v. 引导；开导；形成"],[256,"character","n.","n. 人物角色；性格；特点"],[257,"characteristic","adj.","adj. 典型的；特有的 n. 特点；特性"],[258,"characterize","v.","v. 描述…的特性；以…为特征"],[259,"charge","v.","v. 使承担责任；收费；充电 n. 负责；收费；指控"],[260,"charming","adj.","adj. 迷人的；娇媚的 v. 使着迷"],[261,"chart","n.","n. 图表 v. 作图；记录；制定"],[262,"check","v.","v. 检查；核实；克制 n. 检查；支票；方格图案"],[263,"checkout","n.","n. 检验；付款处；结账"],[264,"chemical","n.","n. 化学品 adj. 化学的"],[265,"chemistry","n.","n. 化学"],[266,"chief","n.","n. 领袖；首领 adj. 主要的；首要的"],[267,"childhood","n.","n. 童年；幼年"],[268,"choice","n.","n. 选择；抉择；精选品 adj. 上等的；精选的"],[269,"chronic","adj.","adj. 长期的；慢性的"],[270,"church","n.","n. 教堂"],[271,"circle","n.","n. 圆；圈 v. 圈出；环绕"],[272,"circulate","v.","v. 循环；流通；散布"],[273,"circulation","n.","n. 循环；流通；发行量"],[274,"circumstance","n.","n. 环境；情况"],[275,"cite","v.","v. 引用；提及；举例"],[276,"citizen","n.","n. 公民；市民"],[277,"civil","adj.","adj. 公民的；国内的；民用的"],[278,"civilization","n.","n. 文明；文化"],[279,"claim","n.","n. 声称；索要；要求 v. 声称；索赔；要求"],[280,"classic","adj.","adj. 第一流的；典范的；典型的 n. 优秀的典范；文学经典；名著"],[281,"classical","adj.","adj. 古典的"],[282,"clearly","adv.","adv. 清楚地；明显地"],[283,"clever","adj.","adj. 聪明的；灵巧的"],[284,"click","v.","v. 发出咔哒声；点击 n. 咔哒声；点击"],[285,"client","n.","n. 客户；委托人；当事人"],[286,"climate","n.","n. 气候；（社会）风气；一般（社会）趋势"],[287,"cling","v.","v. 紧贴；坚守"],[288,"closely","adv.","adv. 紧密地；仔细地"],[289,"clothing","n.","n. 衣服；服装"],[290,"clue","n.","n. 线索；提示"],[291,"co-author","n.","n. 合著者；共同执笔者"],[292,"coach","n.","n. 教练；长途客运汽车；火车车厢 v. 训练；培训"],[293,"coal","n.","n. 煤"],[294,"coalition","n.","n. 结合；联合；联盟"],[295,"coast","n.","n. 海岸；海滨"],[296,"code","n.","n. 代码；密码；编码 v. 编码"],[297,"cognitive","adj.","adj. 认知的；认识的"],[298,"collaborate","v.","v. 合作；协作；通敌"],[299,"collaboration","n.","n. 合作；协作；通敌"],[300,"collaborative","adj.","adj. 合作的；协力的"],[301,"collapse","v.","v. 倒塌；昏倒；暴跌 n. 倒塌；崩溃；病倒"],[302,"colleague","n.","n. 同事"],[303,"collection","n.","n. 收集物；收藏品"],[304,"collective","adj.","adj. 集体的；共同的 n. 集体"],[305,"college","n.","n. 学院；大学"],[306,"colony","n.","n. 殖民地；聚居人群"],[307,"combat","n.","n. 战斗 v. 战斗；防止；抑制"],[308,"combination","n.","n. 组合；结合"],[309,"combine","v.","v. 组合；结合"],[310,"comfort","n.","n. 舒服；安逸；安慰 v. 安慰"],[311,"comment","n.","n. 评论；意见；批评 v. 评论；表达意见"],[312,"commerce","n.","n. 商业；贸易"],[313,"commercial","adj.","adj. 贸易的；商业的 n. 广告"],[314,"commission","n.","n. 委员会；佣金 v. 委托；委任"],[315,"commit","v.","v. 犯（罪、错）；承诺；（公开地）表达意见"],[316,"commitment","n.","n. 承诺；奉献"],[317,"committee","n.","n. 委员会"],[318,"common","adj.","adj. 常见的；普通的；共有的"],[319,"community","n.","n. 社区；团体；群落"],[320,"comparable","adj.","adj. 可比较的；比得上的；类似的"],[321,"compare","v.","v. 比较；对比；比喻"],[322,"comparison","n.","n. 比较；对比"],[323,"compel","v.","v. 强迫；胁迫"],[324,"compensate","v.","v. 补偿；弥补"],[325,"compensation","n.","n. 补偿；赔偿；薪酬"],[326,"compete","v.","v. 竞争；比赛"],[327,"competence","n.","n. 能力；胜任；本领"],[328,"competition","n.","n. 竞争；比赛"],[329,"competitive","adj.","adj. 竞争的；有竞争力的"],[330,"competitor","n.","n. 竞争者"],[331,"complain","v.","v. 抱怨；投诉"],[332,"complaint","n.","n. 投诉；抱怨"],[333,"complete","adj.","adj. 完整的；完成的 v. 完成；使完整"],[334,"completely","adv.","adv. 非常；完全地"],[335,"complex","adj.","adj. 复杂的；费解的 n. 综合楼（群）；情结"],[336,"complexity","n.","n. 复杂性"],[337,"complicated","adj.","adj. 复杂的"],[338,"component","n.","n. 成分；部分；零件 adj. 组成的；构成的"],[339,"composition","n.","n. 构成；作品；作曲"],[340,"comprehensive","adj.","adj. 全面的；广泛的；综合的"],[341,"compromise","n.","n. 妥协；折中；遭致损害 v. 使遭到损害；危及"],[342,"concentrate","v.","v. 集中；浓缩 n. 浓缩液"],[343,"concept","n.","n. 观念；概念"],[344,"concern","v.","v. 涉及；担忧 n. 担忧；挂念；关注"],[345,"concert","n.","n. 音乐会；演奏会；一致 v. 协调一致行动"],[346,"conclude","v.","v. 推断出；得出结论；结束"],[347,"conclusion","n.","n. 结论；结尾"],[348,"concrete","adj.","adj. 具体的；有形的；混凝土的 n. 混凝土；具体物 v. 用混凝土覆盖"],[349,"condition","n.","n. 状态；条件；环境 v. 使适应；影响；保养"],[350,"conduct","v.","v. 实施；表现；指挥 n. 行为；举止；实施方式"],[351,"conference","n.","n. 大型会议；商讨"],[352,"confidence","n.","n. 信心；信任；秘密"],[353,"confine","v.","v. 限制；监禁"],[354,"confirm","v.","v. 证实；确认；批准"],[355,"conflict","n.","n. 冲突；矛盾 v. 抵触；冲突"],[356,"confront","v.","v. 面对；遭遇；对抗"],[357,"confuse","v.","v. 迷惑；混淆"],[358,"confused","adj.","adj. 迷惑的；混乱的 v. 迷惑；混淆"],[359,"confusion","n.","n. 困惑；混乱；混淆"],[360,"Congress","n.","n. （美国等国的）国会；议会"],[361,"connect","v.","v. 连接；接通"],[362,"connection","n.","n. 连接；关联"],[363,"consequence","n.","n. 后果；结果"],[364,"conservation","n.","n. 保护；保存；节约（自然资源）"],[365,"conservative","adj.","adj. 保守的；守旧的 n. 守旧派；保守主义者"],[366,"considerable","adj.","adj. 重要的；相当大的；可观的"],[367,"considerably","adv.","adv. 大幅度地；很大地；相当地"],[368,"consideration","n.","n. 考虑；体贴；报酬"],[369,"consist","v.","v. 由…组成；在于；一致"],[370,"consistent","adj.","adj. 一致的；始终如一的"],[371,"constantly","adv.","adv. 不断地；持续地"],[372,"constitute","v.","v. 构成；被视为；成立"],[373,"construct","v.","v. 建造；构造；作（几何图） n. 结构（物）；构想；概念"],[374,"construction","n.","n. 建筑；建设"],[375,"consult","v.","v. 咨询；查询；请教"],[376,"consume","v.","v. 消耗；消费；毁掉"],[377,"consumer","n.","n. 消费者"],[378,"consumption","n.","n. 消费；消耗"],[379,"contact","n.","n. 接触；联系 v. 接触；联系"],[380,"contain","v.","v. 包含；容纳；克制"],[381,"contemporary","adj.","adj. 现代的；当代的；同时代的 n. 同代人；同辈人；同龄人"],[382,"content","n.","n. 内容；含量；目录 adj. 满足的 v. 使满意"],[383,"context","n.","n. 上下文；语境；环境"],[384,"continent","n.","n. 洲；大陆"],[385,"continuous","adj.","adj. 继续的；连续的"],[386,"contract","n.","n. 合同；契约 v. （使）收缩；订合同；感染"],[387,"contrary","n.","n. 相反 adj. 相反的"],[388,"contrast","n.","n. 对照；反差；对立 v. 对比；和...形成对照"],[389,"contribute","v.","v. 捐献；投稿；贡献"],[390,"contribution","n.","n. 贡献；捐助物；投稿"],[391,"contributor","n.","n. 贡献者；捐助者；投稿人"],[392,"controversy","n.","n. 争论；论战"],[393,"convenience","n.","n. 方便；便利"],[394,"convenient","adj.","adj. 便利的；方便的"],[395,"conventional","adj.","adj. 传统的；惯例的"],[396,"conversation","n.","n. 谈话；会话；交谈"],[397,"convert","v.","v. 转换；转变；变换 n. 皈依者"],[398,"convey","v.","v. 传达；表达；运送"],[399,"convince","v.","v. 说服；使确信"],[400,"cooperate","v.","v. 合作；协作"],[401,"cooperation","n.","n. 合作；协作"],[402,"cope","v.","v. 应付；处理"],[403,"core","n.","n. 核；核心；重点 adj. 核心的 v. 去（果）核"],[404,"corn","n.","n. 玉米；谷物"],[405,"corner","n.","n. 角；（街道等的）拐角；困境 v. 拐弯；迫至一隅；使陷入绝境"],[406,"corporate","adj.","adj. 团体的；公司的"],[407,"corporation","n.","n. 公司；企业"],[408,"correct","adj.","adj. 正确的 v. 改正；修正"],[409,"correlate","v.","v. （使）相互关联"],[410,"correlation","n.","n. 相关；相互关系"],[411,"costly","adj.","adj. 昂贵的；代价高的"],[412,"council","n.","n. 理事会；委员会；议会"],[413,"count","v.","v. 计算；清点；看作 n. 计数；计算"],[414,"counter","n.","n. 柜台；对立面 v. 反驳；抵消 adv. 相反地"],[415,"counterpart","n.","n. 职务相当的人；对应物；相当之物"],[416,"countryside","n.","n. 农村；乡下"],[417,"couple","n.","n. （一）对；几个；夫妻 v. 连接；结合"],[418,"courage","n.","n. 勇气；勇敢"],[419,"course","n.","n. 课程；过程；一道菜 v. 快速流动；（思想或感情）涌动"],[420,"court","n.","n. 法院；球场；宫廷 v. 求爱；献殷勤；招致"],[421,"cover","v.","v. 遮盖；包括；报道 n. 封面；遮盖物；庇护所"],[422,"cozy","adj.","adj. 舒适的；安逸的"],[423,"craft","n.","n. 工艺；手艺；诡计 v. 精心制作"],[424,"crash","v.","v. 碰撞；坠毁；崩溃 n. 碰撞；坠毁；崩溃"],[425,"creation","n.","n. 创作；创造物"],[426,"creativity","n.","n. 创造力；创造"],[427,"credit","n.","n. 赞扬；荣誉；赊账 v. 相信；给银行账户上存钱"],[428,"crime","n.","n. 罪行；罪恶"],[429,"criminal","n.","n. 罪犯 adj. 犯罪的"],[430,"crisis","n.","n. 危机；危急关头"],[431,"critic","n.","n. 评论家；批评者"],[432,"critical","adj.","adj. 批判性的；临界的；危急的"],[433,"criticism","n.","n. 批评；指责；评论"],[434,"criticize","v.","v. 批评；责备"],[435,"crop","n.","n. 农作物；收成 v. 修剪；种植；收割"],[436,"cross","v.","v. 穿过；交叉；横过 n. 十字架；十字形记号 adj. 恼怒的；生气的"],[437,"crowd","n.","n. 人群；群众 v. 拥挤；群集"],[438,"crowded","adj.","adj. 拥挤的；密集的 v. 拥挤；群集"],[439,"crucial","adj.","adj. 至关重要的；决定性的"],[440,"crude","adj.","adj. 未加工的；粗鲁的；简陋的 n. 原油；石油"],[441,"cultivate","v.","v. 耕作；培养；栽培"],[442,"cultural","adj.","adj. 文化的"],[443,"culture","n.","n. 文化；培养"],[444,"curb","v.","v. 勒住；抑制 n. 抑制；约束；路缘"],[445,"cure","n.","n. 治疗；疗法 v. 治愈；治疗"],[446,"curiosity","n.","n. 好奇心"],[447,"curious","adj.","adj. 好奇的"],[448,"currency","n.","n. 货币；流通"],[449,"current","n.","n. （水、气、电）流；趋势 adj. 当前的；流通的"],[450,"currently","adv.","adv. 当前；现时"],[451,"curriculum","n.","n. 课程"],[452,"customer","n.","n. 客户；顾客；主顾"],[453,"cycle","n.","n. 循环；周期；自行车 v. 循环；骑自行车"],[454,"damage","v.","v. 损害；破坏 n. 损害；破损"],[455,"data","n.","n. 数据；资料"],[456,"deadline","n.","n. 最终期限"],[457,"deadly","adj.","adj. 致死的；极度的 adv. 如死一般地；非常地"],[458,"deal","n.","n. 交易；协议 v. 处理；对付；交易"],[459,"debate","v.","v. 辩论；争论 n. 辩论；争论"],[460,"debt","n.","n. 债务；欠款"],[461,"decade","n.","n. 十年"],[462,"decision","n.","n. 决定；抉择；选择"],[463,"declare","v.","v. 宣布；宣告；断言"],[464,"decline","v.","v. 下降；衰退；谢绝 n. 下降；衰退；婉拒"],[465,"decrease","v.","v. 减少；降低 n. 减少"],[466,"dedicate","v.","v. 奉献；献身；致力"],[467,"deem","v.","v. 认为；觉得"],[468,"default","v.","v. 拖欠；违约 n. 拖欠；违约；默认"],[469,"defend","v.","v. 防守；防御；辩护"],[470,"defense","n.","n. 辩护；防御；国防"],[471,"deficit","n.","n. 不足额；赤字；亏损"],[472,"define","v.","v. 下定义；定范围"],[473,"definitely","adv.","adv. 明确地；肯定地"],[474,"definition","n.","n. 定义；清晰度"],[475,"degree","n.","n. 度；程度；学位"],[476,"delay","v.","v. 推迟；延缓；耽搁 n. 推迟；延缓；耽搁"],[477,"deliver","v.","v. 交付；递送；兑现"],[478,"delivery","n.","n. 传送；交付；分娩"],[479,"demand","n.","n. 要求；请求；需求 v. 要求；请求；需求"],[480,"demonstrate","v.","v. 演示；展示；证明"],[481,"deny","v.","v. 否认；拒绝"],[482,"department","n.","n. 部门；系；部"],[483,"dependent","adj.","adj. 依靠的；依赖的 n. 依赖他人者；受赡养者；食客"],[484,"depict","v.","v. 描述；描绘"],[485,"deposit","n.","n. 存款；押金；沉淀 v. 存储；堆积"],[486,"depression","n.","n. 抑郁；沮丧；萧条"],[487,"deprive","v.","v. 剥夺；使丧失"],[488,"depth","n.","n. 深度；深刻"],[489,"derive","v.","v. 起源；来自；源自"],[490,"describe","v.","v. 描述"],[491,"description","n.","n. 描述；形容"],[492,"desert","n.","n. 沙漠；荒漠 v. 抛弃"],[493,"deserve","v.","v. 值得；应得"],[494,"design","v.","v. 设计；计划；谋划 n. 设计；图案；花样"],[495,"desire","n.","n. 欲望；渴望 v. 渴望；期望"],[496,"desperate","adj.","adj. 绝望的；不顾一切的；拼命的"],[497,"despite","prep.","prep. 尽管；不管"],[498,"destination","n.","n. 目的地；终点"],[499,"destroy","v.","v. 破坏；摧毁"],[500,"destructive","adj.","adj. 破坏的；毁灭性的"],[501,"detail","n.","n. 细节；详情 v. 详细说明"],[502,"detailed","adj.","adj. 详细的；逐条的；细致的 v. 详述；细说；派遣"],[503,"detect","v.","v. 察觉；查出；测出"],[504,"deteriorate","v.","v. 恶化；变坏；退化"],[505,"deterioration","n.","n. 恶化；退化；变质"],[506,"determine","v.","v. 决心；决定；测定"],[507,"devastating","adj.","adj. 毁灭性的；令人震惊的 v. 毁灭；使震惊"],[508,"developed","adj.","adj. 发达的；先进的 v. 发展；发育"],[509,"developmental","adj.","adj. 发展的；进化的"],[510,"device","n.","n. 设备；装置；手段"],[511,"devote","v.","v. 投入；奉献"],[512,"dialogue","n.","n. 对话；对白"],[513,"diet","n.","n. 日常饮食；节食 v. 节制饮食"],[514,"differ","v.","v. 与…不同；与…相异"],[515,"dig","v.","v. 挖；掘；发现 n. 挖；掘；挖苦"],[516,"digital","adj.","adj. 数字的；数码的"],[517,"diminish","v.","v. 减少；削弱；减损"],[518,"dioxide","n.","n. 二氧化物"],[519,"dip","v.","v. 浸；蘸；（暂时）减少 n. 浸；蘸；下降"],[520,"direct","adj.","adj. 直接的 v. 指导；指示"],[521,"direction","n.","n. 方向；指导；指示"],[522,"director","n.","n. 指导者；主任；导演"],[523,"disadvantage","n.","n. 不利；劣势；短处 v. 使处于不利地位"],[524,"disaster","n.","n. 灾害；灾难"],[525,"discipline","n.","n. 纪律；训练；惩戒 v. 训练；约束自己；惩罚"],[526,"discount","n.","n. 折扣；贴现率 v. 打折扣；贴现；不全信"],[527,"discourage","v.","v. 劝阻；阻止；使气馁"],[528,"discover","v.","v. 发现；查明；发觉"],[529,"discovery","n.","n. 发现；发觉"],[530,"discrimination","n.","n. 区别；辨别；歧视"],[531,"discuss","v.","v. 讨论；谈论；详细阐述"],[532,"discussion","n.","n. 讨论；商讨"],[533,"disease","n.","n. 病；疾病"],[534,"dish","n.","n. 盘；碟；菜肴"],[535,"disorder","n.","n. 混乱；无秩序；失调"],[536,"display","v.","v. 展示；陈列 n. 展示；陈列"],[537,"dispute","n.","n. 纠纷；争端 v. 对（某事）有异议；争执"],[538,"disrupt","v.","v. 使混乱；使中断；扰乱"],[539,"disruption","n.","n. 中断；扰乱；混乱"],[540,"distance","n.","n. 距离；远处 v. 保持距离"],[541,"distinct","adj.","adj. 有区别的；清晰的；明显的"],[542,"distinction","n.","n. 区别；区分；优等评分"],[543,"distinctive","adj.","adj. 独特的；特别的；与众不同的"],[544,"distinguish","v.","v. 区分；使有别于；辨认"],[545,"distract","v.","v. 转移；分散；使分心"],[546,"distraction","n.","n. 分心；注意力分散；娱乐"],[547,"distribute","v.","v. 分发；分配；散布"],[548,"distribution","n.","n. 分布；分配"],[549,"district","n.","n. 地区；区域；行政区"],[550,"diverse","adj.","adj. 多种多样的；不同的"],[551,"diversity","n.","n. 多样性；多样化"],[552,"divide","v.","v. 分开；分隔；除以"],[553,"division","n.","n. 划分；分歧；除法"],[554,"document","n.","n. 文件；公文；文献 v. 记录；为…提供证明"],[555,"domestic","adj.","adj. 家庭的；国内的；驯养的 n. 佣人"],[556,"dominate","v.","v. 统治；支配；俯瞰"],[557,"dose","n.","n. 剂量；一剂 v. 给...服药"],[558,"doubt","v.","v. 怀疑；拿不准 n. 疑问；疑惑"],[559,"downside","n.","n. 下降趋势（价格）；消极面；负面"],[560,"downward","adv.","adv. 向下地 adj. 向下的"],[561,"dozen","n.","n. 很多；一打；十二个"],[562,"drama","n.","n. 戏剧；话剧"],[563,"dramatic","adj.","adj. 急剧的；激动人心的；戏剧（性）的"],[564,"dramatically","adv.","adv. 戏剧地；引人注目地；急剧地"],[565,"draw","v.","v. 拉；拽；画"],[566,"drop","n.","n. 滴；下落 v. 落下；掉下"],[567,"drought","n.","n. 旱灾；干旱"],[568,"drug","n.","n. 药物；毒品 v. 使服麻醉药；使服毒品"],[569,"due","adj.","adj. 预期的；应给的；到期的"],[570,"duty","n.","n. 责任；职责；义务"],[571,"eager","adj.","adj. 热切的；渴望的"],[572,"earn","v.","v. 获得；赚得"],[573,"ease","v.","v. 缓解；减轻 n. 安逸；轻松"],[574,"economic","adj.","adj. 经济（上）的；可赚钱的"],[575,"economics","n.","n. 经济学；经济"],[576,"economist","n.","n. 经济学家"],[577,"economy","n.","n. 经济；节约"],[578,"ecosystem","n.","n. 生态系统"],[579,"edge","n.","n. 边缘；锋；刃 v. 使锋利；使侧着移动"],[580,"edit","v.","v. 编辑；剪辑"],[581,"edition","n.","n. 版次；版本"],[582,"editor","n.","n. 编辑（者）；剪辑员"],[583,"educational","adj.","adj. 教育的；有教育意义的"],[584,"educator","n.","n. 教育家；教育者"],[585,"effect","n.","n. 影响；作用；效果 v. 引起；实现；使生效"],[586,"effective","adj.","adj. 有效的；生效的"],[587,"efficiency","n.","n. 效率；功效"],[588,"efficient","adj.","adj. 效率高的"],[589,"effort","n.","n. 努力；尽力"],[590,"elderly","adj.","adj. 年老的；年长的"],[591,"elect","v.","v. 选举；选择"],[592,"election","n.","n. 选举；当选"],[593,"electric","adj.","adj. 电的；用电的"],[594,"electricity","n.","n. 电学；电力"],[595,"electronic","adj.","adj. 电子的"],[596,"electronics","n.","n. 电子学；电子器件"],[597,"element","n.","n. 元素；要素；成分"],[598,"elementary","adj.","adj. 基本的；初级的"],[599,"eliminate","v.","v. 消除；排除；淘汰"],[600,"elimination","n.","n. 排除；消灭；消除"],[601,"elite","n.","n. （社会）精英；上层人士 adj. 精英的；出类拔萃的"],[602,"elsewhere","adv.","adv. 在别处；到别处"],[603,"embarrass","v.","v. 使窘迫；使尴尬"],[604,"embed","v.","v. （使）插入；（使）嵌入"],[605,"embrace","v.","v. 拥抱；包围；囊括 n. 拥抱"],[606,"emerge","v.","v. 浮现；显露；暴露"],[607,"emergency","n.","n. 紧急情况"],[608,"emission","n.","n. 散发；排放；放射"],[609,"emotion","n.","n. 情绪；情感"],[610,"emotional","adj.","adj. 感情的；情绪的"],[611,"emphasis","n.","n. 强调；重点"],[612,"emphasize","v.","v. 强调；着重"],[613,"employ","v.","v. 雇佣；使用"],[614,"employee","n.","n. 雇员；受雇者"],[615,"employer","n.","n. 雇主"],[616,"employment","n.","n. 就业；雇佣；职业"],[617,"empty","adj.","adj. 空的；无意义的 v. 倒空；变空"],[618,"enable","v.","v. 使能够；使可能"],[619,"encounter","v.","v. 遭遇；遇到；邂逅 n. 遭遇"],[620,"endangered","adj.","adj. 濒临灭绝的；有灭绝危险的 v. 使遭危险；危害；危及"],[621,"endless","adj.","adj. 无穷的；无尽的"],[622,"endure","v.","v. 忍受；忍耐"],[623,"enemy","n.","n. 敌人；敌军"],[624,"energy","n.","n. 能源；能量；精力"],[625,"engage","v.","v. 参与；从事；吸引"],[626,"engagement","n.","n. 订婚；约定；约会"],[627,"engine","n.","n. 发动机；引擎"],[628,"engineer","n.","n. 工程师；机械师 v. 设计（工程）；策划"],[629,"engineering","n.","n. 工程；工程学"],[630,"enhance","v.","v. 提高；增强"],[631,"enjoyable","adj.","adj. 令人愉快的；可享受的"],[632,"enormous","adj.","adj. 巨大的；庞大的；大量的"],[633,"enrich","v.","v. 使富裕；使富足"],[634,"enroll","v.","v. 登记；注册；招收"],[635,"ensure","v.","v. 确保；保证；担保"],[636,"entail","v.","v. 需要；使…必然发生"],[637,"enterprise","n.","n. 事业；企业；进取心"],[638,"enthusiasm","n.","n. 热情；热心；热忱"],[639,"enthusiastic","adj.","adj. 充满热情的；热心的"],[640,"entire","adj.","adj. 全部的；整个的；完全的"],[641,"entirely","adv.","adv. 完全地；全部地；彻底地"],[642,"entitle","v.","v. 授权；命名；给...权利（或资格）"],[643,"entrepreneur","n.","n. 企业家；创业者；承包人"],[644,"environmentalist","adj.","adj. 环境的；有关环境的 n. 环境保护论者"],[645,"equal","adj.","adj. 相等的；同等的 v. 等于；比得上 n. 同等的人；相等物"],[646,"equality","n.","n. 同等；平等"],[647,"equally","adv.","adv. 平等地；同样地；相等地"],[648,"equip","v.","v. 装备；配备"],[649,"equipment","n.","n. 设备；装备"],[650,"era","n.","n. 时代；纪元"],[651,"error","n.","n. 错误；差错"],[652,"escape","v.","v. 逃避；逃走 n. 逃脱；逃避"],[653,"especially","adv.","adv. 尤其；特别；专门"],[654,"essay","n.","n. 散文；文章；尝试 v. 企图；尝试"],[655,"essence","n.","n. 本质；精髓；香精"],[656,"essential","adj.","adj. 必需的；基本的；本质的 n. 必需品"],[657,"establish","v.","v. 建立；确立；制订"],[658,"establishment","n.","n. 建立；机构"],[659,"estimate","v.","v. 估算；估价 n. 估价；估算"],[660,"evaluate","v.","v. 估价；评价"],[661,"evaluation","n.","n. 评价；评估；估价"],[662,"event","n.","n. 事件；大事；比赛项目"],[663,"eventually","adv.","adv. 最后；终于"],[664,"evidence","n.","n. 证据；证明"],[665,"evil","n.","n. 邪恶；罪恶 adj. 恶毒的"],[666,"evolution","n.","n. 进化；演变；发展"],[667,"evolutionary","adj.","adj. 进化的；发展的；演变的"],[668,"evolve","v.","v. 形成；演变；进化"],[669,"exact","adj.","adj. 精确的；准确的 v. 强求；急需；要求"],[670,"exactly","adv.","adv. 确切地；准确地；正是"],[671,"exaggerate","v.","v. 夸张；夸大"],[672,"examine","v.","v. 检验；审查；调查"],[673,"exceed","v.","v. 超过；超出"],[674,"excellent","adj.","adj. 优秀的；杰出的；卓越的"],[675,"except","conj.","conj. 除了；只是 v. 不计；把…除外 prep. 除了；除外"],[676,"excess","n.","n. 过度；超过；过量 adj. 多余的；过多的"],[677,"excessive","adj.","adj. 过度的；过分的"],[678,"exchange","n.","n. 交换；交易所；兑换 v. 交换；兑换"],[679,"exclude","v.","v. 排除；排斥"],[680,"excuse","n.","n. 饶恕；借口；致歉 v. 宽恕；原谅；辩解"],[681,"executive","n.","n. 决策人；行政官；管理人员 adj. 行政的；决策的"],[682,"exert","v.","v. 运用；施加"],[683,"exhaust","v.","v. 耗尽；用完；使筋疲力尽 n. 排气管；废气"],[684,"exhibit","v.","v. 展览；陈列；展示 n. 展品；展览"],[685,"exhibition","n.","n. 展览；展出"],[686,"exist","v.","v. 存在；生存；活着"],[687,"existence","n.","n. 存在；生存"],[688,"existing","adj.","adj. 现存的；现行的 v. 存在；生存"],[689,"exotic","adj.","adj. 外来的；外国来的；奇异的"],[690,"expand","v.","v. 扩大；膨胀；更充分地阐述"],[691,"expansion","n.","n. 扩张；扩充"],[692,"expect","v.","v. 期待；期望；预期"],[693,"expectation","n.","n. 期待；预料"],[694,"expense","n.","n. 费用；开支"],[695,"expensive","adj.","adj. 昂贵的"],[696,"experiment","n.","n. 实验；试验 v. 做试验；进行实验"],[697,"experimental","adj.","adj. 以实验为基础的；实验性的"],[698,"expert","n.","n. 专家；行家 adj. 老练的；内行的；专门的"],[699,"expertise","n.","n. 专门技能；专门知识"],[700,"explain","v.","v. 解释；说明；阐明"],[701,"explanation","n.","n. 解释；说明；阐述"],[702,"exploitation","n.","n. 开发；开采；剥削"],[703,"exploration","n.","n. 探索；勘探；探险"],[704,"explore","v.","v. 探索；勘探"],[705,"explorer","n.","n. 探险者；勘探者"],[706,"export","v.","v. 输出；出口 n. 输出；出口"],[707,"expose","v.","v. 暴露；揭露；使遭受"],[708,"exposure","n.","n. 暴露；显露；揭露"],[709,"express","v.","v. 表达；表示 n. 特快列车；快件服务 adj. 明确的"],[710,"expression","n.","n. 表达；表情；措辞"],[711,"extend","v.","v. 扩展；延长；提供"],[712,"extended","adj.","adj. 延伸的；延长的；扩大范围的"],[713,"extensive","adj.","adj. 广大的；广阔的；广泛的"],[714,"extent","n.","n. 长度；广度；程度"],[715,"external","adj.","adj. 外部的；外界的"],[716,"extinct","adj.","adj. 灭绝的；熄灭的；绝种的"],[717,"extinction","n.","n. 灭绝；消亡"],[718,"extra","adj.","adj. 额外的 adv. 额外地 n. 额外的事物"],[719,"extracurricular","adj.","adj. 正课以外的；课外的"],[720,"extreme","adj.","adj. 极度的；非常的；末端的 n. 极端；极端的事物"],[721,"extremely","adv.","adv. 非常地；极其地；极端地"],[722,"facilitate","v.","v. 使容易；使便利；促进"],[723,"facility","n.","n. 设施；特定场所；特色功能"],[724,"factor","n.","n. 因素；要素；因数 v. 把…因素包括进去；分解成因子；做代理商（或管家）"],[725,"factory","n.","n. 工厂；制造厂"],[726,"faculty","n.","n. 才能；能力；全体教员"],[727,"fail","v.","v. 失败；不及格；无法做到 n. 失败；不及格"],[728,"failure","n.","n. 失败"],[729,"fair","adj.","adj. 公平的；合理的；相当大的 n. 交易会；展销会；集市"],[730,"fairly","adv.","adv. 公正地；相当地；简直"],[731,"fake","n.","n. 赝品；假货；冒充者 v. 伪造；假装；冒充 adj. 假的；冒充的；伪造的"],[732,"fall","v.","v. 下降；跌倒 n. 落下；跌落；秋天"],[733,"familiar","adj.","adj. 熟悉的"],[734,"fan","n.","n. 风扇；粉丝 v. 煽动；吹拂"],[735,"fancy","n.","n. 幻想；想象力；爱好 adj. 花哨的；昂贵的；新奇的 v. 想象；设想；想要"],[736,"farmland","n.","n. 农田；耕地"],[737,"fascinating","adj.","adj. 极有吸引力的；迷人的"],[738,"fashion","n.","n. 时尚；流行；姿态 v. 制作；把...塑造成；使适应"],[739,"fashionable","adj.","adj. 流行的；时髦的"],[740,"fatal","adj.","adj. 致命的；灾难性的"],[741,"fatigue","n.","n. 疲乏；劳累"],[742,"fault","n.","n. 故障；过错；缺陷 v. 发现错误；找出缺点"],[743,"favor","n.","n. 喜爱；赞同；好感 v. 赞成；有利于；偏爱"],[744,"favorable","adj.","adj. 赞成的；有利的；嘉许的"],[745,"fear","v.","v. 害怕；惧怕 n. 害怕；惧怕"],[746,"feature","n.","n. 特征；报刊特写 v. 以…为特色；是…的重要组成；放映"],[747,"federal","adj.","adj. 联邦的；联邦制的；联邦政府的"],[748,"fee","n.","n. 费用"],[749,"feed","v.","v. 喂；吃；饲养 n. 饲养；喂养"],[750,"feedback","n.","n. 反馈"],[751,"fellow","n.","n. （组织的）会员；家伙；同事 adj. 同类的；同事的"],[752,"female","n.","n. 女性；雌性 adj. 女性的；雌性的"],[753,"fiction","n.","n. 小说；虚构"],[754,"field","n.","n. 田地；领域；场地 v. 处理；应付（问题、电话等）"],[755,"fierce","adj.","adj. 凶猛的；凶狠的"],[756,"figure","n.","n. 数字；身材；重要或有名的人物 v. 计算；认为；弄懂"],[757,"file","n.","n. 文件；档案；锉 v. 把…归档；用锉刀锉；提出（离婚诉讼或其他讼案）"],[758,"fill","v.","v. 填充；装满；充满"],[759,"finance","n.","n. 金融；财务 v. 提供资金"],[760,"financial","adj.","adj. 财政的；金融的"],[761,"finding","n.","n. 裁决；调查发现 v. 找到；发现"],[762,"firm","n.","n. 公司；商行 adj. 坚固的；结实的"],[763,"fiscal","adj.","adj. 财政的；国库的"],[764,"fit","adj.","adj. 健康的；适合的 v. 符合；合身"],[765,"fix","v.","v. 修理；固定；确定"],[766,"flat","adj.","adj. 平坦的；扁平的；平淡无味的 n. 公寓；平坦部分 adv. 直接地"],[767,"flexible","adj.","adj. 灵活的；柔韧的"],[768,"flight","n.","n. 飞行；航班；鸟群"],[769,"float","v.","v. 浮动；漂浮"],[770,"flood","n.","n. 洪水；水灾 v. 淹没；泛滥"],[771,"flow","n.","n. 流动 v. 流动"],[772,"focus","n.","n. 中心点；焦点 v. 集中；聚焦"],[773,"folk","n.","n. 人们；人民 adj. 民间的；普通平民的"],[774,"force","n.","n. 力；力量；武力 v. 强迫；促使；推动"],[775,"foreign","adj.","adj. 外国的；外来的"],[776,"form","n.","n. 形式；表格；形状 v. 组成；建立"],[777,"formal","adj.","adj. 正式的；正规的"],[778,"format","n.","n. 版式；开本；格式 v. 格式化；安排…的格局"],[779,"former","adj.","adj. 以前的；前者的 n. 模子"],[780,"formula","n.","n. 公式；配方；方案"],[781,"formulate","v.","v. 规划；制定；系统地阐述"],[782,"fortune","n.","n. 命运；财产；运气"],[783,"forum","n.","n. 古罗马城镇的广场；论坛；讨论会"],[784,"forward","adv.","adv. 向前；前进 v. 发送；转交；促进 adj. 向前的；前进的"],[785,"fossil","n.","n. 化石；守旧的事物"],[786,"foster","v.","v. 培养；助长；抚养"],[787,"found","v.","v. 建立；创建 v. 找到；发现；认为"],[788,"foundation","n.","n. 创建；基础；根据"],[789,"founder","n.","n. 创办者 v. 失败；沉没；使（马）摔倒"],[790,"frame","n.","n. 框架；结构；骨架 v. 制定；框住；陷害"],[791,"freedom","n.","n. 自由"],[792,"frequent","adj.","adj. 频繁的；经常发生的"],[793,"freshman","n.","n. 大一新生"],[794,"front","n.","n. 前面；前线 adj. 前面的"],[795,"frustration","n.","n. 沮丧；受挫；挫败"],[796,"fuel","n.","n. 燃料；燃油；刺激因素 v. 加燃料；加剧"],[797,"fully","adv.","adv. 完全地；充分地；彻底地"],[798,"function","n.","n. 功能；职责；函数 v. 起作用；运行；行使职责"],[799,"fund","n.","n. 基金；资金 v. 提供资金"],[800,"fundamental","adj.","adj. 基本的；基础的；根本的 n. 基本原则；基本原理"],[801,"funding","n.","n. 资金；款项；拨款 v. 提供资金"],[802,"further","adv.","adv. 更远；进一步；此外 adj. 附加的；更多的 v. 促进；推动"],[803,"furthermore","adv.","adv. 而且；此外"],[804,"gadget","n.","n. 小配件；小器具"],[805,"gain","v.","v. 获得；增加 n. 获得；增益"],[806,"gap","n.","n. 缺口；缝隙；差距"],[807,"gas","n.","n. 气体；气态；汽油"],[808,"gather","v.","v. 聚集；集合"],[809,"gender","n.","n. 性别；（语法）性"],[810,"gene","n.","n. 基因"],[811,"general","adj.","adj. 总的；普遍的；一般的 n. 将军"],[812,"generally","adv.","adv. 通常地；一般地"],[813,"generate","v.","v. 产生；引起；发（热、电）"],[814,"generation","n.","n. 代；辈；产生"],[815,"generous","adj.","adj. 慷慨的；大方的"],[816,"genetic","adj.","adj. 基因的；遗传学的"],[817,"genius","n.","n. 天才；天赋"],[818,"genuine","adj.","adj. 真正的；真诚的"],[819,"geological","adj.","adj. 地质学的；地质上的"],[820,"giant","n.","n. 巨人；伟人 adj. 巨大的；伟大的"],[821,"glad","adj.","adj. 高兴的；欢乐的"],[822,"global","adj.","adj. 全球的"],[823,"globalization","n.","n. 全球化"],[824,"goal","n.","n. 目标；进球得分；球门"],[825,"govern","v.","v. 统治；治理；控制"],[826,"grade","n.","n. 等级；年级；级别 v. 分等级；给…评分"],[827,"gradually","adv.","adv. 渐渐地；逐步地"],[828,"graduate","n.","n. 大学毕业生；学士学位获得者 v. 毕业"],[829,"graduation","n.","n. 毕业；毕业典礼"],[830,"grain","n.","n. 谷物；颗粒"],[831,"grand","adj.","adj. 壮丽的；堂皇的；痛快的 n. 一千美元（或英镑）；大钢琴"],[832,"grant","v.","v. 允许；承认；授予 n. 授予物；补助金"],[833,"grass","n.","n. 草；草地；大麻 v. 使吃草；放牧；告发"],[834,"greatly","adv.","adv. 非常；大大地；很"],[835,"greenhouse","n.","n. 温室；玻璃暖房"],[836,"grim","adj.","adj. 严厉的；严峻的；冷酷无情的"],[837,"grocery","n.","n. 食品杂货店"],[838,"gross","adj.","adj. 总的；严重的；恶心的"],[839,"ground","n.","n. 地面；土地；场地 v. 磨碎"],[840,"growth","n.","n. 生长；增长"],[841,"guarantee","v.","v. 保证；确保 n. 保证；保证书"],[842,"guard","n.","n. 保卫；警卫 v. 守卫；警戒"],[843,"guest","n.","n. 客人；宾客 v. 做客；做特邀嘉宾；做客串"],[844,"guidance","n.","n. 指导；引导"],[845,"guide","v.","v. 指导；指引 n. 指南；向导；导游"],[846,"guideline","n.","n. 指导路线；方针"],[847,"guilty","adj.","adj. 有罪的；内疚的"],[848,"guy","n.","n. 家伙；人"],[849,"habitat","n.","n. 栖息地；居留地；产地"],[850,"hall","n.","n. 大厅；礼堂；门厅"],[851,"halt","n.","n. 停顿下来 v. 暂停；中断"],[852,"handful","n.","n. 一把；少数"],[853,"handle","v.","v. 处理；操纵 n. 柄；把手"],[854,"hang","v.","v. 悬挂；吊；绞死 n. 悬挂；绞刑"],[855,"hardly","adv.","adv. 几乎没有；简直不"],[856,"harm","v.","v. 伤害；损害 n. 伤害；损害"],[857,"harsh","adj.","adj. 严厉的；严酷的；刺耳的"],[858,"harvest","n.","n. 收获；收成 v. 收获；收割"],[859,"hazard","n.","n. 危害；危险 v. 冒险；使遭受危险"],[860,"headline","n.","n. 大字标题；头条"],[861,"heat","n.","n. 热度；热 v. 加热"],[862,"heavily","adv.","adv. 沉重地；猛烈地"],[863,"hence","adv.","adv. 因此；从此以后"],[864,"hesitant","adj.","adj. 犹豫的；踌躇的"],[865,"hide","v.","v. 隐藏；躲藏；隐瞒 n. 兽皮；人皮"],[866,"highlight","n.","n. 最突出的部分 v. 突出；强调；高光"],[867,"highly","adv.","adv. 非常；高度地"],[868,"hill","n.","n. 丘陵；小山"],[869,"hinder","v.","v. 阻碍；打扰"],[870,"hint","n.","n. 暗示；提示；有益的建议 v. 暗示；提示"],[871,"hire","v.","v. 雇用；租用"],[872,"historic","adj.","adj. 有历史意义的；历史性的"],[873,"historical","adj.","adj. 有关历史的"],[874,"hit","v.","v. 打；击；碰撞 n. 打；击；碰撞"],[875,"holder","n.","n. 持有者；拥有者；支架"],[876,"honest","adj.","adj. 诚实的；正直的；坦率的"],[877,"honor","n.","n. 荣誉；荣幸；尊敬 v. 尊敬；给予荣誉；履行"],[878,"horrible","adj.","adj. 恐怖的；可怕的"],[879,"host","n.","n. 主人；主持人 v. 主持"],[880,"hostile","adj.","adj. 敌意的；敌对的"],[881,"household","n.","n. 家庭 adj. 家庭的；家喻户晓的"],[882,"housing","n.","n. 住房供给 v. 收容"],[883,"humanity","n.","n. 人性；人类；人道"],[884,"hunt","v.","v. 打猎；搜寻"],[885,"hypothesis","n.","n. 假设；假说"],[886,"ideal","adj.","adj. 理想的 n. 理想；典范"],[887,"identical","adj.","adj. 相同的；同样的"],[888,"identify","v.","v. 鉴定；识别；确认"],[889,"identity","n.","n. 身份；特性；一致"],[890,"ignore","v.","v. 忽视；忽略；置之不理"],[891,"illegal","adj.","adj. 非法的；违法的"],[892,"illustrate","v.","v. （举例）说明；给（书籍、杂志等）加插图"],[893,"image","n.","n. 图像；形象；画面"],[894,"imagination","n.","n. 想象；想象力"],[895,"immediate","adj.","adj. 立即的；即刻的；最近的"],[896,"immigrant","adj.","adj. 移民的 n. 移民"],[897,"immigration","n.","n. 移民；移居"],[898,"impact","n.","n. 冲击（力）；影响力 v. 冲击；撞击；对…产生影响"],[899,"implement","v.","v. 实施；执行 n. 工具；器具"],[900,"implication","n.","n. 可能的影响（或后果）；暗示；含意"],[901,"imply","v.","v. 暗示；意味"],[902,"import","n.","n. 进口；输入；重要性 v. 进口；输入"],[903,"impose","v.","v. 强加；征收；施加影响"],[904,"impress","v.","v. 使留下深刻印象；使铭记"],[905,"impression","n.","n. 印象"],[906,"impressive","adj.","adj. 令人印象深刻的；令人钦佩的"],[907,"improve","v.","v. 改善；改进；提高"],[908,"improvement","n.","n. 改进；改善"],[909,"inability","n.","n. 无能；无力"],[910,"inadequate","adj.","adj. 不充分的；不足的；能力不足的"],[911,"incentive","n.","n. 刺激；诱因；动机"],[912,"incident","n.","n. 事件；事变"],[913,"incline","v.","v. 倾斜；倾向 n. 斜坡"],[914,"income","n.","n. 收入；收益；所得"],[915,"incorporate","v.","v. 合并；包含；组成公司"],[916,"increasingly","adv.","adv. 愈加；日益"],[917,"incredibly","adv.","adv. 难以置信地；不可思议地；极其"],[918,"indeed","adv.","adv. 的确；真正地"],[919,"independence","n.","n. 独立；自主"],[920,"independent","adj.","adj. 独立的；自主的"],[921,"index","n.","n. 指标；索引；指数"],[922,"indicate","v.","v. 指示；表明"],[923,"indication","n.","n. 指示；迹象；表示"],[924,"indicator","n.","n. 指示器；指标；指针"],[925,"indifferent","adj.","adj. 不感兴趣的；不关心的；（水平）一般的"],[926,"indispensable","adj.","adj. 不可缺少的"],[927,"individual","n.","n. 个人 adj. 单独的；个别的"],[928,"indulge","v.","v. 放任；沉溺；使满足"],[929,"industrial","adj.","adj. 工业的；产业的"],[930,"industry","n.","n. 工业；产业；行业"],[931,"inequality","n.","n. 不平等；不平衡；不平均"],[932,"inevitable","adj.","adj. 不可避免的；必定的"],[933,"infer","v.","v. 推断；推知"],[934,"inferior","adj.","adj. 较差的；次等的；下级的"],[935,"inflation","n.","n. 膨胀；充气；通货膨胀"],[936,"influential","adj.","adj. 有影响力的"],[937,"inform","v.","v. 通知；告知"],[938,"infrastructure","n.","n. 基础设施"],[939,"ingredient","n.","n. 成分；配料；要素"],[940,"initial","adj.","adj. 最初的；开始的 n. 首字母 v. 用姓名的首字母签名于"],[941,"initiative","n.","n. 自发性；主动权；倡议"],[942,"injure","v.","v. 损害；伤害"],[943,"injury","n.","n. 损伤；伤害"],[944,"innovate","v.","v. 改革；创新"],[945,"innovation","n.","n. 创新；改革"],[946,"innovative","adj.","adj. 革新的；新颖的；富有革新精神的"],[947,"inquiry","n.","n. 调查；询问"],[948,"insect","n.","n. 昆虫"],[949,"insight","n.","n. 洞察力；见识"],[950,"insist","v.","v. 坚持；坚决要求"],[951,"inspire","v.","v. 鼓舞；激励；启迪"],[952,"install","v.","v. 安装；安置；（以正式仪式）使就职"],[953,"instance","n.","n. 例子；场合；情况"],[954,"instant","n.","n. 瞬间；立即 adj. 立即的；即时的"],[955,"instantly","adv.","adv. 立即；马上 conj. 一…就"],[956,"institute","n.","n. 协会；学院；研究所 v. 建立；制定；开创"],[957,"institution","n.","n. 机构；风俗；制度"],[958,"instruct","v.","v. 教授；教导；指示"],[959,"instruction","n.","n. 指示；教授；指令"],[960,"instrument","n.","n. 仪器；乐器；工具"],[961,"insufficient","adj.","adj. 不充分的；不足的"],[962,"insurance","n.","n. 保险"],[963,"intake","n.","n. 摄入量；吸入；摄入"],[964,"intellectual","adj.","adj. 智力的；明智的；有才智的 n. 知识分子"],[965,"intelligence","n.","n. 智力；才智；情报"],[966,"intelligent","adj.","adj. 有才智的；聪明的；明智的"],[967,"intend","v.","v. 打算；计划"],[968,"intense","adj.","adj. 强烈的；剧烈的；紧张的"],[969,"intensive","adj.","adj. 密集的；增强的"],[970,"intention","n.","n. 意图；打算"],[971,"interact","v.","v. 互相作用；互相影响；交流"],[972,"interaction","n.","n. 相互作用；相互影响；互动交流"],[973,"interactive","adj.","adj. 相互作用的；交互的"],[974,"interfere","v.","v. 干涉；干预；干扰"],[975,"internal","adj.","adj. 内部的；国内的 n. 内脏；本质"],[976,"interpersonal","adj.","adj. 人与人之间的；人际关系的"],[977,"interpret","v.","v. 口译；把…理解为；解释"],[978,"interpretation","n.","n. 解释；口译"],[979,"intervention","n.","n. 干预；介入；调解"],[980,"interview","n.","n. 面试；访谈 v. 面试；接见"],[981,"intimate","adj.","adj. 亲密的；私密的 n. 密友"],[982,"introduce","v.","v. 介绍；引进"],[983,"introduction","n.","n. 介绍；引言；传入"],[984,"invade","v.","v. 侵犯；侵略"],[985,"invent","v.","v. 发明；创造"],[986,"invention","n.","n. 发明；创造"],[987,"invest","v.","v. 投资；投入"],[988,"investigate","v.","v. 调查；研究"],[989,"investment","n.","n. 投资"],[990,"investor","n.","n. 投资者"],[991,"invite","v.","v. 邀请；招致"],[992,"involve","v.","v. 牵涉；包括"],[993,"involvement","n.","n. 参与；投入；加入"],[994,"irrelevant","adj.","adj. 无关紧要的；不相关的"],[995,"isolated","adj.","adj. 隔离的；孤独的；偏远的 v. 使孤立；使隔离"],[996,"issue","n.","n. 问题；发行（物）；重要议题 v. 发行；发表；流出"],[997,"item","n.","n. 项目；条款；一则"],[998,"jam","n.","n. 果酱；堵塞；困境 v. 挤紧；使堵塞；猛地做"],[999,"joint","n.","n. 关节；接合处 adj. 联合的；共同的；合办的"],[1000,"journal","n.","n. 日志；日记；期刊"],[1001,"journalist","n.","n. 新闻工作者"],[1002,"journey","n.","n. 旅行；旅程"],[1003,"judge","n.","n. 法官；裁判 v. 判断；评判；审判"],[1004,"junior","adj.","adj. 年幼的；（职位或等级）较低的；（高中、大学的）三年级学生 n. 年幼者"],[1005,"junk","n.","n. 废旧杂物；无价值的东西"],[1006,"justice","n.","n. 公正；公平；法官"],[1007,"justify","v.","v. 替...辩护；证明...正当"],[1008,"keen","adj.","adj. 热心的；敏锐的；渴望的"],[1009,"kind","n.","n. 种类 adj. 善良的；和蔼的"],[1010,"known","adj.","adj. 知名的；出了名的；已知的 v. 知道；认识"],[1011,"lab","n.","n. 实验室；研究室"],[1012,"label","n.","n. 标签 v. 用标签标明"],[1013,"labor","n.","n. 劳动；体力劳动；劳工 v. 辛勤工作；分娩"],[1014,"laboratory","n.","n. 实验室"],[1015,"lack","v.","v. 缺乏；短缺 n. 缺乏；短缺"],[1016,"ladder","n.","n. 梯子；阶梯"],[1017,"lag","v.","v. 缓慢移动；滞后 n. 时间间隔"],[1018,"lake","n.","n. 湖；湖泊"],[1019,"laptop","n.","n. 便携式电脑；笔记本电脑"],[1020,"largely","adv.","adv. 大部分地；主要地；大量地"],[1021,"lasting","adj.","adj. 持久的；恒久的 v. 持续"],[1022,"latter","adj.","adj. 后期的；后来的；后面的 n. 后者（the~）"],[1023,"launch","v.","v. 发射；发起；启动 n. 发射；投掷；启动"],[1024,"lay","v.","v. 放置；安放；下蛋 adj. 外行的；非专业的 v. 躺"],[1025,"leadership","n.","n. 领导才能；领导地位"],[1026,"least","adj.","adj. 最少的；最小的 adv. 最小；最少 n. 最小；最少"],[1027,"lecture","n.","n. 讲课；演讲；训话 v. 讲课；训斥"],[1028,"legal","adj.","adj. 法律的；合法的"],[1029,"legislation","n.","n. 立法；法规"],[1030,"leisure","n.","n. 空闲；闲暇"],[1031,"lend","v.","v. 借给；借出；贷（款）"],[1032,"length","n.","n. 长度"],[1033,"lessen","v.","v. 减少；减轻；缩小"],[1034,"level","n.","n. 水平；等级；程度 adj. 同高的；平齐的 v. 使平坦；瞄准"],[1035,"liberal","adj.","adj. 开明的；自由主义的；慷慨的 n. 自由主义者；自由党党员"],[1036,"lifelong","adj.","adj. 终身的；毕生的"],[1037,"lifestyle","n.","n. 生活方式"],[1038,"lifetime","n.","n. 寿命；一生；终身"],[1039,"lift","v.","v. 举起；抬起；提起 n. 电梯；搭便车"],[1040,"likely","adj.","adj. 可能的"],[1041,"limit","n.","n. 限制 v. 限制"],[1042,"limitation","n.","n. 限制；局限性"],[1043,"limited","adj.","adj. 有限的 v. 限制"],[1044,"link","n.","n. 连接物；链环 v. 连接；联系"],[1045,"liquid","n.","n. 液体 adj. 液体的；液态的"],[1046,"list","n.","n. 表；名单 v. 列出；（船）倾斜"],[1047,"literacy","n.","n. 识字；有读写能力；有文化"],[1048,"literally","adv.","adv. 字面上；逐字地；确实地"],[1049,"literature","n.","n. 文学；文学作品"],[1050,"load","n.","n. 负荷；载重 v. 承载；载入"],[1051,"loan","n.","n. 贷款；借出 v. 借给"],[1052,"local","adj.","adj. 局部的；本地的"],[1053,"locate","v.","v. 位于；查找…的地点；确定…的位置"],[1054,"location","n.","n. 位置；地点"],[1055,"long-term","adj.","adj. 长期的"],[1056,"longevity","n.","n. 长寿；寿命"],[1057,"loss","n.","n. 损失；丢失；亏损"],[1058,"lower","v.","v. 降低；减少 adj. 较低的；下游的 adj. 更低的"],[1059,"luxury","n.","n. 奢华；奢侈品；难得的享受"],[1060,"magnify","v.","v. 放大；扩大；夸大"],[1061,"maintain","v.","v. 保持；坚持认为；维护"],[1062,"maintenance","n.","n. 维持；维修；保养"],[1063,"major","adj.","adj. 主要的；较多的；成年的 n. 主修课；成年人；少校 v. 主修"],[1064,"majority","n.","n. 大多数；大部分"],[1065,"maker","n.","n. 制造者；上帝；生产者"],[1066,"male","adj.","adj. 男性的；雄性的 n. 男性；雄性"],[1067,"manage","v.","v. 管理；设法做到；完成（困难的事）"],[1068,"management","n.","n. 管理；经营"],[1069,"mankind","n.","n. 人类"],[1070,"manner","n.","n. 方式；举止；礼节"],[1071,"manufacturer","n.","n. 制造商"],[1072,"manufacturing","n.","n. 制造业 adj. 制造的 v. 制造"],[1073,"margin","n.","n. 边缘；差额；净利润"],[1074,"marine","adj.","adj. 海的；与海有关的 n. 水兵；海军陆战队士兵；舰队"],[1075,"mark","n.","n. 记号；痕迹；分数 v. 做标记；（使）留痕迹；评分"],[1076,"marketing","n.","n. 营销；促销；销售活动"],[1077,"mass","n.","n. 大量；质量；团 adj. 大量的；大规模的"],[1078,"massive","adj.","adj. 大而重的；大规模的"],[1079,"master","n.","n. 主人；硕士；大师 v. 掌握；精通"],[1080,"match","n.","n. 比赛；火柴 v. 相配"],[1081,"material","n.","n. 材料；原料 adj. 物质的"],[1082,"mathematics","n.","n. 数学"],[1083,"matter","n.","n. 事情；物质；问题 v. 要紧"],[1084,"mature","adj.","adj. 成熟的；到期的；充分考虑的 v. 成熟；到期"],[1085,"maximum","n.","n. 最大限度；最大量 adj. 最多的；最大极限的"],[1086,"mean","v.","v. 意思是；打算；导致 adj. 低劣的；吝啬的；平均的 n. 平均数；中庸；居中"],[1087,"meaningful","adj.","adj. 意味深长的；有意义的"],[1088,"means","n.","n. 手段；方法；收入 v. 意思是；表示…的意思"],[1089,"meantime","n.","n. 期间；与此同时"],[1090,"meanwhile","adv.","adv. 与此同时；在此期间"],[1091,"measure","n.","n. 衡量；量度；措施 v. 测量；衡量；度量"],[1092,"mechanics","n.","n. 力学；机械学；构成法 n. 技工；机械师；机修工"],[1093,"mechanism","n.","n. 机制；机械装置"],[1094,"media","n.","n. 媒介；媒体"],[1095,"medical","adj.","adj. 医疗的；医术的"],[1096,"medicine","n.","n. 药；医学"],[1097,"member","n.","n. 成员；会员"],[1098,"mental","adj.","adj. 精神的；心理的"],[1099,"mention","v.","v. 提到；说到 n. 提及；说起"],[1100,"mere","adj.","adj. 仅仅的；只不过的"],[1101,"merely","adv.","adv. 仅仅；只不过"],[1102,"metal","n.","n. 金属"],[1103,"method","n.","n. 方法；办法"],[1104,"metric","adj.","adj. 米制的；公制的"],[1105,"middle-class","adj.","adj. 中产阶级的"],[1106,"might","v.","v. 可能；也许；应该 n. 威力；强大力量"],[1107,"migrate","v.","v. 迁移；移居；迁徙"],[1108,"migration","n.","n. 迁移；迁徙；转移"],[1109,"mile","n.","n. 英里"],[1110,"milestone","n.","n. 里程碑；重要事件"],[1111,"military","adj.","adj. 军事的；军用的 n. 军队；武装力量"],[1112,"mind","n.","n. 心；头脑；思路 v. 介意；专心于；注意"],[1113,"mine","n.","n. 矿；地雷 pron. 我的（东西） v. 采矿；埋地雷"],[1114,"mineral","n.","n. 矿物；矿物质"],[1115,"miniature","adj.","adj. 微型的；小型的 v. 使成小型 n. 微型"],[1116,"minimize","v.","v. 减到最少；使最小化"],[1117,"minimum","n.","n. 最小值 adj. 最小量的"],[1118,"minister","n.","n. 部长；大臣；牧师"],[1119,"minor","adj.","adj. 小的；次要的；轻微的 n. 未成年人"],[1120,"minority","n.","n. 少数；少数民族；未成年人"],[1121,"mislead","v.","v. 误导"],[1122,"mission","n.","n. 使命；任务；使团"],[1123,"mix","v.","v. 混合；掺入；合成 n. 混合；结合"],[1124,"mobile","adj.","adj. 可移动的；易变的"],[1125,"mobility","n.","n. 流动性；灵活性；迁移率"],[1126,"mode","n.","n. 方式；样式；模式"],[1127,"modest","adj.","adj. 谦虚的；不多的；适度的"],[1128,"modification","n.","n. 修改；变更；改进"],[1129,"modify","v.","v. 更改；修饰"],[1130,"monetary","adj.","adj. 货币的；金钱的"],[1131,"monitor","n.","n. 监视器；班长；显示器 v. 监控；监视"],[1132,"monthly","adj.","adj. 每月的；每月一次的 adv. 每月一次；每个月 n. 月刊"],[1133,"mood","n.","n. 心情；情绪；气氛"],[1134,"moral","adj.","adj. 道德的；道义上的 n. 寓意；道德"],[1135,"moreover","adv.","adv. 而且；此外"],[1136,"mortgage","n.","n. 抵押；按揭 v. 抵押；按揭"],[1137,"mostly","adv.","adv. 主要地；大部分；通常"],[1138,"motivate","v.","v. 引起动机；激发；激励"],[1139,"motivated","adj.","adj. 有动机的；有积极性的 v. 引起动机；激发"],[1140,"motivation","n.","n. 动机；动力"],[1141,"motor","n.","n. 马达；发动机；机动车"],[1142,"movement","n.","n. 活动；运动；动作"],[1143,"multiple","adj.","adj. 多样的；多种的 n. 倍数"],[1144,"multiply","v.","v. 乘；增加；繁殖"],[1145,"multitude","n.","n. 大量；众多；群众"],[1146,"muscle","n.","n. 肌肉；权力；影响力"],[1147,"mystery","n.","n. 谜；难以理解的事物；神秘感"],[1148,"myth","n.","n. 神话；虚构故事；错误观念"],[1149,"narrow","adj.","adj. 狭窄的；窄小的 v. 使窄小"],[1150,"nation","n.","n. 国家；民族"],[1151,"national","adj.","adj. 国家的；民族的"],[1152,"nationwide","adj.","adj. 全国性的 adv. 在全国范围内"],[1153,"native","adj.","adj. 本土的；当地的；天生的 n. 土著；本地人；本国人"],[1154,"naturally","adv.","adv. 自然地；理所当然地"],[1155,"navigate","v.","v. 导航；绕行；理解"],[1156,"nearly","adv.","adv. 几乎；将近；差不多"],[1157,"necessarily","adv.","adv. 必然地；不可避免地"],[1158,"necessity","n.","n. 需要；必需品"],[1159,"needy","adj.","adj. 贫穷的；缺乏的"],[1160,"negative","adj.","adj. 否定的；消极的；负面的 n. 否定的表达；负数；底片"],[1161,"neglect","v.","v. 疏忽；忽视；不予重视 n. 疏忽；大意"],[1162,"negotiate","v.","v. 谈判；协商；通过"],[1163,"negotiation","n.","n. 谈判；协商；磋商"],[1164,"neighborhood","n.","n. 街坊；四邻；街道"],[1165,"nervous","adj.","adj. 担忧的；焦虑的；紧张不安的"],[1166,"net","n.","n. 网；网状物 adj. 净余的；纯粹的"],[1167,"network","n.","n. 网络；网路；网状物"],[1168,"neuroscientist","n.","n. 神经科学家"],[1169,"noble","adj.","adj. 贵族的；高尚的 n. 贵族"],[1170,"nonetheless","adv.","adv. 尽管如此；仍然；可是"],[1171,"nonprofit","adj.","adj. 非盈利的"],[1172,"norm","n.","n. 准则；标准"],[1173,"normal","adj.","adj. 正常的；一般的"],[1174,"notice","n.","n. 注意；通知 v. 注意；留心；通知"],[1175,"notion","n.","n. 概念；观念；想法"],[1176,"novel","n.","n. （长篇）小说 adj. 新奇的；新颖的"],[1177,"nowadays","adv.","adv. 现在；现今；目前"],[1178,"nowhere","adv.","adv. 无处；哪里都不"],[1179,"numerous","adj.","adj. 许多的；众多的"],[1180,"nurse","n.","n. 护士；保姆 v. 护理；照料；喂奶"],[1181,"obesity","n.","n. 肥胖；肥胖症"],[1182,"object","n.","n. 物体；目的；对象 v. 反对；有意见；讨厌"],[1183,"objective","n.","n. 目标；目的 adj. 客观的"],[1184,"obligation","n.","n. 义务；责任"],[1185,"observation","n.","n. 观察；观测；注意"],[1186,"observe","v.","v. 观察；注意到；遵守"],[1187,"obsess","v.","v. 使困扰；使着迷"],[1188,"obstacle","n.","n. 障碍"],[1189,"obtain","v.","v. 获得；得到"],[1190,"obvious","adj.","adj. 明显的；显然的"],[1191,"obviously","adv.","adv. 显然；明显地"],[1192,"occasion","n.","n. 特殊场合；时机；机会 v. 导致；使发生"],[1193,"occasionally","adv.","adv. 偶尔；有时"],[1194,"occupy","v.","v. 占据；占有；占领"],[1195,"occur","v.","v. 发生；出现"],[1196,"odd","adj.","adj. 奇怪的；奇数的；临时的"],[1197,"odds","n.","n. 几率；可能的机会；不利条件"],[1198,"offer","n.","n. 提议；提供；报价 v. 提供；愿意"],[1199,"officer","n.","n. 军官；官员"],[1200,"official","n.","n. 官员；高级职员 adj. 官方的；正式的"],[1201,"old-fashioned","adj.","adj. 老式的；老派的；守旧的"],[1202,"ongoing","adj.","adj. 正在进行的"],[1203,"operate","v.","v. 操作；运转；施行手术"],[1204,"operation","n.","n. 操作；运行；手术"],[1205,"operator","n.","n. 操作员；接线员"],[1206,"opinion","n.","n. 意见；看法；观点"],[1207,"opportunity","n.","n. 机会；时机"],[1208,"oppose","v.","v. 反对；反抗"],[1209,"opposite","n.","n. 反面；对立面 adj. 对面的 prep. 与…相对 adv. 在相反的位置"],[1210,"opposition","n.","n. 反对；对立"],[1211,"optimistic","adj.","adj. 乐观的"],[1212,"option","n.","n. 选项；选择"],[1213,"order","n.","n. 顺序；条理；订单 v. 订购；命令；点餐"],[1214,"ordinary","adj.","adj. 普通的；平常的；一般的"],[1215,"organic","adj.","adj. 有机的；器官的"],[1216,"organization","n.","n. 组织；机构"],[1217,"organize","v.","v. 组织；安排"],[1218,"origin","n.","n. 起源；起因；出身"],[1219,"original","n.","n. 原件；原稿 adj. 原来的；原版的；新颖的"],[1220,"otherwise","adv.","adv. 否则；除此之外；在其他方面 adj. 相反的"],[1221,"ought","v.","v. 应当；应该；可能会"],[1222,"outcome","n.","n. 结果；成果"],[1223,"outdated","adj.","adj. 过时的；陈旧的"],[1224,"outline","n.","n. 轮廓；纲要 v. 描画轮廓；概述"],[1225,"outstanding","adj.","adj. 杰出的；尚未处理的"],[1226,"outweigh","v.","v. 大于；重于；超过"],[1227,"overall","adv.","adv. 全部；总计；大致上 n. （工作时穿的）罩衣 adj. 总的；全面的；总体的"],[1228,"overcome","v.","v. 克服；战胜"],[1229,"overlook","v.","v. 忽略；俯视"],[1230,"overseas","adj.","adj. 外国的；海外的 adv. 在国外；在海外"],[1231,"overuse","v.","v. 滥用；过度使用 n. 滥用；使用过度"],[1232,"overwhelm","v.","v. 使不知所措；使无法解决；击败"],[1233,"overwhelming","adj.","adj. 势不可挡的；压倒的；无法抗拒的 v. 淹没；覆盖；压倒"],[1234,"overwhelmingly","adv.","adv. 压倒性地；不可抵抗地"],[1235,"pace","n.","n. 一步；步伐；步速 v. 踱步；调整步调"],[1236,"pack","v.","v. 包装；收拾行李 n. 包裹；小包"],[1237,"package","n.","n. 包；包裹 v. 包装"],[1238,"painful","adj.","adj. 令人疼痛的"],[1239,"pair","n.","n. 一双；一对 v. （使）成对；（使）配对"],[1240,"panic","n.","n. 恐慌；惊恐 v. 使…惊慌；感到恐慌"],[1241,"paragraph","n.","n. 段落"],[1242,"parental","adj.","adj. 父母的；父的；母的"],[1243,"part-time","adj.","adj. 兼职的；部分时间的"],[1244,"participant","n.","n. 参与者；参加者"],[1245,"participate","v.","v. 参与；参加"],[1246,"participation","n.","n. 参与；参加"],[1247,"particular","adj.","adj. 特指的；特殊的；挑剔的 n. 细节；详情"],[1248,"particularly","adv.","adv. 特别；尤其"],[1249,"partly","adv.","adv. 部分地；在一定程度上"],[1250,"partner","n.","n. 合伙人；搭档"],[1251,"passenger","n.","n. 旅客；乘客"],[1252,"passion","n.","n. 激情；强烈情感"],[1253,"patent","n.","n. 专利；专利权；专利证书 adj. 有专利的；受专利保护的 v. 获得专利"],[1254,"path","n.","n. 道路；小路；小径"],[1255,"patience","n.","n. 耐心；忍耐"],[1256,"patient","adj.","adj. 有耐心的 n. 病人"],[1257,"pattern","n.","n. 模式；图案；样式 v. 形成图案；仿造"],[1258,"payment","n.","n. 支付；报酬"],[1259,"peak","n.","n. 高峰；顶峰；帽檐 v. 达到高峰；达到最高值 adj. 最高的；高峰期的"],[1260,"peer","v.","v. 凝视；盯着看；与...同等 n. 同等的人；同辈；贵族"],[1261,"penalty","n.","n. 惩罚；刑罚"],[1262,"per","prep.","prep. 每；每一"],[1263,"perceive","v.","v. 察觉；理解；发觉"],[1264,"percent","n.","n. 百分比；百分之"],[1265,"percentage","n.","n. 百分比；百分率"],[1266,"perception","n.","n. 感知；看法；洞察力"],[1267,"perform","v.","v. 表演；执行；履行"],[1268,"performance","n.","n. 表演；表现；性能"],[1269,"perhaps","adv.","adv. 或许；可能"],[1270,"period","n.","n. 时期；阶段"],[1271,"persist","v.","v. 坚持；持续"],[1272,"persistent","adj.","adj. 执着的；坚持的；持续的"],[1273,"personality","n.","n. 人格；个性；名人"],[1274,"personally","adv.","adv. 亲自地；就本人而言"],[1275,"perspective","n.","n. 视角；观点；（对事物的）合理判断"],[1276,"persuade","v.","v. 说服；劝说"],[1277,"phase","n.","n. 阶段；时期；（月亮或行星的）相位 v. 分阶段进行"],[1278,"phenomenon","n.","n. 现象；非凡的人或事；杰出的人"],[1279,"philosophy","n.","n. 哲学"],[1280,"physical","adj.","adj. 身体的；外观的；物质的 n. 体格检查"],[1281,"physicist","n.","n. 物理学家"],[1282,"physics","n.","n. 物理学"],[1283,"pile","n.","n. 桩；堆；摞 v. 堆放；叠放"],[1284,"pill","n.","n. 药丸；药片"],[1285,"pioneer","n.","n. 拓荒者；先驱者；创始者 v. 开拓；做先锋；倡导"],[1286,"plain","n.","n. 平原 adj. 简单明了的；朴素的"],[1287,"planet","n.","n. 行星"],[1288,"plant","n.","n. 植物；作物；车间 v. 种植；栽培；安置"],[1289,"plastic","n.","n. 塑料 adj. 塑料的；可塑的；做作的"],[1290,"platform","n.","n. 平台；站台；月台"],[1291,"pleasant","adj.","adj. 令人愉快的；合意的；宜人的"],[1292,"pleasure","n.","n. 快乐；高兴；愉快 v. 使高兴"],[1293,"plentiful","adj.","adj. 丰富的；充裕的"],[1294,"plenty","adj.","adj. 足够的 n. 充裕；富裕"],[1295,"plot","n.","n. 小块用地；图表；情节 v. 划分；设计情节；绘图"],[1296,"plunge","v.","v. 投入；跳入 n. 跳进；骤降"],[1297,"plus","prep.","prep. 加；加上 conj. 加；和 adj. 正的；加的 n. 加号；正数"],[1298,"pocket","n.","n. 口袋；衣袋；兜 v. 把…放进衣袋 adj. 袖珍的；小型的"],[1299,"poem","n.","n. 诗；诗篇"],[1300,"point","n.","n. 点；观点；要点 v. 指向；指出；瞄准"],[1301,"polar","adj.","adj. 极地的；两极的；对立的"],[1302,"policy","n.","n. 政策；方针"],[1303,"political","adj.","adj. 政治的；政权的"],[1304,"politician","n.","n. 政治家；政客"],[1305,"politics","n.","n. 政治；政治学"],[1306,"poll","n.","n. 民意调查 v. 获得（选票）；做民意调查"],[1307,"pollute","v.","v. 污染"],[1308,"pool","n.","n. 水塘；水池；美式撞球 v. 合伙经营；共用；汇集"],[1309,"pop","n.","n. 砰的一声；流行音乐 v. 发出砰的一声；突然地行动 adj. 流行的；通俗的 adv. 砰地"],[1310,"popularity","n.","n. 普及；流行"],[1311,"population","n.","n. 人口"],[1312,"portion","n.","n. 部分；一份 v. 分配；把…分成份额"],[1313,"portray","v.","v. 描写；描绘；饰演"],[1314,"pose","v.","v. 引起（问题、危险等）；提出；摆姿势 n. 姿势"],[1315,"position","n.","n. 位置；姿势；地位 v. 安置；定位"],[1316,"positive","adj.","adj. 积极的；正面的"],[1317,"possibility","n.","n. 可能性；可能"],[1318,"post","n.","n. 邮件；邮寄；职位 v. 邮寄；张贴；公布"],[1319,"potential","n.","n. 潜力 adj. 潜在的；可能的"],[1320,"pound","n.","n. 镑；英镑 v. 连续重击；捣碎"],[1321,"pour","v.","v. 倒；倾倒；蜂拥而来"],[1322,"poverty","n.","n. 贫困；短缺"],[1323,"practical","adj.","adj. 实际的；实践的；实用的"],[1324,"practice","n.","n. 练习；实践；惯常做法 v. 练习；从事；习惯做"],[1325,"praise","v.","v. 赞美；赞扬 n. 赞美；赞扬"],[1326,"precious","adj.","adj. 珍贵的；宝贵的"],[1327,"precise","adj.","adj. 准确的；确切的"],[1328,"precisely","adv.","adv. 精确地；准确地；恰好地"],[1329,"predict","v.","v. 预言；预测"],[1330,"prediction","n.","n. 预测；预言；预告"],[1331,"preference","n.","n. 偏爱；偏好；优先"],[1332,"prejudice","n.","n. 偏见；成见 v. 使有偏见；损害"],[1333,"preparation","n.","n. 准备；预备"],[1334,"presence","n.","n. 存在；在场；出席"],[1335,"present","n.","n. 目前；礼物 adj. 在场的；目前的 v. 呈现；提出"],[1336,"presentation","n.","n. 演出；展示；陈述"],[1337,"preserve","v.","v. 保存；保护；保持 n. （某群体）专有的活动；保护区"],[1338,"president","n.","n. 总统；总裁；主持人"],[1339,"press","v.","v. 按；压 n. 按；压；出版社"],[1340,"pressure","n.","n. 压力；压强；压迫 v. 对…施加压力"],[1341,"pretty","adj.","adj. 漂亮的 adv. 很；相当"],[1342,"prevent","v.","v. 防止；预防；妨碍"],[1343,"previous","adj.","adj. 先前的"],[1344,"price","n.","n. 价格；代价 v. 定价"],[1345,"pride","n.","n. 骄傲；自豪；自尊 v. 对…感到自豪"],[1346,"primarily","adv.","adv. 主要地"],[1347,"primary","adj.","adj. 最初的；首要的；初等的"],[1348,"prime","adj.","adj. 最好的；首要的；主要的 n. 全盛时期 v. 事先准备"],[1349,"principal","adj.","adj. 最重要的；主要的；本金的 n. 负责人；首长；校长"],[1350,"principle","n.","n. 原则；原理"],[1351,"print","v.","v. 打印；印刷 n. 打印；印刷"],[1352,"printing","n.","n. 印刷；印刷术 v. 打印；印刷"],[1353,"prior","adj.","adj. 优先的；在前的"],[1354,"priority","n.","n. 优先权；需优先考虑的事"],[1355,"privacy","n.","n. 隐私；私密；隐私权"],[1356,"private","adj.","adj. 私人的"],[1357,"privileged","adj.","adj. 有特权的；特许的；保密的 v. 给予…特权"],[1358,"prize","n.","n. 奖赏；奖品；奖金 v. 珍视；珍藏；估价"],[1359,"probably","adv.","adv. 大概；或许；很可能"],[1360,"procedure","n.","n. 程序；手续；步骤"],[1361,"proceed","v.","v. 进行；继续；继续进行"],[1362,"process","n.","n. 过程；进程；工序 v. 处理；加工"],[1363,"produce","v.","v. 生产；生育；制造 n. 农产品"],[1364,"producer","n.","n. 生产者；制造商；制片人"],[1365,"product","n.","n. 产品；产物；成果"],[1366,"production","n.","n. 生产；制造；产量"],[1367,"productive","adj.","adj. 生产的；多产的；富有成效的"],[1368,"productivity","n.","n. 生产力；生产率"],[1369,"profession","n.","n. 职业；专业"],[1370,"professional","adj.","adj. 专业的；职业的 n. 专业人士"],[1371,"professor","n.","n. 教授；导师"],[1372,"profit","n.","n. 利润；收益 v. 获利；有益于"],[1373,"profitable","adj.","adj. 有益的；有利可图的"],[1374,"profound","adj.","adj. 深刻的；渊博的；深奥的"],[1375,"program","n.","n. 程序；节目 v. 编程"],[1376,"progress","n.","n. 进展；进步；缓慢前进 v. 进展；进步；（时间）逐渐过去"],[1377,"prohibit","v.","v. 禁止；妨碍"],[1378,"project","n.","n. 计划；方案；项目 v. 预计；计划；投射"],[1379,"prolong","v.","v. 延长；拉长；拖长"],[1380,"promise","v.","v. 承诺；答应；有希望 n. 许诺；希望；成功的征兆（或理由）"],[1381,"promising","adj.","adj. 有希望的；有前途的 v. 承诺；答应"],[1382,"promote","v.","v. 促进；推动；提拔"],[1383,"promotion","n.","n. 促进；提升；推广"],[1384,"prompt","adj.","adj. 迅速的；准时的 v. 提示；促使 n. 提示；提词 adv. 准时地"],[1385,"proof","n.","n. 证明；证据；检验 adj. 防…的"],[1386,"propel","v.","v. 推进；推动"],[1387,"proper","adj.","adj. 正确的；合适的；正当的"],[1388,"properly","adv.","adv. 适当地；得体地；正确地"],[1389,"property","n.","n. 所有物；财产；属性"],[1390,"proportion","n.","n. 比例；份额"],[1391,"proposal","n.","n. 建议；提案；求婚"],[1392,"propose","v.","v. 提议；计划；求婚"],[1393,"prospect","n.","n. 展望；前景；希望 v. 勘探；寻找"],[1394,"prospective","adj.","adj. 预期的；潜在的；可能发生的"],[1395,"prosperity","n.","n. 繁荣；兴旺"],[1396,"protection","n.","n. 保护"],[1397,"proud","adj.","adj. 自豪的；骄傲的"],[1398,"prove","v.","v. 证明；证实"],[1399,"psychological","adj.","adj. 心理的；心理学的"],[1400,"psychologist","n.","n. 心理学家；心理学研究者"],[1401,"psychology","n.","n. 心理学；心理"],[1402,"publication","n.","n. 发表；公布；出版"],[1403,"publicly","adv.","adv. 公开地；当众；公然地"],[1404,"publish","v.","v. 发布；出版"],[1405,"publisher","n.","n. 出版者；出版社；发行人"],[1406,"pull","v.","v. 拉；拖；牵 n. 拉；拖；牵"],[1407,"pupil","n.","n. 小学生；瞳孔"],[1408,"purchase","n.","n. 购买；采购 v. 购买；采购"],[1409,"purpose","n.","n. 目的；意图"],[1410,"pursue","v.","v. 追求；追赶；追逐"],[1411,"pursuit","n.","n. 追求；追踪；消遣"],[1412,"push","v.","v. 推；按；挤 n. 推；奋力；决心"],[1413,"puzzle","n.","n. 谜；难题；拼图 v. （使）迷惑；（使）伤脑筋"],[1414,"qualification","n.","n. 资格；条件"],[1415,"qualify","v.","v. 使合格；使具有资格"],[1416,"quality","n.","n. 质量；素质；品质"],[1417,"quantify","v.","v. 量度；确定…数量；量化"],[1418,"quantity","n.","n. 量；数量；大量"],[1419,"quarter","n.","n. 四分之一；一刻钟；季度 v. 分成四等分"],[1420,"quit","v.","v. 停止；辞职；离开"],[1421,"quite","adv.","adv. 很；相当；非常"],[1422,"race","n.","n. 种族；赛跑；竞争 v. 比赛；快速移动"],[1423,"racial","adj.","adj. 种族的"],[1424,"raise","v.","v. 提起；增加；养育 n. 加薪"],[1425,"random","adj.","adj. 随意的；任意的 n. 随意；任意"],[1426,"range","n.","n. （变化）范围；一系列；山脉 v. 包括（各种不同的人或物）；（在某范围内）变化"],[1427,"rank","n.","n. 列；排；行列 v. 排列；分类；分等级 adj. 繁茂的；恶臭的；讨厌的"],[1428,"rapid","adj.","adj. 迅速的"],[1429,"rare","adj.","adj. 稀少的；珍奇的"],[1430,"rarely","adv.","adv. 很少；罕有"],[1431,"rate","n.","n. 比率；率；速度 v. 估价；值得；定级"],[1432,"raw","adj.","adj. 生的；未加工处理过的"],[1433,"react","v.","v. 反应"],[1434,"reaction","n.","n. 反应"],[1435,"readily","adv.","adv. 欣然地；爽快地；容易地"],[1436,"realistic","adj.","adj. 现实的；现实主义的"],[1437,"reality","n.","n. 现实；事实"],[1438,"realize","v.","v. 实现；认识到；意识到"],[1439,"reap","v.","v. 收割；收获；获得"],[1440,"reason","n.","n. 原因；理由；理性 v. 推理；推断；讲道理"],[1441,"recall","v.","v. 回忆起；召回 n. 记忆力"],[1442,"receive","v.","v. 接收；收到"],[1443,"recent","adj.","adj. 近来的；新近的"],[1444,"recently","adv.","adv. 最近；近来"],[1445,"recession","n.","n. 后退；（经济）不景气"],[1446,"recognition","n.","n. 认识；识别；承认"],[1447,"recognize","v.","v. 认出；意识到；承认"],[1448,"recommend","v.","v. 建议；推荐"],[1449,"record","n.","n. 记录；唱片 v. 记录；录制"],[1450,"recover","v.","v. 恢复；重新获得；复原"],[1451,"recovery","n.","n. 恢复；复苏"],[1452,"recruit","v.","v. 征募；招收；招聘 n. 新兵；新成员"],[1453,"reduce","v.","v. 减少；降低；减量"],[1454,"reduction","n.","n. 减少；缩小"],[1455,"refer","v.","v. 引用；提到；参考"],[1456,"reference","n.","n. 提及；涉及；参考"],[1457,"reflect","v.","v. 反射；反映；反省"],[1458,"reflection","n.","n. 反射；反映；反省"],[1459,"reform","n.","n. 改革；改造 v. 改革；改造"],[1460,"refrain","v.","v. 克制；抑制；忍耐 n. 副歌；经常重复的评价（或抱怨）；叠句"],[1461,"refuse","v.","v. 拒绝；不接受 n. 废料；垃圾；废物"],[1462,"regard","v.","v. 看待；认为；注视 n. 尊敬；致意"],[1463,"regardless","adj.","adj. 不顾的；不注意的 adv. 不顾；不加理会"],[1464,"region","n.","n. 地区；区域"],[1465,"regional","adj.","adj. 地区的；区域的"],[1466,"register","v.","v. 注册；登记 n. 登记簿；现金出纳机"],[1467,"regret","n.","n. 遗憾；痛惜 v. 懊悔；惋惜"],[1468,"regular","adj.","adj. 规则的；有规律的；经常的 n. 正规军；主力（或正式）队员；常客"],[1469,"regulate","v.","v. 管理；调整"],[1470,"regulation","n.","n. 规则；条例；管理"],[1471,"reject","v.","v. 拒绝；驳回 n. 被拒之人；被弃之物；残次品"],[1472,"relate","v.","v. 讲；叙述；有关"],[1473,"relation","n.","n. 关联；联系；亲属"],[1474,"relative","n.","n. 亲戚 adj. 比较的；相对的；相关联的"],[1475,"relatively","adv.","adv. 相对地；比较地"],[1476,"release","n.","n. 释放；发布 v. 释放；发布"],[1477,"relevant","adj.","adj. 相关的；有意义的"],[1478,"reliable","adj.","adj. 可靠的；可信的"],[1479,"relief","n.","n. 减缓；解脱；宽慰"],[1480,"relieve","v.","v. 减轻；缓解"],[1481,"religious","adj.","adj. 宗教的；虔诚的"],[1482,"relocate","v.","v. 换一个地方；重新安置"],[1483,"reluctant","adj.","adj. 不情愿的；勉强的"],[1484,"rely","v.","v. 依靠；信赖"],[1485,"remain","v.","v. 剩下；留下；保持"],[1486,"remark","v.","v. 评论；谈论；注意到 n. 评述；言论；注意"],[1487,"remarkable","adj.","adj. 值得注意的；显著的；非凡的"],[1488,"remedy","n.","n. 疗法；纠正办法 v. 纠正；治疗"],[1489,"remind","v.","v. 提醒；使想起"],[1490,"remove","v.","v. 搬迁；去掉；移开"],[1491,"renew","v.","v. 重新开始；更新"],[1492,"rent","v.","v. 出租；租借 n. 租金；破口；裂缝 v. 撕碎；分裂"],[1493,"repair","v.","v. 修理；修补 n. 修理；修补"],[1494,"repeat","v.","v. 重复；重做 n. 重复；重做"],[1495,"replace","v.","v. 代替；取代；放回原处"],[1496,"replacement","n.","n. 替换；替代"],[1497,"reporter","n.","n. 记者；通讯员"],[1498,"represent","v.","v. 代表；表现；体现"],[1499,"representation","n.","n. 表现；代表；描述"],[1500,"representative","n.","n. 代表；典型事物 adj. 典型的；有代表性的；代议制的"],[1501,"reproduce","v.","v. 繁殖；复制"],[1502,"reputation","n.","n. 名声；名誉"],[1503,"request","n.","n. 请求；要求的事 v. 要求；请求"],[1504,"require","v.","v. 需要；要求"],[1505,"requirement","n.","n. 需求；要求；必要条件"],[1506,"rescue","n.","n. 救援；营救 v. 救援；营救"],[1507,"research","n.","n. 研究；探索；调查 v. 研究；调查；探讨"],[1508,"researcher","n.","n. 研究员"],[1509,"reserve","v.","v. 保留；储备；预订 n. 储备；保留；保护区"],[1510,"resident","n.","n. 常住居民 adj. 居住的；常驻的"],[1511,"resist","v.","v. 抵制；抵抗"],[1512,"resistance","n.","n. 阻力；抵抗"],[1513,"resolve","v.","v. 决心要；解决；（使）分解 n. 决心"],[1514,"resort","n.","n. 诉诸；度假胜地；应急手段 v. 求助；诉诸"],[1515,"resource","n.","n. 资源；物力；财力"],[1516,"respect","v.","v. 尊重；尊敬；遵从 n. 尊重；尊敬；方面"],[1517,"respond","v.","v. 回答；回应"],[1518,"response","n.","n. 响应；反应；答复"],[1519,"responsibility","n.","n. 责任；职责"],[1520,"responsible","adj.","adj. 有责任的；负责任的"],[1521,"restaurant","n.","n. 餐厅；餐馆"],[1522,"restore","v.","v. 恢复"],[1523,"result","n.","n. 结果；成果；比分 v. 由于；导致"],[1524,"retailer","n.","n. 零售商；零售店"],[1525,"retain","v.","v. 保留；保持"],[1526,"retire","v.","v. 退休；退役"],[1527,"retirement","n.","n. 退休；退役；退职"],[1528,"retreat","v.","v. 撤退；退却 n. 撤退；退却；静居处"],[1529,"reveal","v.","v. 揭露；泄露；（使）显露 n. （电视节目最后的）揭示"],[1530,"revenue","n.","n. 收入；税收"],[1531,"reverse","v.","v. 使倒转；使颠倒；（使）倒车 n. 反面；背面 adj. 相反的；反向的"],[1532,"review","n.","n. 回顾；复习；审查 v. 回顾；复习；审核"],[1533,"revolution","n.","n. 革命"],[1534,"revolutionary","adj.","adj. 革命的；改革性的"],[1535,"revolutionize","v.","v. 彻底变革；使革命化"],[1536,"reward","n.","n. 奖励；报酬 v. 奖励；回报"],[1537,"ridiculous","adj.","adj. 荒谬的；可笑的"],[1538,"rigorous","adj.","adj. 严密的；缜密的；严格的"],[1539,"rise","v.","v. 上升；提高 n. 上升；提高"],[1540,"risk","n.","n. 风险 v. 冒...的危险"],[1541,"risky","adj.","adj. 危险的；冒风险的"],[1542,"rival","n.","n. 竞争者；敌手 v. 竞争；相匹敌"],[1543,"robotic","adj.","adj. 机器人的；像机器人的；呆板机械的"],[1544,"robotics","n.","n. 机器人技术；机器人学"],[1545,"robust","adj.","adj. 强健的；强壮的；结实的"],[1546,"role","n.","n. 角色；职能；作用"],[1547,"roll","v.","v. 滚动；翻转 n. 卷；滚动；卷形物"],[1548,"romantic","adj.","adj. 浪漫的"],[1549,"roof","n.","n. 屋顶；顶部 v. 给…盖顶"],[1550,"root","n.","n. 根；根源 v. 生根"],[1551,"roughly","adv.","adv. 粗略地；大约；粗暴地"],[1552,"round","adj.","adj. 圆的；球形的 adv. 环绕；附近 prep. 环绕；在…周围 n. 圆；圆形物 v. 绕过；拐过"],[1553,"route","n.","n. 路线；途径"],[1554,"routine","n.","n. 常规；例行公事 adj. 常规的；例行公事的"],[1555,"ruin","n.","n. 毁灭；废墟 v. 毁灭；破坏"],[1556,"rule","n.","n. 规则；统治 v. 统治；支配；裁决"],[1557,"rural","adj.","adj. 农村的；乡村的"],[1558,"rush","v.","v. 冲；赶忙做；催促 n. 冲；匆忙"],[1559,"sacrifice","v.","v. 牺牲；献出；供奉 n. 供奉；祭品；牺牲（品）"],[1560,"sake","n.","n. 缘故；理由"],[1561,"salary","n.","n. 薪水"],[1562,"sale","n.","n. 销售；出售；减价销售"],[1563,"sample","n.","n. 样品；样本 v. 尝试；体验；抽样"],[1564,"satellite","n.","n. 卫星；人造卫星"],[1565,"satisfaction","n.","n. 满意；满足"],[1566,"satisfy","v.","v. 使满意；使满足"],[1567,"saving","n.","n. 节约 v. 保存；拯救；节省"],[1568,"scale","n.","n. 规模；等级；秤 v. 改变…大小；攀登"],[1569,"scan","v.","v. 扫描；浏览；审视 n. 扫描；浏览；扫描图"],[1570,"scary","adj.","adj. 吓人的；恐怖的"],[1571,"scene","n.","n. 场景；现场；景色"],[1572,"schedule","n.","n. 日程表；时间表 v. 安排"],[1573,"scheme","n.","n. 阴谋；计划 v. 密谋；策划"],[1574,"scholar","n.","n. 学者；奖学金获得者"],[1575,"scholarship","n.","n. 奖学金；学问；学识"],[1576,"scientific","adj.","adj. 科学的"],[1577,"score","n.","n. 得分；分数；二十 v. 得分；记分"],[1578,"screen","n.","n. 屏幕；屏风；掩蔽物 v. 筛查；掩蔽；放映"],[1579,"secretary","n.","n. 秘书；大臣"],[1580,"section","n.","n. 部分；部门；章节"],[1581,"sector","n.","n. 部门；行业；扇形"],[1582,"secure","adj.","adj. 安全的；可靠的；稳定的 v. （使）安全；担保；（使）获得"],[1583,"security","n.","n. 安全；防护措施；保障"],[1584,"seed","n.","n. 种子；籽 v. 播种；结籽"],[1585,"seek","v.","v. 寻求；寻找"],[1586,"seemingly","adv.","adv. 似乎；看似；表面上看"],[1587,"segment","n.","n. 部分；片段 v. 分割"],[1588,"seldom","adv.","adv. 很少；难得；不常 adj. 不常的；稀少的"],[1589,"select","v.","v. 选择；挑选 adj. 精心挑选的"],[1590,"selection","n.","n. 挑选；选择"],[1591,"selective","adj.","adj. 选择的；选择性的；精挑细选的"],[1592,"semester","n.","n. 一学期；半学年"],[1593,"seminar","n.","n. 研讨会；专题讨论"],[1594,"senior","adj.","adj. 高级的；年长的；资深的 n. 上司；年长者；大四学生"],[1595,"sense","n.","n. 知觉；感知；理解力 v. 意识到；感觉到；觉察出"],[1596,"sensible","adj.","adj. 明智的；有判断力的；恰当的"],[1597,"sensitive","adj.","adj. 敏感的；感情脆弱的；体贴的"],[1598,"sensor","n.","n. 传感器；敏感元件"],[1599,"separate","adj.","adj. 分开的；分离的；单独的 v. 分离；隔离"],[1600,"series","n.","n. 连续；系列"],[1601,"serious","adj.","adj. 严肃的；严重的；庄重的"],[1602,"servant","n.","n. 仆人；佣人"],[1603,"serve","v.","v. 服务；接待；供职"],[1604,"service","n.","n. 服务 v. 保养；维修"],[1605,"setting","n.","n. 环境；背景 v. 设置；放"],[1606,"settle","v.","v. 定居；安顿；解决"],[1607,"severe","adj.","adj. 严重的；非常困难的；严厉的"],[1608,"shadow","n.","n. 影子；阴影；阴暗 v. 投阴影于；跟踪"],[1609,"shake","v.","v. 摇动；颤动 n. 摇动；颤动"],[1610,"shape","n.","n. 形状；定形；身材 v. 塑造；定形；使成形"],[1611,"sharp","adj.","adj. 锋利的；灵敏的；尖刻的"],[1612,"shed","n.","n. 棚屋 v. 摆脱；去除；使脱落"],[1613,"shelf","n.","n. 架子；搁板"],[1614,"shelter","n.","n. 避难所；庇护所 v. 庇护；遮蔽"],[1615,"shift","v.","v. 变换位置；转移；换（挡） n. 转移；移位；转变"],[1616,"ship","n.","n. 船；舰 v. 装运；把…装上船；使乘船"],[1617,"shock","n.","n. 震惊；震动；冲击 v. 使震惊；使震动 adj. 浓密的"],[1618,"shore","n.","n. 岸；滨"],[1619,"shortage","n.","n. 不足；短缺"],[1620,"shrink","v.","v. 收缩；退缩；踌躇不前"],[1621,"shut","v.","v. 关；闭 adj. 关闭的；停止营业的"],[1622,"sick","adj.","adj. 生病的；不舒服的；恶心的"],[1623,"sight","n.","n. 看见；景象；视力 v. 看到；观测"],[1624,"sign","n.","n. 标志；符号；告示牌 v. 签名；做标记"],[1625,"signal","n.","n. 信号；标志 v. 用信号通知"],[1626,"significant","adj.","adj. 重大的；重要的；影响明显的"],[1627,"significantly","adv.","adv. 意味深长地；值得注目地；极大地"],[1628,"signify","v.","v. 表示；预示；象征"],[1629,"silicon","n.","n. 硅"],[1630,"similarity","n.","n. 相像性；相似点"],[1631,"simply","adv.","adv. 简单地；仅仅；简直"],[1632,"single","adj.","adj. 单一的；单独的；单身的 n. 单曲（唱片） v. 挑选"],[1633,"sink","v.","v. （使）沉没；（使）下陷 n. 洗涤槽；水槽"],[1634,"site","n.","n. 位置；场所"],[1635,"situation","n.","n. 情况；形势；情境"],[1636,"skeptical","adj.","adj. 怀疑的"],[1637,"skilled","adj.","adj. 熟练的；有技能的"],[1638,"skip","v.","v. 跳；蹦；略过 n. 跳；蹦；略过"],[1639,"slave","n.","n. 奴隶 v. 苦干"],[1640,"slight","adj.","adj. 轻微的；微小的；细瘦的 n. 轻慢 v. 轻视"],[1641,"slightly","adv.","adv. 稍微；略微；瘦小地"],[1642,"slim","adj.","adj. 苗条的；纤细的；微小的"],[1643,"slip","v.","v. 滑倒；滑落；溜走 n. 滑倒；溜走；疏忽"],[1644,"smartphone","n.","n. 智能手机"],[1645,"snack","n.","n. 小吃；点心；快餐"],[1646,"so-called","adj.","adj. 所谓的"],[1647,"soar","v.","v. 翱翔；骤升"],[1648,"socialize","v.","v. 使社会化；进行社交活动；与人交往"],[1649,"society","n.","n. 社会；社交；社团"],[1650,"sociologist","n.","n. 社会学家；社会学者"],[1651,"software","n.","n. 软件"],[1652,"soil","n.","n. 土壤"],[1653,"solar","adj.","adj. 太阳的；太阳能的"],[1654,"solid","n.","n. 固体；立体图形 adj. 固体的；坚固的；可靠的"],[1655,"solution","n.","n. 解决办法；溶液"],[1656,"somehow","adv.","adv. 不知何故；以某种方式"],[1657,"somewhat","adv.","adv. 有点；稍微"],[1658,"sophisticated","adj.","adj. 老于世故的；老练的；精密复杂的"],[1659,"sort","n.","n. 种类；类别 v. 把…分类；拣选；理清"],[1660,"source","n.","n. 来源；出处；源泉 v. （从…）获得"],[1661,"spark","n.","n. 火花；火星 v. 触发；冒火花；闪光"],[1662,"specialist","n.","n. 专家；专科医生"],[1663,"specialize","v.","v. 专用于；专门研究"],[1664,"specialty","n.","n. 专业；专长；特色食品"],[1665,"species","n.","n. 物种；种类"],[1666,"specific","adj.","adj. 具体的；明确的；特定的 n. 特效药"],[1667,"specifically","adv.","adv. 明确地；具体地"],[1668,"speed","n.","n. 速度；速率 v. 加速；加快"],[1669,"spending","n.","n. 花费；开销 v. 花费；度过"],[1670,"spirit","n.","n. 精神；情绪；人物 v. 神秘地带走"],[1671,"split","v.","v. 分开；分裂 n. 划分；分歧；裂缝"],[1672,"sponsor","n.","n. 赞助商；发起人 v. 赞助；主办"],[1673,"spot","n.","n. 斑点；圆点；地点 v. 识别；发现；弄脏"],[1674,"spread","v.","v. 传播；扩散；展开 n. 传播；蔓延；散布"],[1675,"spur","n.","n. 马刺；鞭策 v. 刺激；鞭策"],[1676,"stability","n.","n. 固定；牢固；稳定"],[1677,"stable","adj.","adj. 稳定的；牢固的；稳重的 n. 马厩；畜舍"],[1678,"staff","n.","n. 职员；全体职工；棍棒 v. 为…配备职员"],[1679,"stage","n.","n. 阶段；时期；舞台 v. 举行；上演"],[1680,"standard","n.","n. 标准 adj. 标准的；规范的；权威的"],[1681,"standardized","adj.","adj. 标准的；定型的 v. 使合乎标准；使合规格"],[1682,"state","n.","n. 情形；状态；国家 v. 说明；陈述；声明 adj. 国事礼仪（或规格）的；州的；邦的"],[1683,"statement","n.","n. 声明；陈述"],[1684,"station","n.","n. 车站；站"],[1685,"statistic","n.","n. 一项统计数据"],[1686,"status","n.","n. 地位；身份；状态"],[1687,"steady","adj.","adj. 稳定的 v. 使稳住"],[1688,"steal","v.","v. 偷；窃取"],[1689,"steep","adj.","adj. 陡峭的；急剧升降的 v. 浸；泡"],[1690,"stem","n.","n. 柄；茎；词干 v. 阻止；起源于(~from)"],[1691,"stereotype","n.","n. 刻板印象；陈规老套 v. 对…存有成见；把…模式化"],[1692,"stick","v.","v. 粘附；刺；（随意）放置 n. 棍枝；球棍；条状物"],[1693,"stimulate","v.","v. 刺激；激励"],[1694,"stimulus","n.","n. 刺激物；促进因素；激励因素"],[1695,"stock","n.","n. 库存；股票；家畜 v. 备有；贮存"],[1696,"storage","n.","n. 贮存；存储"],[1697,"store","n.","n. 商店；店铺；仓库 v. 贮藏；存储"],[1698,"straight","adj.","adj. 直的；笔直的；正直的 adv. 直；径直；直接"],[1699,"straightforward","adj.","adj. 简单的；坦率的；正直的"],[1700,"strain","n.","n. 压力；拉伤；拉力 v. 损伤；竭力；拉紧"],[1701,"strategic","adj.","adj. 战略上的"],[1702,"strategy","n.","n. 策略；战略"],[1703,"stream","n.","n. 流；溪 v. 流；流动"],[1704,"strength","n.","n. 力量；实力；强度"],[1705,"strengthen","v.","v. 加强；巩固"],[1706,"stress","n.","n. 压力；紧张；强调 v. 着重；强调"],[1707,"stretch","v.","v. 伸展；延伸；持续 n. 伸展；弹性；一段"],[1708,"strict","adj.","adj. 严格的；严厉的"],[1709,"strike","v.","v. 击打；罢工；侵袭 n. 罢工；袭击"],[1710,"strive","v.","v. 努力；奋斗；力求"],[1711,"structure","n.","n. 结构；建筑物 v. 组织；安排"],[1712,"struggle","v.","v. 努力；斗争；挣扎 n. 努力；斗争；难事"],[1713,"stuff","n.","n. 东西；原料 v. 塞；填充"],[1714,"subject","n.","n. 学科；对象；主题 adj. 易遭受…的；受…支配的 v. 使臣服"],[1715,"submit","v.","v. 提交；屈服"],[1716,"subsidy","n.","n. 补贴；津贴；补助金"],[1717,"substitute","v.","v. 替代 n. 代用品；代替物"],[1718,"subtle","adj.","adj. 微妙的；细微的；隐晦的"],[1719,"suffer","v.","v. 遭受；忍受"],[1720,"suffering","n.","n. 痛苦；苦难；折磨 v. 遭受；忍受 adj. 受苦的；患病的"],[1721,"sufficient","adj.","adj. 足够的；充足的"],[1722,"suit","n.","n. 套装；西装；诉讼 v. 适合；相配"],[1723,"suitable","adj.","adj. 合适的；适宜的"],[1724,"sum","n.","n. 总数；金额 v. 总计；概括"],[1725,"summit","n.","n. 顶峰；顶点；顶尖 adj. 政府首脑的"],[1726,"superior","adj.","adj. 更好的；有优越感的；上级的 n. 上级；上司"],[1727,"supervisor","n.","n. 监督人；管理人；主管人"],[1728,"supply","n.","n. 供应；供给 v. 供给"],[1729,"supporter","n.","n. 支持者；拥护者"],[1730,"supportive","adj.","adj. 支持的；支援的；给予帮助的"],[1731,"suppose","v.","v. 认为；假设；猜想"],[1732,"supposedly","adv.","adv. 据说；据推测"],[1733,"surface","n.","n. 表面 v. 显露；给…铺路面"],[1734,"surgery","n.","n. 外科手术"],[1735,"surround","v.","v. 环绕；围绕"],[1736,"survey","v.","v. 调查；勘测 n. 调查；勘测"],[1737,"survival","n.","n. 生存；存活；幸存"],[1738,"survive","v.","v. 幸存；生存；存活"],[1739,"suspect","v.","v. 猜想；怀疑 n. 嫌疑犯 adj. 令人怀疑的；不可信的"],[1740,"sustain","v.","v. 支撑；承受；维持"],[1741,"sustainable","adj.","adj. 可持续的；可支撑的；不破坏生态平衡的"],[1742,"switch","v.","v. 转换 n. 开关"],[1743,"symbol","n.","n. 符号；象征；标志"],[1744,"sympathetic","adj.","adj. 同情的"],[1745,"symptom","n.","n. 征兆；症状"],[1746,"tackle","v.","v. 处理；解决；（足球等）阻截 n. 用具；阻截"],[1747,"tactic","n.","n. 战术；策略"],[1748,"tag","n.","n. 标记；标签；捉人游戏 v. 加标签于；把…称作；紧随"],[1749,"tailor","v.","v. 剪裁；缝制；调整使适应 n. 裁缝"],[1750,"talent","n.","n. 才能；天才"],[1751,"talented","adj.","adj. 天赋高的；有才能的；有才干的"],[1752,"tap","n.","n. 水龙头；轻拍；轻敲 v. 轻拍；轻敲；利用"],[1753,"target","n.","n. 目标；对象；靶 v. 以…为目标；瞄准"],[1754,"task","n.","n. 任务；工作；作业"],[1755,"tax","n.","n. 税；税款 v. 对...征税"],[1756,"technical","adj.","adj. 技术的；专业的；工艺的"],[1757,"technique","n.","n. 技术；工艺；技巧"],[1758,"technological","adj.","adj. 科技的；工艺的"],[1759,"teen","n.","n. 十几岁（13至19岁之间） adj. 青少年的"],[1760,"temperature","n.","n. 温度；气温；体温"],[1761,"temporarily","adv.","adv. 暂时地；临时地"],[1762,"temporary","adj.","adj. 短暂的；临时的"],[1763,"tend","v.","v. 趋向；朝向；往往会"],[1764,"tendency","n.","n. 趋势；倾向"],[1765,"tension","n.","n. 紧张；紧张局势；紧张关系"],[1766,"term","n.","n. 学期；术语；措辞 v. 把…称作；把…叫做"],[1767,"testify","v.","v. 作证；证明"],[1768,"texture","n.","n. 质地；纹理；构造"],[1769,"theft","n.","n. 偷窃；盗窃罪"],[1770,"theory","n.","n. 理论；学说"],[1771,"thereby","adv.","adv. 因此；从而"],[1772,"therefore","adv.","adv. 因此；所以"],[1773,"thesis","n.","n. 论点；论文"],[1774,"thick","adj.","adj. 厚的；粗的；浓稠的"],[1775,"thorough","adj.","adj. 彻底的；完全的；详尽的"],[1776,"though","conj.","conj. 虽然；尽管；然而 adv. 虽然；尽管；可是"],[1777,"threat","n.","n. 威胁；恐吓；凶兆"],[1778,"threaten","v.","v. 威胁；恐吓"],[1779,"threshold","n.","n. 门槛；门口；起始点"],[1780,"thrive","v.","v. 兴旺；繁荣；茁壮成长"],[1781,"throughout","prep.","prep. 遍及；各处；自始至终 adv. 自始至终；到处"],[1782,"throw","v.","v. 扔；抛；丢 n. 扔；抛；摔"],[1783,"thus","adv.","adv. 因此；如此；从而"],[1784,"tie","n.","n. 领带；关系；约束 v. 绑；系；拴"],[1785,"tight","adj.","adj. 紧的 adv. 紧紧地"],[1786,"tighten","v.","v. 使紧；变紧；加强"],[1787,"tiny","adj.","adj. 极小的；微小的；微量的"],[1788,"tip","n.","n. 小费；提示；窍门 v. 给…小费"],[1789,"tolerate","v.","v. 容忍；宽容"],[1790,"toll","n.","n. 伤亡人数；通行费；钟声 v. 征收；敲钟"],[1791,"ton","n.","n. 吨"],[1792,"tone","n.","n. 音调；色调；语气 v. 使协调；使健壮"],[1793,"topic","n.","n. 话题；题目"],[1794,"total","n.","n. 总额；总计 v. 共计；总数达 adj. 总的；全部的"],[1795,"totally","adv.","adv. 完全地"],[1796,"tough","adj.","adj. 强硬的；艰苦的；严厉的"],[1797,"tour","n.","n. 旅游；游览；巡回活动 v. 旅行；游览；作巡回活动"],[1798,"tourist","n.","n. 旅游者；观光者"],[1799,"toxic","adj.","adj. 有毒的；中毒的 n. 毒物；毒剂"],[1800,"trace","n.","n. 痕迹；轨迹；微量 v. 追踪；追溯；仔细查找"],[1801,"track","n.","n. 轨道；踪迹；小路 v. 追踪；跟踪"],[1802,"trade","n.","n. 贸易；交易；行业 v. 贸易；交易"],[1803,"tradition","n.","n. 传统；惯例"],[1804,"trained","adj.","adj. 训练过的；受训的 v. 训练；培训"],[1805,"trait","n.","n. 特性；特点"],[1806,"transfer","v.","v. 转移；转让；调任 n. 转移；转让；调任"],[1807,"transform","v.","v. 转变；改造"],[1808,"transition","n.","n. 转变；过渡；变迁"],[1809,"translate","v.","v. 翻译；转化"],[1810,"transmit","v.","v. 发送；传播；传递"],[1811,"transport","n.","n. 运输 v. 运输"],[1812,"transportation","n.","n. 运输；交通工具；运输系统"],[1813,"trap","n.","n. 圈套；陷阱；困境 v. 设圈套；陷入（困境）"],[1814,"traveler","n.","n. 旅行者"],[1815,"treat","v.","v. 对待；招待；治疗 n. 款待"],[1816,"treatment","n.","n. 治疗；处理；待遇"],[1817,"tremendous","adj.","adj. 巨大的；极大的"],[1818,"trend","n.","n. 趋势；走向 v. 倾向"],[1819,"trial","n.","n. 审判；试验；考验 v. 测试"],[1820,"trick","n.","n. 戏法；诡计；恶作剧 v. 哄骗；欺骗"],[1821,"trigger","n.","n. 触发；触发器；扳机 v. 触发；引起；发动"],[1822,"trillion","n.","n. 万亿"],[1823,"trip","n.","n. 旅行；旅程 v. 绊倒；出差错；轻快地走"],[1824,"tropical","adj.","adj. 热带的"],[1825,"truck","n.","n. 卡车；手推车；敞篷货车 v. 用卡车运；交易"],[1826,"truly","adv.","adv. 衷心地；真实地"],[1827,"trust","n.","n. 信任；信赖 v. 信任；信赖"],[1828,"tuition","n.","n. 指导；学费"],[1829,"type","n.","n. 类型；种类；典型 v. 打字；定型；成为…的典型"],[1830,"typical","adj.","adj. 典型的；有代表性的"],[1831,"typically","adv.","adv. 往往；典型地；常常"],[1832,"ultimate","adj.","adj. 最后的；最终的；最基本的 n. 最终"],[1833,"ultimately","adv.","adv. 最终；归根结底；根本上"],[1834,"uncertain","adj.","adj. 不确定的；易变的"],[1835,"underestimate","v.","v. 低估；对…估计不足 n. 低估；轻视"],[1836,"undergo","v.","v. 经受；经历；遭受"],[1837,"undergraduate","n.","n. 本科生"],[1838,"underground","n.","n. 地下；地铁 adj. 地下的；秘密的 adv. 在地下；秘密地"],[1839,"undermine","v.","v. 逐渐削弱；暗中损害"],[1840,"undertake","v.","v. 承担；从事；保证"],[1841,"undesirable","adj.","adj. 不想要的；不合意的；令人讨厌的"],[1842,"unemployed","adj.","adj. 失业的；待业的；下岗的"],[1843,"unemployment","n.","n. 失业"],[1844,"unexpected","adj.","adj. 想不到的；意料之外的"],[1845,"unfortunately","adv.","adv. 不幸地"],[1846,"union","n.","n. 联盟；联合；工会"],[1847,"unique","adj.","adj. 唯一的；独特的"],[1848,"unit","n.","n. 个体；一个；单位"],[1849,"universal","adj.","adj. 普遍的；全体的"],[1850,"unlike","adj.","adj. 不像…的；不同的 prep. 不像于；不同于"],[1851,"unlikely","adj.","adj. 不大可能的；不一定有把握的"],[1852,"unpaid","adj.","adj. 未付款的；无偿的"],[1853,"unprecedented","adj.","adj. 无先例的；空前的；前所未有的"],[1854,"unpredictable","adj.","adj. 不可预知的"],[1855,"unsustainable","adj.","adj. 不可持续的"],[1856,"unwilling","adj.","adj. 不愿意的；不情愿的"],[1857,"up-to-date","adj.","adj. 最新的；最近的；新式的"],[1858,"update","v.","v. 更新；升级 n. 更新"],[1859,"upgrade","v.","v. 提升；提高；改进 n. 向上的斜坡；增加；改进"],[1860,"upset","v.","v. 打翻；打乱；使心烦 adj. 沮丧的；难过的；不安的"],[1861,"upward","adj.","adj. 向上的；朝上的 adv. 向上地；上升地"],[1862,"urban","adj.","adj. 城市的；都市的"],[1863,"urge","v.","v. 催促；力劝 n. 强烈欲望；迫切要求"],[1864,"urgency","n.","n. 紧急；急迫"],[1865,"urgent","adj.","adj. 紧急的；紧迫的"],[1866,"vacation","n.","n. 假期；度假"],[1867,"valley","n.","n. 山谷；溪谷；流域"],[1868,"valuable","adj.","adj. 有价值的；贵重的；值钱的"],[1869,"value","n.","n. 价值；（数）值 v. 估价；重视"],[1870,"variable","adj.","adj. 可变的；易变的；不稳定的 n. 变量；易变的东西"],[1871,"variety","n.","n. 变化；多样性；（同一事物）不同种类"],[1872,"various","adj.","adj. 各种各样的；不同的；各种的"],[1873,"vary","v.","v. 改变；变化；使多样化"],[1874,"vast","adj.","adj. 巨大的；大量的；辽阔的"],[1875,"vehicle","n.","n. 车辆；交通工具；媒介物"],[1876,"venture","v.","v. 冒险；投机 n. 冒险事业；商业冒险；投机"],[1877,"verbal","adj.","adj. 口头的；语言的；用词的"],[1878,"version","n.","n. 版本；样式"],[1879,"via","prep.","prep. 通过；经由"],[1880,"vice","n.","n. 恶习；罪恶；缺点 adj. 代理的；副职的"],[1881,"victim","n.","n. 受害者"],[1882,"view","n.","n. 视野；风景；见解 v. 审视；观看"],[1883,"village","n.","n. 村庄；乡村"],[1884,"violation","n.","n. 违反；妨碍；侵犯"],[1885,"violent","adj.","adj. 暴力的；猛烈的"],[1886,"virtual","adj.","adj. 几乎的；实际上的；事实上的"],[1887,"virtually","adv.","adv. 几乎；实际上；事实上"],[1888,"vision","n.","n. 视野；视力；想象"],[1889,"visual","adj.","adj. 视力的；视觉的"],[1890,"vital","adj.","adj. 至关重要的；所必需的；生死攸关的"],[1891,"volume","n.","n. 卷；册；体积"],[1892,"vote","n.","n. 选票；表决；得票数 v. 投票；选举"],[1893,"voter","n.","n. 投票者；选民；选举人"],[1894,"vulnerable","adj.","adj. 脆弱的；易受伤的"],[1895,"wage","n.","n. 工资 v. 发动"],[1896,"warn","v.","v. 警告；告诫；提醒注意"],[1897,"warning","n.","n. 警示；警戒 v. 警告；告诫"],[1898,"waste","n.","n. 垃圾；废物；浪费 v. 浪费；白费；糟蹋 adj. 荒芜的；废弃的；丢弃的"],[1899,"wave","n.","n. 波；波浪；海浪 v. 挥手；挥舞；招手"],[1900,"weaken","v.","v. 削弱；变弱"],[1901,"weakness","n.","n. 软弱；弱点；嗜好"],[1902,"wealth","n.","n. 财富；财产"],[1903,"wealthy","adj.","adj. 富有的；富裕的"],[1904,"weather","n.","n. 天气 v. 使受风吹雨打；风干；经受住"],[1905,"weigh","v.","v. 称量；权衡"],[1906,"weight","n.","n. 重量；砝码；秤锤 v. 使负担；装载过重；视…为重要"],[1907,"welfare","n.","n. 福利；社会救济"],[1908,"well-being","n.","n. 幸福；安乐；康乐"],[1909,"whereas","conj.","conj. 然而；鉴于；尽管"],[1910,"while","conj.","conj. 当…的时候；尽管；然而 n. 一会儿；一段时间"],[1911,"widely","adv.","adv. 广泛地；普遍地"],[1912,"widen","v.","v. 加宽；扩展"],[1913,"widespread","adj.","adj. 流传甚广的；分布广的"],[1914,"wild","adj.","adj. 野生的；荒芜的；猛烈的"],[1915,"wildlife","n.","n. 野生生物 adj. 野生动物的"],[1916,"willing","adj.","adj. 愿意的；乐意的 v. 将会；愿意"],[1917,"willingness","n.","n. 乐意；愿意"],[1918,"wisdom","n.","n. 智慧；明智；学问"],[1919,"wise","adj.","adj. 充满智慧的；明智的；英明的"],[1920,"withdraw","v.","v. 撤回；撤退；提取"],[1921,"within","adv.","adv. 在内部；在里面 prep. 在…内；不超过 n. 内部；里面"],[1922,"witness","n.","n. 证人；目击者 v. 见证"],[1923,"wonder","n.","n. 惊奇；奇迹 v. 惊讶；想知道；怀疑"],[1924,"workforce","n.","n. 劳动力；工人总数；职工总数"],[1925,"workload","n.","n. 工作量"],[1926,"workplace","n.","n. 工作场所；工作地点"],[1927,"worldwide","adj.","adj. 全球性的 adv. 全球性地"],[1928,"worsen","v.","v. 恶化；损害"],[1929,"wrap","v.","v. 包；缠绕；覆盖 n. 外套；围巾；包裹"],[1930,"yield","v.","v. 生产；获利；屈服 n. 产量；利润"],[1931,"youngster","n.","n. 年轻人；小伙子"],[1932,"youth","n.","n. 青春；年轻；青年"],[1933,"zone","n.","n. 地带；地区 v. 分成区"]];
+var N = DATA.length;
+var LS_KEY = 'cet6_vocab_v1';
+var st = {status:{}, curPage:0, perDay:50, bad:{}, wrong:{}, testCountPref:10, reinforce:{}, testMem:{}, testRun:{}, spMem:{}};
+try{ var saved = JSON.parse(localStorage.getItem(LS_KEY)||'null'); if(saved){ st.status = saved.status||{}; st.curPage = saved.curPage||0; st.perDay = saved.perDay||50; st.bad = saved.bad||{}; st.wrong = saved.wrong||{}; st.testCountPref = (typeof saved.testCountPref==='number' && saved.testCountPref>0)? saved.testCountPref : 10; st.reinforce = saved.reinforce||{}; st.testMem = saved.testMem||{}; st.spMem = saved.spMem||{}; if(saved.testRun && typeof saved.testRun==='object' && typeof saved.testRun.day==='number' && saved.testRun.q){ var _oldDay=saved.testRun.day; st.testRun={}; st.testRun[_oldDay]=saved.testRun; } else { st.testRun=saved.testRun||{}; } } }catch(e){}
+var curPage = Math.min(st.curPage, days()-1);
+function days(){ return Math.max(1, Math.ceil(N / st.perDay)); }
+function pageWords(pi){ return DATA.slice(pi*st.perDay, Math.min(N,(pi+1)*st.perDay)); }
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({status:st.status, curPage:curPage, perDay:st.perDay, bad:st.bad||{}, wrong:st.wrong||{}, testCountPref:st.testCountPref, reinforce:st.reinforce||{}, testMem:st.testMem||{}, testRun:st.testRun||null, spMem:st.spMem||{}})); }catch(e){} }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+/* ===== 朗读引擎：有道真人音频优先，英文语音 TTS 兜底 ===== */
+/* ---- 第一层音源：有道词典真人发音（在线） ---- */
+var YD_AUDIO_BASE='https://dict.youdao.com/dictvoice?type=2&audio=';
+var AUDIO_START_TIMEOUT=3000;   /* 3 秒内未开始播放即判定失败 */
+var ydAudio=null;               /* 复用同一个 Audio 实例，避免叠音与实例泄漏 */
+var ydSeq=0;                    /* 发音令牌：新一轮发音会让上一轮所有回调作废 */
+var ydFailStreak=0;
+var ydFailUntil=0;
+
+function getYdAudio(){
+  if(ydAudio) return ydAudio;
+  try{
+    var a=new Audio();
+    a.preload='auto';
+    /* 不设置 crossOrigin：有道接口未开放 CORS，设置后反而会导致音频加载失败 */
+    ydAudio=a;
+  }catch(e){ ydAudio=null; }
+  return ydAudio;
+}
+function stopYdAudio(){
+  var a=ydAudio;
+  if(!a) return;
+  try{ a.onplaying=null; a.ontimeupdate=null; a.onended=null; a.onerror=null; }catch(e){}
+  try{ a.pause(); }catch(e){}
+  try{ a.currentTime=0; }catch(e){}
+}
+function ydMarkFail(){
+  ydFailStreak++;
+  /* 失败后进入冷却：单次失败冷却 20 秒，连续失败升级为 5 分钟，
+     避免网络不通时每次点读都先空等 3 秒超时才出声 */
+  var wait=(ydFailStreak>=2)?300000:20000;
+  ydFailUntil=Date.now()+wait;
+}
+
+/* ---- 第二层音源：系统英文语音 TTS（离线可用，仅作兜底） ---- */
+var EN_VOICE=null;
+var EN_VOICE_PREF=['Samantha','Alex','Google US English','Microsoft Aria','Microsoft Zira','Ava','Allison','Susan','Tom','Aaron','Nicky','Google UK English Female','Google UK English Male','Karen','Daniel','Moira','Tessa','Serena'];
+function pickEnVoice(){
+  try{
+    if(!window.speechSynthesis || !speechSynthesis.getVoices) return null;
+    var vs=speechSynthesis.getVoices();
+    if(!vs || !vs.length) return null;
+    function low(s){ return String(s||'').toLowerCase(); }
+    function byName(list){
+      for(var i=0;i<EN_VOICE_PREF.length;i++){
+        var key=low(EN_VOICE_PREF[i]);
+        for(var j=0;j<list.length;j++){ if(low(list[j].name).indexOf(key)>-1) return list[j]; }
+      }
+      return null;
+    }
+    function pickGroup(group){
+      if(!group || !group.length) return null;
+      var local=[];
+      for(var i=0;i<group.length;i++){ if(group[i].localService!==false) local.push(group[i]); }
+      return byName(local) || byName(group) || local[0] || group[0] || null;
+    }
+    var us=[], gb=[], en=[];
+    for(var k=0;k<vs.length;k++){
+      var L=low(vs[k].lang).replace('_','-');
+      if(L.indexOf('en-us')===0) us.push(vs[k]);
+      else if(L.indexOf('en-gb')===0) gb.push(vs[k]);
+      else if(L.indexOf('en')===0) en.push(vs[k]);
+    }
+    return pickGroup(us) || pickGroup(gb) || pickGroup(en) || null;
+  }catch(e){ return null; }
+}
+function refreshEnVoice(){
+  var v=pickEnVoice();
+  if(v) EN_VOICE=v;
+  return EN_VOICE;
+}
+function initVoices(){
+  try{
+    if(!window.speechSynthesis) return;
+    refreshEnVoice();
+    if(typeof speechSynthesis.addEventListener==='function'){
+      speechSynthesis.addEventListener('voiceschanged', refreshEnVoice);
+    } else {
+      speechSynthesis.onvoiceschanged=refreshEnVoice;
+    }
+    /* iOS/macOS 首次调用常拿不到语音列表，短轮询兜底（最多约 3 秒） */
+    var tries=0;
+    var timer=setInterval(function(){
+      tries++;
+      refreshEnVoice();
+      if(EN_VOICE || tries>=10) clearInterval(timer);
+    }, 300);
+  }catch(e){}
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', initVoices);
+} else {
+  initVoices();
+}
+function speakTTS(w, cb){
+  try{
+    if(!window.speechSynthesis || !window.SpeechSynthesisUtterance){ if(cb) setTimeout(cb,0); return; }
+    var u=new SpeechSynthesisUtterance(String(w));
+    u.lang='en-US'; u.rate=0.98; u.pitch=1; u.volume=1;
+    var v=EN_VOICE || pickEnVoice();
+    if(v){
+      EN_VOICE=v;
+      u.voice=v;
+      /* 兜底语音若不是 en-US（极少见），让 lang 与语音保持一致，避免引擎忽略 voice */
+      if(!/^en[-_]us/i.test(String(v.lang||''))) u.lang=v.lang||'en-US';
+    }
+    var done=false;
+    var fin=function(){ if(done) return; done=true; if(cb) setTimeout(cb,150); };
+    u.onend=fin; u.onerror=fin;
+    setTimeout(fin, 5000);
+    try{ speechSynthesis.cancel(); }catch(e){}
+    /* cancel 后立刻 speak 在部分浏览器会被吞掉，短延迟更稳 */
+    setTimeout(function(){ try{ speechSynthesis.speak(u); }catch(e){ fin(); } }, 30);
+  }catch(e){ if(cb) setTimeout(cb,0); }
+}
+
+/* ---- 统一入口：调用签名保持 speak(word, onDone)，调用点无需改动 ---- */
+function speak(w, cb){
+  var word=String(w==null?'':w).trim();
+  var seq=++ydSeq;        /* 令牌自增：上一轮发音的所有回调立即失效 */
+  var settled=false;
+  var timer=null;
+
+  function alive(){ return seq===ydSeq; }
+  function clearTimer(){ if(timer){ clearTimeout(timer); timer=null; } }
+  function onStart(){
+    if(!alive()) return;
+    clearTimer();
+    ydFailStreak=0; ydFailUntil=0;   /* 真人音频可用则解除冷却 */
+  }
+  function finish(){
+    if(settled || !alive()) return;
+    settled=true; clearTimer();
+    if(cb) setTimeout(cb,150);
+  }
+  function toTTS(){
+    if(settled || !alive()) return;
+    if(!word){ settled=true; clearTimer(); if(cb) setTimeout(cb,0); return; }
+    settled=true; clearTimer();
+    stopYdAudio();                   /* 先掐掉可能迟到的音频，避免与 TTS 叠音 */
+    speakTTS(word, cb);
+  }
+
+  /* 发音前统一停止上一次：音频 pause + 归零，同时取消进行中的 TTS */
+  stopYdAudio();
+  try{ if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+
+  if(!word){ if(cb) setTimeout(cb,0); return; }
+  /* 断网、冷却期内、浏览器不支持 Audio：直接走 TTS */
+  if(typeof navigator!=='undefined' && navigator.onLine===false){ toTTS(); return; }
+  if(Date.now()<ydFailUntil){ toTTS(); return; }
+  var a=getYdAudio();
+  if(!a || !a.play){ toTTS(); return; }
+
+  a.onplaying=onStart;
+  a.ontimeupdate=onStart;
+  a.onended=function(){
+    if(!alive() || settled) return;
+    ydFailStreak=0; ydFailUntil=0;
+    finish();
+  };
+  a.onerror=function(){
+    if(!alive() || settled) return;
+    ydMarkFail(); toTTS();
+  };
+  timer=setTimeout(function(){
+    if(!alive() || settled) return;
+    ydMarkFail(); toTTS();
+  }, AUDIO_START_TIMEOUT);
+
+  try{
+    a.src=YD_AUDIO_BASE+encodeURIComponent(word);
+  }catch(e){ ydMarkFail(); toTTS(); return; }
+
+  var p=null;
+  try{ p=a.play(); }catch(e){ ydMarkFail(); toTTS(); return; }
+  if(p && typeof p.then==='function'){
+    /* play() 成功只代表允许播放，不代表已出声；开始播放只认 playing/timeupdate，
+       否则超时保护会失效（网络卡住时既不达 playing 也不报 error） */
+    p.then(function(){}, function(){ if(!alive() || settled) return; ydMarkFail(); toTTS(); });
+  }
+}
+
+function playErrorBeep(){
+  try{
+    var C=window.AudioContext||window.webkitAudioContext; if(!C) return;
+    var ctx=new C(); var t0=ctx.currentTime;
+    [0,0.18].forEach(function(d){
+      var o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='square'; o.frequency.value=196;
+      g.gain.setValueAtTime(0.2, t0+d);
+      g.gain.exponentialRampToValueAtTime(0.001, t0+d+0.12);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(t0+d); o.stop(t0+d+0.14);
+    });
+  }catch(e){}
+}
+function setStatus(num, s){ st.status[num]=s; save(); renderAll(); }
+function statusOf(num){ return st.status[num]||''; }
+function groupOf(pi){ return '第'+(pi+1)+'天'; }
+
+function renderAll(){ renderStats(); renderCards(); renderPager(); if(active==='spell' && spellStarted) renderSpellQ(); if(active==='memory') renderMem(); }
+var active='study';
+function setTab(t){
+  active=t;
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on', b.dataset.t===t);});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on', p.id==='p-'+t);});
+  if(t==='spell'){ ensureSpell(); }
+  if(t==='memory'){ renderMem(); }
+  if(t==='test'){ refreshTestDaySel(); }
+  if(t==='study'){ renderCards(); renderPager(); }
+}
+
+function renderStats(){
+  var m=0,r=0,u=0,learned=0;
+  for(var k in st.status){ var v=st.status[k]; if(v==='m')m++; else if(v==='r')r++; else if(v==='u')u++; }
+  learned = Object.keys(st.status).length;
+  document.getElementById('stMastered').textContent=m;
+  document.getElementById('stReview').textContent=r;
+  document.getElementById('stUnmastered').textContent=u;
+  document.getElementById('stLearned').textContent=learned;
+  var pct = Math.round(learned/N*100);
+  document.getElementById('stPct').textContent=pct+'%';
+  document.getElementById('pbarFill').style.width=pct+'%';
+}
+
+function renderCards(){
+  var grid=document.getElementById('cardGrid'); grid.innerHTML='';
+  var ws=pageWords(curPage);
+  document.getElementById('pageTitle').textContent=groupOf(curPage);
+  ws.forEach(function(it){
+    var num=it[0], w=it[1], pos=it[2], me=it[3], s=statusOf(num);
+    var cls = s==='m'?'card st-m':(s==='r'?'card st-r':(s==='u'?'card st-u':'card'));
+    var row='<div class="'+cls+'">'
+      +'<div><span class="w">'+esc(w)+'</span></div>'
+      +'<div class="me">'+esc(me)+'</div><div class="ops">'
+      +'<button class="btn small spk" onclick="speak(\''+esc(w).replace(/'/g,"\\'")+'\')">读音</button>'
+      +'<button class="btn small '+(s==='m'?'primary':'')+'" onclick="setStatus('+num+',\'m\')">掌握</button>'
+      +'<button class="btn small '+(s==='r'?'primary':'')+'" onclick="setStatus('+num+',\'r\')">复习</button>'
+      +'<button class="btn small '+(s==='u'?'primary':'')+'" onclick="setStatus('+num+',\'u\')">未掌握</button>'
+      +'</div></div>';
+    grid.insertAdjacentHTML('beforeend', row);
+  });
+}
+
+function renderPager(){
+  var box=document.getElementById('pagerBox'); var D=days();
+  box.innerHTML='';
+  box.insertAdjacentHTML('beforeend','<button class="pg '+(curPage<=0?'dis':'')+'" onclick="goPage(curPage-1)">上一页</button>');
+  var lo=Math.max(0,curPage-2), hi=Math.min(D-1,curPage+2);
+  if(lo>0) box.insertAdjacentHTML('beforeend','<span class="info">…</span>');
+  for(var i=lo;i<=hi;i++){
+    box.insertAdjacentHTML('beforeend','<button class="pg '+(i===curPage?'on':'')+'" onclick="goPage('+i+')">'+(i+1)+'</button>');
+  }
+  if(hi<D-1) box.insertAdjacentHTML('beforeend','<span class="info">…</span>');
+  box.insertAdjacentHTML('beforeend','<button class="pg '+(curPage>=D-1?'dis':'')+'" onclick="goPage(curPage+1)">下一页</button>');
+  box.insertAdjacentHTML('beforeend','<span class="info">第 '+(curPage+1)+' / '+D+' 天</span>');
+  box.insertAdjacentHTML('beforeend','<span class="info">每天 '+st.perDay+' 词 · '+groupOf(curPage)+'</span>');
+}
+
+function goPage(i){
+  var D=days(); i=Math.max(0,Math.min(D-1,i)); curPage=i; st.curPage=i; save();
+  renderCards(); renderPager();
+}
+function jumpToday(){ var learned=Object.keys(st.status).length; var today=Math.min(days()-1, Math.max(0, Math.floor(learned/st.perDay))); goPage(today); }
+function applyPerDay(){
+  var v = parseInt(document.getElementById('perDayCustom').value,10);
+  if(!(v>=1 && v<=500)){ alert('请输入 1-500 之间的整数作为每日背诵量'); document.getElementById('perDayCustom').value=''; return; }
+  st.perDay=v;
+  document.getElementById('perDayCustom').value='';
+  curPage=Math.min(st.curPage, days()-1);
+  save(); renderAll();
+  updateDaysInfo();
+  refreshTestDaySel();
+}
+function updateDaysInfo(){
+  var D=days(); var first=curPage*st.perDay+1, last=Math.min(N,(curPage+1)*st.perDay);
+  document.getElementById('daysInfo').textContent='每天 '+st.perDay+' 词，共 '+D+' 天背完（当前第 '+(curPage+1)+' 天：'+first+'-'+last+' 词）';
+}
+
+/* 拼写训练 */
+var spellQ=[], spellIdx=0, spellOk=0, spellBad=0, spellStarted=false, spellReveal=0, spellChecked=false;
+var spCurInit=null;
+function spMemGet(num){ var t=st.spMem&&st.spMem[num]; return t||null; }
+function spMemWrite(num, s, streak){
+  if(!st.spMem) st.spMem={};
+  st.spMem[num]={s:s, streak:(s==='m')?0:(streak||0)};
+  save();
+}
+function spMemStatusOf(num){ var t=spMemGet(num); return t? t.s : 'u'; }
+var spComposing=false;
+function spImeShow(msg){
+  var el=document.getElementById('spImeWarn');
+  if(el){ el.textContent=msg||'请切换到英文输入法'; el.className='ime-warn on'; }
+}
+function spImeHide(){
+  var el=document.getElementById('spImeWarn');
+  if(el){ el.className='ime-warn'; }
+}
+function spImeCheck(){
+  var v=document.getElementById('spInput').value;
+  if(/[\u4e00-\u9fff\u3000-\u303f\uff00-\uffef]/.test(v)){ spImeShow('检测到中文内容，请切换到英文输入法输入'); }
+  else if(!spComposing){ spImeHide(); }
+}
+(function(){
+  var inp=document.getElementById('spInput');
+  if(!inp) return;
+  inp.addEventListener('compositionstart', function(){ spComposing=true; spImeShow('请切换到英文输入法'); });
+  inp.addEventListener('compositionend', function(){ spComposing=false; spImeCheck(); });
+  inp.addEventListener('input', function(){ if(!spComposing) spImeCheck(); });
+})();
+function ensureSpell(){ if(!spellStarted || spellQ.length===0) newSpell(); else renderSpellQ(); }
+function newSpell(){
+  spellStarted=true; spellOk=0; spellBad=0; spellIdx=0;
+  var pool = pageWords(curPage).slice();
+  // 拼写未掌握(spMem)优先
+  var bad = pool.filter(function(it){ return spMemStatusOf(it[0])==='u'; });
+  var rest = pool.filter(function(it){ return spMemStatusOf(it[0])==='m'; });
+  var order = bad.concat(rest);
+  spellQ = shuffle(order);
+  document.getElementById('spResult').style.display='none';
+  document.getElementById('spFeed').textContent='';
+  renderSpellQ();
+}
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function blankWord(w, n){
+  var chars=w.split('');
+  var out=[];
+  for(var i=0;i<chars.length;i++){ out.push(i<n ? chars[i] : '_'); }
+  return out.join(' ');
+}
+function escSp(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function displaySpell(){
+  var it=spellQ[spellIdx]; if(!it) return;
+  var w=it[1], n=w.length, typed=document.getElementById('spInput').value;
+  var given=Math.min(spellReveal, n);
+  var filled=Math.min(typed.length, n-given);
+  var out=[];
+  for(var i=0;i<n;i++){
+    if(i<given) out.push('<span class="sp-given">'+escSp(w[i])+'</span>');
+    else if(i-given<filled) out.push('<span class="sp-typed">'+escSp(typed[i-given])+'</span>');
+    else out.push('_');
+  }
+  document.getElementById('spView').innerHTML=out.join(' ');
+  document.getElementById('spView').className='spellview'+(typed.length>0?' typing':'');
+}
+function renderSpellQ(){
+  var feed=document.getElementById('spFeed');
+  if(spellIdx>=spellQ.length){ finishSpell(); return; }
+  var it=spellQ[spellIdx]; spellReveal=1; spellChecked=false; spCurInit=spMemGet(it[0]);
+  document.getElementById('spPos').textContent='';
+  document.getElementById('spMe').textContent=it[3];
+  var inp=document.getElementById('spInput'); inp.value=''; inp.className='qinput'; inp.disabled=false;
+  spComposing=false; spImeHide();
+  displaySpell();
+  inp.focus();
+  setTimeout(function(){ var e=document.getElementById('spInput'); if(e && !e.disabled && spellStarted && spellIdx<spellQ.length) e.focus(); }, 0);
+  feed.className='feed'; feed.textContent='第 '+(spellIdx+1)+' / '+spellQ.length+' 题 · 已对 '+spellOk+' · 已错 '+spellBad;
+}
+function spTip(){
+  if(spellIdx>=spellQ.length) return;
+  var it=spellQ[spellIdx];
+  if(spellReveal<it[1].length){ spellReveal++; displaySpell(); }
+}
+function spCheck(){
+  if(spellIdx>=spellQ.length || spellChecked) return;
+  spellChecked=true;
+  var it=spellQ[spellIdx]; var val=document.getElementById('spInput').value.trim().toLowerCase();
+  var word=it[1].toLowerCase(); var full=word.slice(0, spellReveal) + val;
+  var feed=document.getElementById('spFeed');
+  if(val===word || full===word){
+    spellOk++;
+    var curT=spMemGet(it[0]);
+    var inRetry = spCurInit && spCurInit.s==='u';
+    if(inRetry){
+      var ns=(curT? curT.streak : 0)+1;
+      if(ns>=2){
+        spMemWrite(it[0],'m',0);
+        feed.className='feed ok'; feed.textContent='正确！'+it[1]+'（连续拼对2次，拼写已掌握）';
+        document.getElementById('spInput').className='qinput ok';
+        speak(it[1], function(){ spellIdx++; renderSpellQ(); });
+      } else {
+        spMemWrite(it[0],'u',ns);
+        feed.className='feed ok'; feed.textContent='正确！还需连续拼对 '+(2-ns)+' 次判掌握（共需2次）';
+        document.getElementById('spInput').className='qinput ok';
+        setTimeout(function(){
+          spellChecked=false;
+          var inp=document.getElementById('spInput');
+          inp.value=''; inp.disabled=false; inp.className='qinput';
+          spComposing=false; spImeHide();
+          displaySpell();
+          inp.focus();
+          var feed2=document.getElementById('spFeed');
+          feed2.className='feed'; feed2.textContent='第 '+(spellIdx+1)+' / '+spellQ.length+' 题 · 已对 '+spellOk+' · 已错 '+spellBad+'（本词重拼中，需连续拼对2次判掌握）';
+        }, 700);
+      }
+    } else {
+      spMemWrite(it[0],'m',0);
+      feed.className='feed ok'; feed.textContent='正确！'+it[1]+'（拼写已掌握）';
+      document.getElementById('spInput').className='qinput ok';
+      speak(it[1], function(){ spellIdx++; renderSpellQ(); });
+    }
+  } else {
+    spellBad++; spMemWrite(it[0],'u',0); feed.className='feed bad'; feed.textContent='拼写错误，连续拼对记录已清零，请重新拼写本词（需连续拼对2次判掌握）';
+    document.getElementById('spInput').className='qinput bad';
+    playErrorBeep();
+    setTimeout(function(){
+      spellChecked=false;
+      var inp=document.getElementById('spInput');
+      inp.value=''; inp.disabled=false; inp.className='qinput';
+      spComposing=false; spImeHide();
+      displaySpell();
+      inp.focus();
+      var feed2=document.getElementById('spFeed');
+      feed2.className='feed'; feed2.textContent='第 '+(spellIdx+1)+' / '+spellQ.length+' 题 · 已对 '+spellOk+' · 已错 '+spellBad+'（本词重拼中，需连续拼对2次判掌握）';
+    }, 700);
+  }
+}
+function spSpeak(){
+  if(spellIdx>=spellQ.length) return;
+  speak(spellQ[spellIdx][1], function(){
+    var e=document.getElementById('spInput');
+    if(e && !e.disabled) e.focus();
+  });
+}
+function spNext(skip){
+  if(skip){ spellBad++; spMemWrite(spellQ[spellIdx][0],'u',0); }
+  spellIdx++; renderSpellQ();
+}
+function finishSpell(){
+  var mastered=0;
+  for(var i=0;i<spellQ.length;i++){ if(spMemStatusOf(spellQ[i][0])==='m') mastered++; }
+  document.getElementById('spFeed').textContent='';
+  document.getElementById('spResult').style.display='block';
+  document.getElementById('spResult').innerHTML='<div class="score">'+spellOk+' / '+spellQ.length+'</div>'
+    +'<div style="color:#5a6472;margin:6px 0">拼写正确率 '+(spellQ.length?Math.round(spellOk/spellQ.length*100):0)+'%</div>'
+    +'<div style="color:#2e7d4f;margin:6px 0">本轮拼写已掌握 '+mastered+' / '+spellQ.length+' 词（独立进度，与测试互不影响）</div>'
+    +'<button class="btn primary" onclick="newSpell()">再来一轮</button>';
+}
+
+/* 测试 */
+var testMode='choice', testQ=[], testIdx=0, testOk=0, testAnsShown=false, testState=[], testAutoTimer=null, testSrc='', loopWrong=false, reinforceMode=false, testSeen=[], dayTestDay=-1;
+var testRetryUsed=false; // 防误点：本题是否已用掉"重新选一次"的机会（每题进入时重置）
+function getTestCount(){
+  var v=parseInt(document.getElementById('testCountCustom').value,10);
+  if(!isNaN(v) && v>0) return v;
+  return (st.testCountPref>0)? st.testCountPref : 10;
+}
+function initTestCountUI(){
+  var inp=document.getElementById('testCountCustom'); if(!inp) return;
+  if(st.testCountPref>0) inp.value=st.testCountPref;
+}
+function refreshTestDaySel(){
+  var sel=document.getElementById('testDaySel'); if(!sel) return;
+  var D=days(); var prev=sel.value;
+  var opts='';
+  for(var i=0;i<D;i++){
+    var first=i*st.perDay+1, last=Math.min(N,(i+1)*st.perDay);
+    opts+='<option value="'+i+'">第 '+(i+1)+' 天（'+first+'-'+last+' 词）</option>';
+  }
+  sel.innerHTML=opts;
+  if(prev!=='' && Number(prev)>=0 && Number(prev)<D) sel.value=prev;
+  else sel.value=curPage;
+}
+function startTest(){
+  testMode='choice'; testIdx=0; testOk=0; testAnsShown=false; testState=[]; testSrc=''; loopWrong=false; reinforceMode=false; testSeen=[];
+  var sel=document.getElementById('testDaySel');
+  var day=(sel && sel.value!=='')? Number(sel.value) : curPage;
+  if(!(day>=0 && day<days())) day=curPage;
+  dayTestDay=day;
+  var dayWords=pageWords(day);
+  if(!dayWords.length){
+    alert('所选天数没有单词，请先切换到有单词的页面再测试。');
+    return;
+  }
+  dayTestTotal=dayWords.length;
+  dayTestMastered=dayWords.filter(function(it){ return testStatusOf(it[0])==='m'; }).length;
+  // 断点续测：所选天存在未完成的进行中测试时，恢复现场从上次位置继续
+  if(testRunResume(day)){
+    document.getElementById('tResult').style.display='none';
+    document.getElementById('testCard').style.display='block';
+    renderTest();
+    return;
+  }
+  var uws=dayWords.filter(function(it){ return testStatusOf(it[0])!=='m'; });
+  if(!uws.length){
+    alert('本组单词已全部掌握，无需重测');
+    return;
+  }
+  var n=getTestCount();
+  var pool=shuffle(uws.slice());
+  if(isFinite(n) && n>0 && n<pool.length) pool=pool.slice(0,n);
+  testRunClearDay(day); // 仅清除当前所选天的旧进度，其他天进度保留
+  document.getElementById('tResult').style.display='none';
+  document.getElementById('testCard').style.display='block';
+  testQ=pool;
+  testRunSave(day);
+  renderTest();
+}
+function unmasteredOrReviewNums(){
+  var arr=[];
+  for(var k in st.status){ if(st.status[k]==='u'||st.status[k]==='r') arr.push(Number(k)); }
+  return arr.sort(function(a,b){return a-b;});
+}
+function unmasteredOrReviewWords(){
+  var nums=unmasteredOrReviewNums();
+  return DATA.filter(function(it){ return nums.indexOf(it[0])>=0; });
+}
+function startReinforceTest(){
+  testMode='choice'; testIdx=0; testOk=0; testAnsShown=false; testState=[]; testSrc=''; loopWrong=false; reinforceMode=true; testSeen=[];
+  var uws=unmasteredOrReviewWords();
+  if(!uws.length){
+    alert('暂无未掌握或需复习的单词');
+    return;
+  }
+  var n=getTestCount();
+  var pool=shuffle(uws.slice());
+  if(isFinite(n) && n>0 && n<pool.length) pool=pool.slice(0,n);
+  document.getElementById('tResult').style.display='none';
+  document.getElementById('testCard').style.display='block';
+  testQ=pool;
+  renderTest();
+}
+function renderTest(){
+  var streakEl=document.getElementById('tStreak'), endEl=document.getElementById('tEndRow');
+  if(reinforceMode){ if(endEl) endEl.style.display='block'; if(streakEl){ streakEl.style.display='block'; refreshStreak(testQ[testIdx]?testQ[testIdx][0]:0); } }
+  else { if(endEl) endEl.style.display='none'; if(streakEl) streakEl.style.display='none'; }
+  if(testIdx>=testQ.length){ finishTest(); return; }
+  var it=testQ[testIdx];
+  var prog=document.getElementById('tProg'); prog.style.width=(testIdx/testQ.length*100)+'%';
+  var posEl=document.getElementById('tPos');
+  if(dayTestTotal>0 && !reinforceMode){
+    posEl.textContent='第 '+(testIdx+1+dayTestMastered)+' / '+dayTestTotal+' 题';
+  } else {
+    posEl.textContent='第 '+(testIdx+1)+' / '+testQ.length+' 题';
+  }
+  var feed=document.getElementById('tFeed'); feed.className='feed'; feed.textContent='';
+  document.getElementById('tNextBtn').style.display='none';
+  document.getElementById('tPrevBtn').style.display = (testIdx>0)?'inline-block':'none';
+  // 选项模式：单词 → 选中文释义
+  document.getElementById('tQ').innerHTML='<span style="font-size:30px">'+esc(it[1])+'</span>'
+      +' <button class="btn small spk" style="vertical-align:middle;margin-left:10px" onclick="speak(\''+esc(it[1]).replace(/'/g,"\\'")+'\')">读音</button>';
+  var opts = buildOpts(it);
+  var box=document.getElementById('tOpts'); box.innerHTML='';
+  opts.forEach(function(opt){
+    var btn=document.createElement('button'); btn.className='opt'; btn.textContent=opt.w;
+    btn._right=opt.right;
+    btn.onclick=function(){ chooseOpt(btn, opt, it); };
+    box.appendChild(btn);
+  });
+  var st=testState[testIdx];
+  if(st && st.answered){
+    // 回退/返回本已作答的题：恢复对错标记、提示与下一题按钮
+    testAnsShown=true;
+    document.querySelectorAll('#tOpts .opt').forEach(function(b){
+      b.classList.add('dis');
+      if(b._right) b.classList.add('right');
+      else if(b.textContent===st.chosenW) b.classList.add('wrong');
+    });
+    if(st.right){ feed.className='feed ok'; feed.textContent='正确！'; }
+    else { feed.className='feed bad'; feed.textContent='错误，正确答案：'+it[3]; }
+    document.getElementById('tNextBtn').style.display='inline-block';
+    document.getElementById('tNextBtn').textContent='下一题';
+  } else {
+    testAnsShown=false;
+    testRetryUsed=false; // 每道新题进入时重置"重新选一次"的机会，不跨题残留
+  }
+}
+function buildOpts(it){
+  var set={}; set[it[3]]=true;
+  var opts=[{w:it[3], right:true}];
+  while(opts.length<4){
+    var d=DATA[Math.floor(Math.random()*N)];
+    if(!set[d[3]] && d[1]!==it[1]){ set[d[3]]=true; opts.push({w:d[3], right:false}); }
+  }
+  return shuffle(opts);
+}
+function chooseOpt(btn, opt, it){
+  var st=testState[testIdx];
+  // 本题已被判死的错误选项：禁止重复点击（双保险，CSS 已 pointer-events:none）
+  if(btn && btn.dataset && btn.dataset.dead==='1'){ return; }
+  // —— 防误点：第一次选错不判错、不推进、不写任何状态，仅标红禁用该选项并给一次重选机会 ——
+  if(!opt.right && !testRetryUsed && !(st && st.answered)){
+    testRetryUsed=true;
+    btn.dataset.dead='1';
+    btn.classList.add('wrong','dis');
+    var fd=document.getElementById('tFeed');
+    fd.className='feed bad';
+    fd.textContent='选错了，再选一次（本题只剩 1 次机会，再错才计错）';
+    return;
+  }
+  // 强化训练：已作答的题锁定答案，不允许修改（连续计数已写入，避免计数混乱）
+  if(reinforceMode && st && st.answered){ return; }
+  // 已作答的题允许修改答案：撤销旧得分并翻转之前的自动状态标记，避免重复计分
+  if(st && st.answered){
+    if(opt.w===st.chosenW){ return; } // 点击当前已选项，忽略
+    if(st.right){ testOk--; }
+    if(testSrc===''){ if(dayTestTotal>0){ if(st.right){ testResetStreak(it[0]); } else { testStreakUp(it[0]); } } else { autoMark(it[0], st.right?'u':'m'); } }
+  }
+  testAnsShown=true;
+  if(!st){ st=testState[testIdx]={}; }
+  st.answered=true; st.right=opt.right; st.chosenW=opt.w;
+  // 刷新选项标记：清除旧选中样式，标出正确项；本次已判死的错误选项保留红色，便于回看
+  document.querySelectorAll('#tOpts .opt').forEach(function(b){
+    var isDead = !!(b.dataset && b.dataset.dead==='1');
+    b.classList.add('dis');
+    if(b._right){ b.classList.remove('wrong'); b.classList.add('right'); }
+    else if(!isDead){ b.classList.remove('wrong'); }
+  });
+  var feed=document.getElementById('tFeed');
+  if(testSeen.indexOf(it[0])<0) testSeen.push(it[0]);
+  if(opt.right){
+    testOk++; feed.className='feed ok';
+    if(reinforceMode){
+      var c=(st.reinforce[it[0]]||0)+1;
+      st.reinforce[it[0]]=c; save();
+      if(c>=3){
+        autoMark(it[0],'m');
+        testQ.push(it); // 判定掌握后加回训练池继续巩固
+        feed.textContent='正确！连对3次，已判定"已掌握"，加回训练池继续巩固';
+      } else {
+        feed.textContent='正确！已连对'+c+'次，还需'+(3-c)+'次';
+      }
+      refreshStreak(it[0]);
+    } else {
+      if(dayTestTotal>0){
+        var c=testStreakUp(it[0]);
+        feed.textContent = (c>=5) ? '正确！连对5次，已判定"已掌握"，不再重复测试' : '正确！已连对'+c+'次，还需'+(5-c)+'次';
+      } else {
+        feed.textContent='正确！已标记"已掌握"';
+        if(testSrc==='wrong') removeWrong(it[0]);
+        if(testSrc==='') autoMark(it[0],'m');
+      }
+    }
+    // 选对：短暂展示绿色反馈并朗读后自动跳下一题
+    scheduleAutoNext();
+  } else {
+    btn.classList.add('wrong'); markBad(it[0]); markWrong(it[0]);
+    if(reinforceMode){
+      st.reinforce[it[0]]=0; save();
+      autoMark(it[0],'u');
+      feed.textContent='错误，正确答案：'+it[3]+'（连对已清零，需重新连对3次）';
+      refreshStreak(it[0]);
+    } else {
+      if(dayTestTotal>0){
+        testResetStreak(it[0]);
+        feed.textContent='错误，正确答案：'+it[3]+'（连对已清零，需重新连对5次）';
+      } else {
+        if(testSrc==='') autoMark(it[0],'u');
+        feed.textContent='错误，正确答案：'+it[3]+'（已标记"未掌握"）';
+      }
+    }
+  }
+  document.getElementById('tNextBtn').style.display='inline-block';
+  document.getElementById('tNextBtn').textContent='下一题';
+  // 断点续测：仅当天词测试每答一题实时更新持久化现场
+  if(dayTestTotal>0 && !reinforceMode && testSrc==='') testRunSave(dayTestDay);
+  speak(it[1]);
+}
+function refreshStreak(num){
+  var el=document.getElementById('tStreak'); if(!el) return;
+  var c=(st.reinforce&&st.reinforce[num])||0;
+  el.textContent = c>=3 ? '已连对'+c+'次 · 已判定"已掌握"，继续巩固' : '已连对'+c+'次，还需'+(3-c)+'次';
+}
+function endReinforce(){
+  if(testAutoTimer){ clearTimeout(testAutoTimer); testAutoTimer=null; }
+  finishTest();
+}
+function testNext(){ if(testAutoTimer){ clearTimeout(testAutoTimer); testAutoTimer=null; } testIdx++; renderTest(); }
+function testPrev(){ if(testAutoTimer){ clearTimeout(testAutoTimer); testAutoTimer=null; } if(testIdx>0){ testIdx--; renderTest(); } }
+function scheduleAutoNext(){
+  if(testAutoTimer) clearTimeout(testAutoTimer);
+  testAutoTimer=setTimeout(function(){ testAutoTimer=null; testNext(); }, 650);
+}
+function autoMark(num, s){
+  if(!st.status) st.status={};
+  st.status[num]=s;
+  // 协调错题本：标记"已掌握"则移出错题本
+  if(s==='m' && st.wrong && st.wrong[num]){ delete st.wrong[num]; }
+  save();
+}
+// —— 测试独立记忆状态（st.testMem，与背诵板块 st.status 完全分离）——
+// testMem[num] = {s:'u'|'m', streak:n}；s==='m' 表示测试已掌握（跳过作答）；s==='u' 的 streak 为连续答对次数
+function testMemGet(num){ var t=st.testMem&&st.testMem[num]; return t||null; }
+function testStatusOf(num){ var t=testMemGet(num); return t? t.s : ''; }
+function testMemWrite(num, s, streak){
+  if(!st.testMem) st.testMem={};
+  st.testMem[num]={s:s, streak:(s==='m')?0:(streak||0)};
+  save();
+}
+function testStreakUp(num){ // 答对：连对+1，达5次标已掌握
+  var t=testMemGet(num)||{s:'u',streak:0};
+  var c=(t.s==='m')?5:(t.streak||0)+1;
+  if(c>=5){ testMemWrite(num,'m',0); return 5; }
+  testMemWrite(num,'u',c); return c;
+}
+function testResetStreak(num){ // 答错：清零重来
+  testMemWrite(num,'u',0);
+}
+// —— 断点续测（st.testRun 按天字典：{ [day]: {q,idx,state,ok} }，各天进度独立互不覆盖）——
+function testRunSave(day){
+  var nums=testQ.map(function(it){ return it[0]; });
+  var ni=0; while(ni<testState.length && testState[ni] && testState[ni].answered) ni++;
+  if(!st.testRun || typeof st.testRun!=='object') st.testRun={};
+  st.testRun[day]={q:nums, idx:ni, state:testState.slice(), ok:testOk};
+  save();
+}
+function testRunClearDay(day){
+  if(st.testRun && st.testRun[day]) delete st.testRun[day];
+  save();
+}
+function testRunResume(day){
+  var r=(st.testRun && st.testRun[day])||null;
+  if(!r || !r.q || !r.q.length || r.idx>=r.q.length) return false;
+  // 剩余词池从原位置开始，过滤掉中途已判定掌握（testMem 中为 m）的词，保持原顺序
+  var q2=[], st2=[];
+  for(var i=0;i<r.q.length;i++){
+    if(testStatusOf(r.q[i])==='m') continue;
+    q2.push(r.q[i]);
+    st2.push((r.state&&r.state[i])||null);
+  }
+  var ok2=0, idx2=0;
+  while(idx2<st2.length && st2[idx2] && st2[idx2].answered){
+    if(st2[idx2].right) ok2++;
+    idx2++;
+  }
+  if(idx2>=q2.length) return false; // 剩余词已全部作答（无需续测）
+  var byNum={}; DATA.forEach(function(d){ byNum[d[0]]=d; });
+  testQ=q2.map(function(num){ return byNum[num]; });
+  testState=st2; testOk=ok2; testIdx=idx2;
+  return true;
+}
+function finishTest(){
+  document.getElementById('testCard').style.display='none';
+  var res=document.getElementById('tResult'); res.style.display='block';
+  var pct = testQ.length? Math.round(testOk/testQ.length*100):0;
+  var remain = (testSrc==='wrong') ? wrongNums().length : 0;
+  var mastered=0, pending=0;
+  if(reinforceMode){
+    mastered=testSeen.filter(function(num){ return ((st.reinforce&&st.reinforce[num])||0)>=3; }).length;
+    pending=testSeen.length-mastered;
+  }
+  var extra='';
+  if(reinforceMode){
+    extra='<div style="color:#5a6472;margin:6px 0">本轮共遇到 '+testSeen.length+' 个单词：已判定掌握 '+mastered+' 个，仍在巩固 '+pending+' 个（连对未满3次或答错过）。可随时结束训练。</div>';
+  } else if(testSrc==='wrong' && remain>0){
+    extra='<div style="color:#c0392b;margin:6px 0">本轮还有 '+remain+' 个错题未答对'
+      +(loopWrong?'，循环记忆未完成，请继续强化。':'，可继续重测或改用循环记忆直到全部答对。')+'</div>'
+      +'<div style="margin-top:4px"><button class="btn primary" onclick="startWrongTest('+loopWrong+')">继续强化剩余错题</button></div>';
+  } else if(testSrc==='wrong' && remain===0){
+    extra='<div style="color:#27ae60;margin:6px 0">恭喜！错题本已全部答对'+(loopWrong?'，本轮循环记忆完成。':'。')+'</div>';
+  }
+  // 按答题结果分组；强化模式以连续计数为准：连对3次=已掌握，其余=待巩固
+  var okL=[], rL=[];
+  if(reinforceMode){
+    testSeen.forEach(function(num){
+      var it=DATA.filter(function(d){ return d[0]===num; })[0];
+      if(!it) return;
+      if(((st.reinforce&&st.reinforce[num])||0)>=3) okL.push(it); else rL.push(it);
+    });
+  } else {
+    testQ.forEach(function(it,i){
+      var s=testState[i];
+      if(s && s.answered && s.right) okL.push(it);
+      else rL.push(it);
+    });
+  }
+  function markListHtml(title, arr, col, hint){
+    var body = arr.length
+      ? arr.map(function(it){ return '<div style="line-height:1.7;font-size:12px"><span style="font-weight:600">'+esc(it[1])+'</span> <span style="color:#8a93a5">'+esc(it[2])+'</span> <span style="color:#445">'+esc(it[3])+'</span></div>'; }).join('')
+      : '<div style="color:#9aa5b5;font-size:12px;padding:4px 0">暂无</div>';
+    return '<div style="flex:1;min-width:160px;border:1px solid #eef1f6;border-radius:8px;padding:8px;margin:4px"><div style="font-weight:700;font-size:13px;color:'+col+';margin-bottom:4px">'+title+'（'+arr.length+'）</div>'+(hint?'<div style="font-size:11px;color:#8a93a5;margin-bottom:4px">'+hint+'</div>':'')+'<div style="max-height:180px;overflow:auto">'+body+'</div></div>';
+  }
+  var catHtml = '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:10px">'
+    + markListHtml(reinforceMode?'已判定掌握':(dayMode?'答对 · 连对中':'答对 · 已掌握'), okL, '#27ae60', reinforceMode?'连续答对3次即判定，仍在池中循环巩固':(dayMode?'连续答对5次即标为"已掌握"，此后不再重复测试':'已自动标记为"已掌握"，不再出现在测试中'))
+    + markListHtml(reinforceMode?'待巩固 · 未掌握':(dayMode?'答错 · 未掌握':'答错 · 未掌握'), rL, '#e67e22', reinforceMode?'连对未满3次或答错过，已标为"未掌握"，可继续训练':(dayMode?'已标为"未掌握"，需连续答对5次，答错清零重来':'已自动标记为"未掌握"，可在背诵板块继续强化'))
+    + '</div>';
+  res.innerHTML='<div class="score">'+(reinforceMode?(mastered+' 已掌握 / 共遇到 '+testSeen.length+' 个'):(testOk+' / '+testQ.length))+'</div>'
+    +'<div style="color:#5a6472;margin:6px 0">'+(reinforceMode?('正确 '+testOk+' 次 · 正确率 '+pct+'%'):('得分 '+testOk+' · 正确率 '+pct+'%'))+'</div>'
+    + extra
+    + catHtml
+    +'<div style="margin-top:10px">'
+    +(testSrc==='wrong'?'<button class="btn ghost" onclick="startWrongTest(false)">错题重测</button> ':'')
+    +(reinforceMode?'<button class="btn primary" onclick="startReinforceTest()">重新强化训练</button>':'<button class="btn primary" onclick="startTest()">重新测试本组单词</button>')
+    +(reinforceMode?' <button class="btn ghost" onclick="exitReinforce()">结束训练</button>':'')
+    +'</div>';
+  // 当天词测试正常完成：仅清除当前天断点续测现场（其他天进度保留，完成页"重新测试本组单词"将开启新一轮）
+  if(dayTestTotal>0 && !reinforceMode && testSrc===''){ testRunClearDay(dayTestDay); }
+}
+function exitReinforce(){
+  reinforceMode=false; testSeen=[];
+  document.getElementById('tResult').style.display='none';
+  document.getElementById('testCard').style.display='none';
+  setTab('test');
+}
+
+/* 记忆模式 */
+var memFilter='all';
+function markBad(num){ if(!st.bad[num]){ st.bad[num]=1; save(); } }
+function markWrong(num){ if(!st.wrong) st.wrong={}; if(!st.wrong[num]){ st.wrong[num]=1; save(); } }
+function removeWrong(num){ if(st.wrong && st.wrong[num]){ delete st.wrong[num]; save(); } }
+function wrongNums(){ return Object.keys(st.wrong||{}).map(Number).sort(function(a,b){return a-b;}); }
+function wrongWords(){ var nums=wrongNums(); return DATA.filter(function(it){ return nums.indexOf(it[0])>=0; }); }
+function clearWrong(){
+  var n=wrongNums().length;
+  if(!n){ alert('错题本为空，无需清空'); return; }
+  if(!confirm('确定清空错题本？错题本中的 '+n+' 个错题记录将被全部清除（不影响薄弱词与掌握状态）。')) return;
+  st.wrong={}; save(); renderMem();
+}
+function startWrongTest(loop){
+  var ws=wrongWords();
+  if(!ws.length){ alert('错题本为空：选项测试答错的题会自动收录到这里，先去测试产生错题吧'); return; }
+  testMode='choice'; testIdx=0; testOk=0; testAnsShown=false; testState=[];
+  testSrc='wrong'; loopWrong=!!loop; reinforceMode=false; testSeen=[];
+  dayTestTotal=0; dayTestMastered=0; dayTestDay=-1; // 非当天词测试：不参与断点续测，进度按本轮词池显示
+  document.getElementById('tResult').style.display='none';
+  document.getElementById('testCard').style.display='block';
+  testQ=shuffle(ws).slice(0, Math.min(15, ws.length));
+  setTab('test');
+  renderTest();
+}
+function startSpellOne(num){
+  var it=DATA.filter(function(d){ return d[0]===num; })[0];
+  if(!it) return;
+  spellStarted=true; spellOk=0; spellBad=0; spellIdx=0; spellReveal=0; spellChecked=false;
+  spellQ=[it];
+  document.getElementById('spResult').style.display='none';
+  document.getElementById('spFeed').textContent='';
+  setTab('spell');
+}
+function badNums(){ var s={}; Object.keys(st.bad||{}).forEach(function(k){ s[k]=1; }); for(var k in st.status){ var v=st.status[k]; if(v==='r'||v==='u') s[k]=1; } return Object.keys(s).map(Number).sort(function(a,b){return a-b;}); }
+function badWords(){ var nums=badNums(); return DATA.filter(function(it){ return nums.indexOf(it[0])>=0; }); }
+function startMemSpell(){
+  var ws=badWords();
+  if(!ws.length){ alert('暂无薄弱词：拼写拼错 / 测试答错 / 标记需复习、未掌握 的单词会自动汇集到这里'); return; }
+  spellStarted=true; spellOk=0; spellBad=0; spellIdx=0; spellReveal=0; spellChecked=false;
+  spellQ=shuffle(ws);
+  document.getElementById('spResult').style.display='none';
+  document.getElementById('spFeed').textContent='';
+  setTab('spell');
+}
+function startMemTest(mode){
+  var ws=badWords();
+  if(!ws.length){ alert('暂无薄弱词，请先产生拼写/测试错误或标记需复习、未掌握'); return; }
+  testMode=mode||'choice'; testIdx=0; testOk=0; testAnsShown=false; testState=[]; testSrc=''; loopWrong=false; reinforceMode=false; testSeen=[];
+  dayTestTotal=0; dayTestMastered=0; dayTestDay=-1; // 薄弱词测试：不参与断点续测，进度按本轮词池显示
+  document.getElementById('tResult').style.display='none';
+  document.getElementById('testCard').style.display='block';
+  testQ=shuffle(ws).slice(0, Math.min(15, ws.length));
+  setTab('test');
+  renderTest();
+}
+function clearBadRec(){
+  if(!confirm('确定清除全部拼写/测试错误记录？记忆列表中将不再自动汇集这些词。')) return;
+  st.bad={}; save(); renderMem();
+}
+function clearMemMarks(){
+  if(!confirm('确定清除全部"需复习/未掌握"标记？这些单词将回到未标记状态。')) return;
+  for(var k in st.status){ if(st.status[k]==='r'||st.status[k]==='u') delete st.status[k]; }
+  save(); renderAll();
+}
+function renderMem(){
+  var grid=document.getElementById('memGrid');
+  var arr=[];
+  if(memFilter==='wrong'){
+    var wrong=wrongNums();
+    DATA.forEach(function(it){
+      if(wrong.indexOf(it[0])<0) return;
+      arr.push([it[0], it[1], it[2], it[3], statusOf(it[0])||'wrong']);
+    });
+  } else if(memFilter==='bad'){
+    var bad=badNums();
+    DATA.forEach(function(it){
+      if(bad.indexOf(it[0])<0) return;
+      arr.push([it[0], it[1], it[2], it[3], statusOf(it[0])||'bad']);
+    });
+  } else {
+    DATA.forEach(function(it){
+      var s=statusOf(it[0]);
+      if(memFilter!=='all' && s!==memFilter) return;
+      if(memFilter==='all' && !s) return; // 全部=已学过的全部
+      arr.push([it[0], it[1], it[2], it[3], s]);
+    });
+  }
+  grid.innerHTML='';
+  arr.forEach(function(it){
+    var num=it[0], w=it[1], pos=it[2], me=it[3], s=it[4];
+    var cls = s==='m'?'card st-m':(s==='r'?'card st-r':(s==='u'||s==='bad'||s==='wrong'?'card st-u':'card'));
+    var wrongBtn = (s==='wrong'||memFilter==='wrong')?'<button class="btn small" onclick="startSpellOne('+num+')">拼写</button>':'';
+    grid.insertAdjacentHTML('beforeend',
+      '<div class="'+cls+'"><div><span class="w">'+esc(w)+'</span> <span style="color:#8a93a5;font-size:12px">'+esc(pos)+'</span></div>'
+      +'<div class="me">'+esc(me)+'</div><div class="ops">'
+      +'<button class="btn small spk" onclick="speak(\''+esc(w).replace(/'/g,"\\'")+'\')">读音</button>'
+      +wrongBtn
+      +'<button class="btn small '+(s==='m'?'primary':'')+'" onclick="setStatus('+num+',\'m\')">掌握</button>'
+      +'<button class="btn small '+(s==='r'?'primary':'')+'" onclick="setStatus('+num+',\'r\')">复习</button>'
+      +'<button class="btn small '+(s==='u'?'primary':'')+'" onclick="setStatus('+num+',\'u\')">未掌握</button>'
+      +'</div></div>');
+  });
+  if(arr.length===0) grid.innerHTML='<div style="color:#9aa5b5;padding:20px">'+(memFilter==='wrong'?'暂无错题。选项测试答错的题会自动收录到这里，可点击上方"错题重测/错题循环记忆"强化。':(memFilter==='bad'?'暂无薄弱词。拼写拼错、测试答错或标记"需复习/未掌握"的单词会自动汇集到这里。':'暂无匹配单词。请先在背诵页学习并标记状态。'))+'</div>';
+}
+function clearAllStatus(){
+  if(!confirm('确定清空全部记忆状态？此操作不可撤销。')) return;
+  st.status={}; save(); renderAll();
+}
+document.querySelectorAll('.memfilter .btn').forEach(function(b){
+  b.addEventListener('click', function(){
+    memFilter=b.dataset.f;
+    document.querySelectorAll('.memfilter .btn').forEach(function(x){x.classList.toggle('on', x===b);});
+    renderMem();
+  });
+});
+document.querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click', function(){ setTab(b.dataset.t); }); });
+document.getElementById('spInput').addEventListener('input', function(){
+  displaySpell();
+  if(spellChecked || this.disabled) return;
+  var it=spellQ[spellIdx];
+  if(it && this.value.length >= it[1].length - spellReveal) spCheck();
+});
+document.getElementById('spInput').addEventListener('keydown', function(e){ if(e.key==='Enter') spCheck(); });
+
+setTab('study');
+initTestCountUI();
+refreshTestDaySel();
+document.getElementById('testCountCustom').addEventListener('input', function(){
+  var v=parseInt(this.value,10);
+  if(!isNaN(v) && v>0){ st.testCountPref=v; save(); }
+});
+updateDaysInfo();
+renderAll();
+</script>
+<script>
+/* ===== PWA：离线缓存 Service Worker 注册（相对路径；任何失败都不影响页面正常使用） ===== */
+(function () {
+  if (!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      try { reg.update(); } catch (e) {}
+    }).catch(function (err) {
+      if (window.console && console.warn) console.warn('[PWA] Service Worker 注册失败（不影响使用）：', err);
+    });
+  });
+})();
+</script>
+</body>
+</html>
